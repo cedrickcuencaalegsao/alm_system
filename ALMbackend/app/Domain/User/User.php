@@ -12,7 +12,7 @@ class User
     private ?string $address;
     private ?int $contactNumber;
     private ?string $image;
-    private ?string $username;
+    private ?string $email;
     private ?string $createdAt;
     private ?string $updatedAt;
 
@@ -25,7 +25,7 @@ class User
         ?string $address = null,
         ?int $contactNumber = null,
         ?string $image = null,
-        ?string $username = null,
+        ?string $email = null,
         ?string $createdAt = null,
         ?string $updatedAt = null,
     ) {
@@ -37,12 +37,12 @@ class User
         $this->address = $address;
         $this->contactNumber = $contactNumber;
         $this->image = $image;
-        $this->username = $username;
+        $this->email = $email;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
 
-    // return and array;
+    // return an array.
     public function toArray()
     {
         return [
@@ -54,7 +54,7 @@ class User
             'address' => $this->address,
             'contactNumber' => $this->contactNumber,
             'image' => $this->image,
-            'username' => $this->username,
+            'email' => $this->email,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
         ];
@@ -91,9 +91,9 @@ class User
     {
         return $this->image;
     }
-    public function getUserName(): string|null
+    public function getEmail(): string|null
     {
-        return $this->username;
+        return $this->email;
     }
     public function createdAt(): string|null
     {
