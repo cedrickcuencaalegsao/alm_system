@@ -97,7 +97,7 @@ class Book
     {
         return $this->image;
     }
-    public function getPricte(): float|null
+    public function getPrice(): float|null
     {
         return $this->price;
     }
