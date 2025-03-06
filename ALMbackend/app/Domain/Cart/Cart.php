@@ -42,7 +42,7 @@ class Cart
     {
         return $this->id;
     }
-    public function getCardID(): string|null
+    public function getCartID(): string|null
     {
         return $this->cartID;
     }
