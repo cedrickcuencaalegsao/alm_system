@@ -14,6 +14,7 @@ class EloquentSalesRepository implements SaleRepository
     {
         $saleData = new SaleModel();
         $saleData->salesID = $sales->getSalesID();
+        $saleData->userID = $sales->getUserID();
         $saleData->booksold = $sales->getBookSold();
         $saleData->totalsales = $sales->getTotalSales();
         $saleData->createdAt = $sales->craetedAt();
@@ -27,6 +28,7 @@ class EloquentSalesRepository implements SaleRepository
     {
         $saleData = SaleModel::find($sales->getId()) ?? new SaleModel();
         $saleData->salesID = $sales->getSalesID();
+        $saleData->userID = $sales->getUserID();
         $saleData->booksold = $sales->getBookSold();
         $saleData->totalsales = $sales->getTotalSales();
         $saleData->createdAt = $sales->craetedAt();
@@ -45,6 +47,26 @@ class EloquentSalesRepository implements SaleRepository
         return new Sale(
             $saleData->id,
             $saleData->salesID,
+            $saleData->userID,
+            $saleData->booksold,
+            $saleData->totalsales,
+            $saleData->createdAt,
+            $saleData->updatedAt,
+        );
+    }
+    /**
+     * Function to get sales data by userID.
+     * **/
+    public function findByUserID(string $userID): Sale|null
+    {
+        $saleData = SaleModel::where('userID', $userID)->first();
+        if (!$saleData) {
+            return null;
+        }
+        return new Sale(
+            $saleData->id,
+            $saleData->salesID,
+            $saleData->userID,
             $saleData->booksold,
             $saleData->totalsales,
             $saleData->createdAt,
@@ -63,6 +85,7 @@ class EloquentSalesRepository implements SaleRepository
         return new Sale(
             $saleData->id,
             $saleData->salesID,
+            $saleData->userID,
             $saleData->booksold,
             $saleData->totalsales,
             $saleData->createdAt,
@@ -77,6 +100,7 @@ class EloquentSalesRepository implements SaleRepository
         return SaleModel::all()->map(fn($sale) => new Sale(
             id: $sale->id,
             salesID: $sale->salesID,
+            userID: $sale->userID,
             booksold: $sale->booksold,
             totalsales: $sale->totalsales,
             createdAt: $sale->createdAt,
