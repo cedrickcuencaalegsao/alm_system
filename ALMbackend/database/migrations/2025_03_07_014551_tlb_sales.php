@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tbl_sales', function (Blueprint $table) {
-            $table->string('id');
+            $table->id();
             $table->string('salesID', 15)->nullable();
             $table->string('userID', 15)->nullable();
-            $table->unsignedInteger('userID', 15)->nullable();
+            $table->unsignedInteger('booksold')->nullable();
             $table->double('totalsales')->nullable();
             $table->string('createdAt')->nullable();
             $table->string('updatedAt')->nullable();

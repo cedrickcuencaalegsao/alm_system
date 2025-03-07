@@ -18,10 +18,9 @@ return new class extends Migration
             $table->string('firstname', 25)->nullable();
             $table->string('lastname', 25)->nullable();
             $table->string('address', 100)->nullable();
-            $table->unsignedBigInteger('contactnumber', 11)->nullable();
+            $table->unsignedInteger('contactnumber')->nullable();
             $table->string('image', 25)->nullable();
-            $table->string('password');
-            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tbl_cart', function (Blueprint $table) {
-            $table->string('id');
+            $table->id();
             $table->string('cartID', 15)->nullable();
             $table->string('userID', 15)->nullable(); // this will be the cart ownerID.
             $table->string('bookID', 15)->nullable(); // this is the book added to cart.
-            $table->unsignedInteger('qunatity', 9)->nullable();
-            $table->unsignedBigInteger('totalammount', 9)->nullable();
+            $table->unsignedInteger('qunatity')->nullable();
+            $table->unsignedBigInteger('totalammount')->nullable();
             $table->string('createdAt')->nullable();
             $table->string('updatedAt')->nullable();
         });

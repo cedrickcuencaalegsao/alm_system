@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tbl_books', function (Blueprint $table) {
-            $table->string('id');
+            $table->id();
             $table->string('bookID', 15)->nullable();
             $table->string('bookname', 50)->nullable();
             $table->string('bookdetails', 255)->nullable();
             $table->string('author', 25)->nullable();
-            $table->unsignedBigInteger('stocks', 9)->nullable();
+            $table->unsignedBigInteger('stocks')->nullable();
             $table->string('bookcategory', 25)->nullable();
             $table->string('datepublish', 15)->nullable();
             $table->string('image', 25)->nullable();
