@@ -6,7 +6,7 @@ class Cart
 {
     private ?int $id;
     private ?string $cartID;
-    private ?string $userfullname;
+    private ?string $userID;
     private ?string $bookname;
     private ?string $bookcategory;
     private ?string $author;
@@ -18,7 +18,7 @@ class Cart
     public function __construct(
         ?int $id = null,
         ?string $cartID = null,
-        ?string $userfullname = null,
+        ?string $userID = null,
         ?string $bookname = null,
         ?string $bookcategoy = null,
         ?string $author = null,
@@ -29,7 +29,7 @@ class Cart
     ) {
         $this->id = $id;
         $this->cartID = $cartID;
-        $this->userfullname = $userfullname;
+        $this->userID = $userID;
         $this->bookname = $bookname;
         $this->bookcategory = $bookcategoy;
         $this->author = $author;
@@ -46,9 +46,9 @@ class Cart
     {
         return $this->cartID;
     }
-    public function getUserFullName(): string|null
+    public function getUserID(): string|null
     {
-        return $this->userfullname;
+        return $this->userID;
     }
     public function getBookName(): string|null
     {

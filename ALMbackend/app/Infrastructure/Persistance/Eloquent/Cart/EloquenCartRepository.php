@@ -15,7 +15,7 @@ class EloquenCartRepository implements CartRepository
     {
         $newCart = new CartModel();
         $newCart->cartID = $cart->getCartID();
-        $newCart->userfullname = $cart->getUserFullName();
+        $newCart->userID = $cart->getUserID();
         $newCart->bookname = $cart->getBookName();
         $newCart->bookcategory = $cart->getBookCategory();
         $newCart->author = $cart->getAuthor();
@@ -32,7 +32,7 @@ class EloquenCartRepository implements CartRepository
     {
         $newCartData = CartModel::find($cart->getID()) ?? new CartModel();
         $newCartData->cartID = $cart->getCartID();
-        $newCartData->userfullname = $cart->getUserFullName();
+        $newCartData->userID = $cart->getUserID();
         $newCartData->bookname = $cart->getBookName();
         $newCartData->bookcategory = $cart->getBookCategory();
         $newCartData->author = $cart->getAuthor();
@@ -51,7 +51,29 @@ class EloquenCartRepository implements CartRepository
         return new Cart(
             $cart->id,
             $cart->cartID,
-            $cart->userfullname,
+            $cart->userID,
+            $cart->bookname,
+            $cart->bookcategory,
+            $cart->author,
+            $cart->price,
+            $cart->image,
+            $cart->createdAt,
+            $cart->updatedAt,
+        );
+    }
+    /**
+     * Function to get cart data by userID.
+     * **/
+    public function findByUserID(string $userID): Cart|null
+    {
+        $cart = CartModel::where('userID', $userID)->first();
+        if (!$cart) {
+            return null;
+        }
+        return new Cart(
+            $cart->id,
+            $cart->cartID,
+            $cart->userID,
             $cart->bookname,
             $cart->bookcategory,
             $cart->author,
@@ -70,7 +92,7 @@ class EloquenCartRepository implements CartRepository
         return new Cart(
             $cart->id,
             $cart->cartID,
-            $cart->userfullname,
+            $cart->userID,
             $cart->bookname,
             $cart->bookcategory,
             $cart->author,
@@ -88,7 +110,7 @@ class EloquenCartRepository implements CartRepository
         return CartModel::all()->map(fn($cart) => new Cart(
             id: $cart->id,
             cartID: $cart->cartID,
-            userfullname: $cart->userfullname,
+            userID: $cart->userID,
             bookname: $cart->bookname,
             bookcategoy: $cart->bookcategory,
             author: $cart->author,
