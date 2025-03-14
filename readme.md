@@ -2,14 +2,13 @@
 
 This project consists of two main parts:
 
-- Backend: Laravel API (`ALMbackend`)
-- Frontend: React application (`almfrontend`)
+- Backend: Laravel
+- Fiontend: Laravel Blade
 
 ## Prerequisites
 
 - PHP 8.x
 - Composer
-- Node.js & npm
 - SQLite (or your preferred database)
 
 ## Backend Setup (Laravel)
@@ -59,25 +58,8 @@ This project consists of two main parts:
    php artisan serve --host=0.0.0.0
    ```
 
-### Frontend (React.js)
-
-1. Navigate to the frontend directory:
-   ```bash
-   cd frontend
-   ```
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm start
-   ```
 
 ## Usage
-
-- Access the web application at `http://localhost:3000` (react.js).
-- The Laravel API will be available at `http://192.168.1.4:8000/api/{endpoints}` and testable on postman application.
 - The Laravel Blade will be available at `http://192.168.1.4:8000`.
 
 ## Contributing
