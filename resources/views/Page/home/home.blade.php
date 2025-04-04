@@ -1,6 +1,6 @@
-@extends('resources.app.app')
+@extends('shared.layout.authenticated')
 @section('title', 'Home')
 
 @section('content')
-    <h1>home</h1>
+    <h1>Home</h1>
 @endsection
