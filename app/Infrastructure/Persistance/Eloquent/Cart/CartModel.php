@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Persistance\Eloquent\Sale;
+namespace App\Infrastructure\Persistance\Eloquent\Cart;
 
 use Illuminate\Database\Eloquent\Model;
 
