@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class WebAuthController extends Controller
 {
-    public function viewLogin(): View
+    public function viewLogin()
     {
         return view('Page.Auth.Auth');
     }
