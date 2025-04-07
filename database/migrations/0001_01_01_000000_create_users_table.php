@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('firstname', 25)->nullable();
             $table->string('lastname', 25)->nullable();
             $table->string('address', 100)->nullable();
-            $table->unsignedInteger('contactnumber')->nullable();
+            $table->string('contactnumber', 20)->nullable();
             $table->string('image', 25)->nullable();
             $table->string('password')->nullable();
             $table->rememberToken();
