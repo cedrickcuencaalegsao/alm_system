@@ -108,4 +108,26 @@ class EloquentUserRepository implements UserRespository
             updatedAt: $user->updatedAt,
         ))->toArray();
     }
+    /**
+     * Function to get the authenticated user.
+     * **/
+    public function authUser(): ?User{
+        $user = auth()->user();
+        if (!$user) {
+            return null;
+        }
+        return new User(
+            $user->id,
+            $user->userID,
+            $user->isAdmin,
+            $user->firstname,
+            $user->lastname,
+            $user->address,
+            $user->contactNumber,
+            $user->image,
+            $user->email,
+            $user->createdAt,
+            $user->updatedAt,
+        );
+    }
 }

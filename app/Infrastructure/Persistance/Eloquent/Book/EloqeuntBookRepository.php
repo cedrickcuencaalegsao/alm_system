@@ -4,19 +4,19 @@ namespace App\Infrastructure\Persistance\Eloquent\Book;
 
 use App\Domain\Book\Book;
 use App\Domain\Book\BookRepository;
-use App\Infrastructure\Persistance\Eloquent\User\UserModel;
 
 class EloqeuntBookRepository implements BookRepository
 {
     /**
      * Function to get book data by id.
      * **/
-    public function findByID(int $id): Book|null
+    public function findByID(int $id): ?Book
     {
         $bookData = BookModel::find($id);
-        if (!$bookData) {
+        if (! $bookData) {
             return null;
         }
+
         return new Book(
             $bookData->id,
             $bookData->bookID,
@@ -32,15 +32,17 @@ class EloqeuntBookRepository implements BookRepository
             $bookData->updatedAt,
         );
     }
+
     /**
      * Function book data by bookID.
      * **/
-    public function findByBookID(string $bookID): Book|null
+    public function findByBookID(string $bookID): ?Book
     {
         $bookData = BookModel::where('bookID', $bookID)->first();
-        if (!$bookData) {
+        if (! $bookData) {
             return null;
         }
+
         return new Book(
             $bookData->id,
             $bookData->bookID,
@@ -56,12 +58,13 @@ class EloqeuntBookRepository implements BookRepository
             $bookData->updatedAt,
         );
     }
+
     /**
      * Function to create a new book.
      * **/
     public function create(Book $book): void
     {
-        $newBook = new BookModel();
+        $newBook = new BookModel;
         $newBook->bookID = $book->getBookID();
         $newBook->bookname = $book->getBookName();
         $newBook->bookdetails = $book->getBookDetails();
@@ -75,12 +78,13 @@ class EloqeuntBookRepository implements BookRepository
         $newBook->updatedAt = $book->updatedAt();
         $newBook->save();
     }
+
     /**
      * Function to update book data.
      * **/
     public function update(Book $book): void
     {
-        $newBookData = BookModel::find($book->getId()) ?? new BookModel();
+        $newBookData = BookModel::find($book->getId()) ?? new BookModel;
         $newBookData->bookID = $book->getBookID();
         $newBookData->bookname = $book->getBookName();
         $newBookData->bookdetails = $book->getBookDetails();
@@ -94,35 +98,38 @@ class EloqeuntBookRepository implements BookRepository
         $newBookData->updatedAt = $book->updatedAt();
         $newBookData->save();
     }
+
     /**
      * Function to find all book data.
      * **/
     public function findAll(): array
     {
-        return UserModel::all()->map(fn($book) => new Book(
+        return BookModel::all()->map(fn ($book) => new Book(
             id: $book->id,
             bookID: $book->bookID,
             bookname: $book->bookname,
             bookdetails: $book->bookdetails,
             author: $book->author,
-            stock: $book->stock,
-            category: $book->category,
+            stock: $book->stocks,
+            category: $book->bookcategory,
             datepublish: $book->datepublish,
             image: $book->image,
-            price: $book->price,
+            price: $book->bookprice,
             createdAt: $book->createdAt,
             updatedAt: $book->updatedAt,
         ))->toArray();
     }
+
     /**
      * Function to find book by name;
      **/
-    public function findByName(string $bookname): Book|null
+    public function findByName(string $bookname): ?Book
     {
         $bookData = BookModel::where('bookname', $bookname)->first();
-        if (!$bookData) {
+        if (! $bookData) {
             return null;
         }
+
         return new Book(
             $bookData->id,
             $bookData->bookID,
@@ -138,15 +145,17 @@ class EloqeuntBookRepository implements BookRepository
             $bookData->updatedAt,
         );
     }
+
     /**
      * Function to find book by author.
      * **/
-    public function findByAuthor(string $author): Book|null
+    public function findByAuthor(string $author): ?Book
     {
         $bookData = BookModel::where('bookname', $author)->first();
-        if (!$bookData) {
+        if (! $bookData) {
             return null;
         }
+
         return new Book(
             $bookData->id,
             $bookData->bookID,

@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;       // Add this
 use Illuminate\Support\Facades\Hash;     // Add this
@@ -12,13 +11,15 @@ class SystemSeeder extends Seeder
 {
     /**
      * Run the database seeds.
+     * php artisan db:seed --class=SystemSeeder
      */
     public function run(): void
     {
         // Create admin user
         DB::table('users')->insert([
-            'userID' => 'ADM' . Str::random(12),
+            'userID' => 'ADM'.Str::random(12),
             'isAdmin' => true,
+            'email' => 'admin@example.com',
             'firstname' => 'Admin',
             'lastname' => 'User',
             'address' => '123 Admin Street, Admin City',
@@ -35,26 +36,29 @@ class SystemSeeder extends Seeder
             [
                 'firstname' => 'John',
                 'lastname' => 'Doe',
+                'email' => 'john.doe@example.com',
                 'address' => '456 Main Street',
                 'contactnumber' => '9123456790',
             ],
             [
                 'firstname' => 'Jane',
                 'lastname' => 'Smith',
+                'email' => 'jane.smith@example.com',
                 'address' => '789 Oak Avenue',
                 'contactnumber' => '9123456791',
-            ]
+            ],
         ];
 
         foreach ($users as $index => $user) {
             DB::table('users')->insert([
-                'userID' => 'USR' . Str::random(12),
+                'userID' => 'USR'.Str::random(12),
                 'isAdmin' => false,
+                'email' => $user['email'],
                 'firstname' => $user['firstname'],
                 'lastname' => $user['lastname'],
                 'address' => $user['address'],
                 'contactnumber' => $user['contactnumber'],
-                'image' => 'user-' . ($index + 1) . '.jpg',
+                'image' => 'user-'.($index + 1).'.jpg',
                 'password' => Hash::make('password123'),
                 'remember_token' => Str::random(10),
                 'created_at' => now(),
@@ -73,15 +77,15 @@ class SystemSeeder extends Seeder
             $day = str_pad(rand(1, 28), 2, '0', STR_PAD_LEFT);
 
             DB::table('tbl_books')->insert([
-                'bookID' => 'BK' . strtoupper(Str::random(12)),
+                'bookID' => 'BK'.strtoupper(Str::random(12)),
                 'bookname' => $this->generateBookTitle($category),
                 'bookdetails' => $this->generateBookDescription(),
                 'author' => $author,
                 'stocks' => rand(5, 100),
                 'bookcategory' => $category,
                 'datepublish' => "$year-$month-$day",
-                'image' => 'book-' . $i . '.jpg',
-                'bookprice' => rand(100, 1000) + (rand(0, 99)/100),
+                'image' => 'book-'.$i.'.jpg',
+                'bookprice' => rand(100, 1000) + (rand(0, 99) / 100),
                 'createdAt' => now()->toDateTimeString(),
                 'updatedAt' => now()->toDateTimeString(),
             ]);
@@ -101,7 +105,7 @@ class SystemSeeder extends Seeder
                 ->value('bookprice');
 
             DB::table('tbl_cart')->insert([
-                'cartID' => 'CRT' . Str::random(12),
+                'cartID' => 'CRT'.Str::random(12),
                 'userID' => $userID,
                 'bookID' => $bookID,
                 'qunatity' => $quantity,
@@ -122,7 +126,7 @@ class SystemSeeder extends Seeder
                 $totalSales = $quantity * $book->bookprice;
 
                 DB::table('tbl_sales')->insert([
-                    'salesID' => 'SLS' . Str::random(12),
+                    'salesID' => 'SLS'.Str::random(12),
                     'userID' => $userID,
                     'booksold' => $quantity,
                     'totalsales' => $totalSales,
@@ -132,6 +136,7 @@ class SystemSeeder extends Seeder
             }
         }
     }
+
     private function generateBookTitle($category)
     {
         $prefixes = [
@@ -142,7 +147,7 @@ class SystemSeeder extends Seeder
             'History' => ['A History of', 'The Rise and Fall of', 'Chronicles of'],
             'Biography' => ['The Life of', 'Memoirs of', 'The Story of'],
             'Fantasy' => ['The Legend of', 'The Sword of', 'The Kingdom of'],
-            'Romance' => ['Love in', 'Forever', 'The Heart of']
+            'Romance' => ['Love in', 'Forever', 'The Heart of'],
         ];
 
         $suffixes = [
@@ -153,7 +158,7 @@ class SystemSeeder extends Seeder
             'History' => ['Ancient Civilizations', 'World Wars', 'Great Empires'],
             'Biography' => ['a Genius', 'an Icon', 'a Visionary'],
             'Fantasy' => ['the Dark Lord', 'Eternal Fire', 'Ancient Prophecy'],
-            'Romance' => ['Paris', 'the Storm', 'Destiny']
+            'Romance' => ['Paris', 'the Storm', 'Destiny'],
         ];
 
         $prefix = $prefixes[$category][array_rand($prefixes[$category])];
@@ -165,14 +170,14 @@ class SystemSeeder extends Seeder
     private function generateBookDescription()
     {
         $descriptions = [
-            "A groundbreaking work that explores new frontiers in its field.",
-            "This compelling narrative weaves together multiple storylines into a cohesive whole.",
-            "An essential read for anyone interested in this subject matter.",
+            'A groundbreaking work that explores new frontiers in its field.',
+            'This compelling narrative weaves together multiple storylines into a cohesive whole.',
+            'An essential read for anyone interested in this subject matter.',
             "The author's masterpiece, representing years of research and insight.",
-            "A timeless classic that continues to resonate with readers today.",
-            "This edition includes new material not found in previous versions.",
-            "A controversial but thought-provoking examination of its topic.",
-            "Beautifully written with vivid descriptions and memorable characters."
+            'A timeless classic that continues to resonate with readers today.',
+            'This edition includes new material not found in previous versions.',
+            'A controversial but thought-provoking examination of its topic.',
+            'Beautifully written with vivid descriptions and memorable characters.',
         ];
 
         return $descriptions[array_rand($descriptions)];
