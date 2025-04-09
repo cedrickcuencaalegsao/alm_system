@@ -17,16 +17,9 @@ class HomeWebController extends Controller
     public function index()
     {
         $books = collect($this->registerBook->findAll());
-        $categories = $this->getCategories($books);
+        // dd($books);
 
-        if (request()->has('category')) {
-            $category = request()->get('category');
-            $books = $books->filter(function ($book) use ($category) {
-                return $book->getCategory() === $category;
-            });
-        }
-
-        return view('Page.home.home', compact('books', 'categories'));
+        return view('Page.home.home', compact('books'));
     }
 
     private function getCategories($books)

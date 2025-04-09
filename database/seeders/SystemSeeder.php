@@ -128,6 +128,7 @@ class SystemSeeder extends Seeder
                 DB::table('tbl_sales')->insert([
                     'salesID' => 'SLS'.Str::random(12),
                     'userID' => $userID,
+                    'bookID' => $book->bookID,
                     'booksold' => $quantity,
                     'totalsales' => $totalSales,
                     'createdAt' => now()->toDateTimeString(),

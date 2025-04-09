@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tbl_sales', function (Blueprint $table) {
             $table->id();
             $table->string('salesID', 15)->nullable();
+            $table->string('bookID', 15)->nullable();
             $table->string('userID', 15)->nullable();
             $table->unsignedInteger('booksold')->nullable();
             $table->double('totalsales')->nullable();

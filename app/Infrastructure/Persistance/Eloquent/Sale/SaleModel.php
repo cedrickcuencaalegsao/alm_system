@@ -7,4 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class SaleModel extends Model
 {
     protected $table = 'tbl_sales';
+    protected $fillable = [
+        'salesID',
+        'bookID',
+        'userID',
+        'booksold',
+        'totalsales',
+        'createdAt',
+        'updatedAt'
+    ];
 }
