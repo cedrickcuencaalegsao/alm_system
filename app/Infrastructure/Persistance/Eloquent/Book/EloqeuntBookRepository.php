@@ -104,7 +104,61 @@ class EloqeuntBookRepository implements BookRepository
      * **/
     public function findAll(): array
     {
-        return BookModel::all()->map(fn ($book) => new Book(
+        $bestSelling = BookModel::select('tbl_books.*')
+            ->leftJoin('tbl_sales', 'tbl_books.bookID', '=', 'tbl_sales.bookID')
+            ->selectRaw('SUM(tbl_sales.booksold) as totalSold')
+            ->groupBy('tbl_books.id',
+                'tbl_books.bookID',
+                'tbl_books.bookname',
+                'tbl_books.bookdetails',
+                'tbl_books.author',
+                'tbl_books.stocks',
+                'tbl_books.bookcategory',
+                'tbl_books.datepublish',
+                'tbl_books.image',
+                'tbl_books.bookprice',
+                'tbl_books.createdAt',
+                'tbl_books.updatedAt')
+            ->orderByRaw('COALESCE(SUM(tbl_sales.booksold), 0) DESC')
+            ->take(8)
+            ->get()
+            ->map(fn ($book) => new Book(
+                id: $book->id,
+                bookID: $book->bookID,
+                bookname: $book->bookname,
+                bookdetails: $book->bookdetails,
+                author: $book->author,
+                stock: $book->stocks,
+                category: $book->bookcategory,
+                datepublish: $book->datepublish,
+                image: $book->image,
+                price: $book->bookprice,
+                createdAt: $book->createdAt,
+                updatedAt: $book->updatedAt,
+            ))->toArray();
+
+        $byCategory = BookModel::query()
+            ->orderBy('bookcategory')
+            ->get()
+            ->groupBy('bookcategory')
+            ->map(function ($bookCategory) {
+                return $bookCategory->map(fn ($book) => new Book(
+                    id: $book->id,
+                    bookID: $book->bookID,
+                    bookname: $book->bookname,
+                    bookdetails: $book->bookdetails,
+                    author: $book->author,
+                    stock: $book->stocks,
+                    category: $book->bookcategory,
+                    datepublish: $book->datepublish,
+                    image: $book->image,
+                    price: $book->bookprice,
+                    createdAt: $book->createdAt,
+                    updatedAt: $book->updatedAt,
+                ));
+            })->toArray();
+
+        $allBooks = BookModel::all()->map(fn ($book) => new Book(
             id: $book->id,
             bookID: $book->bookID,
             bookname: $book->bookname,
@@ -118,6 +172,26 @@ class EloqeuntBookRepository implements BookRepository
             createdAt: $book->createdAt,
             updatedAt: $book->updatedAt,
         ))->toArray();
+
+        return [
+            'allBooks' => $allBooks,
+            'bestSelling' => $bestSelling,
+            'byCategory' => $byCategory,
+        ];
+        // return BookModel::all()->map(fn ($book) => new Book(
+        //     id: $book->id,
+        //     bookID: $book->bookID,
+        //     bookname: $book->bookname,
+        //     bookdetails: $book->bookdetails,
+        //     author: $book->author,
+        //     stock: $book->stocks,
+        //     category: $book->bookcategory,
+        //     datepublish: $book->datepublish,
+        //     image: $book->image,
+        //     price: $book->bookprice,
+        //     createdAt: $book->createdAt,
+        //     updatedAt: $book->updatedAt,
+        // ))->toArray();
     }
 
     /**

@@ -12,7 +12,6 @@
 
 <body>
     <div class="container-fluid">
-        <!-- Search Bar -->
         <div class="search-wrapper">
             <div class="d-flex align-items-center justify-content-between">
                 <div class="search-container">
@@ -57,7 +56,6 @@
             </div>
         </div>
         <div class="row">
-            <!-- Category Sidebar -->
             <div class="sidebar-wrapper" style="background-color: #FDF5E6;">
                 <div class="sidebar-title mb-4">
                     <h4 class="fw-bold text-center" style="color: #8B4513;">
@@ -66,34 +64,51 @@
                     </h4>
                 </div>
                 <div class="category-container">
-                    <div class="text-center small text-muted">Category List</div>
-                    <!-- All Books -->
-                    <div class="category-btn">
-                        <a href="{{ route('view.home') }}" class="btn {{ !request()->category ? 'active' : '' }}">
-                            <div class="d-flex justify-content-between align-items-center w-100">
-                                <div class="d-flex align-items-center">
-                                    <i class="bi bi-collection me-2"></i>
-                                    <span class="category-title">All Books</span>
-                                    <span class="category-badge">{{ count($books) }}</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    @foreach ($categories as $categoryName => $count)
+                    <div class="text-center small text-muted mb-2">Category List</div>
+                    <div class="scrollable-categories">
                         <div class="category-btn">
-                            <a href="{{ route('view.home', ['category' => $categoryName]) }}"
-                                class="btn {{ request()->category === $categoryName ? 'active' : '' }}">
+                            <a href="#best-selling" class="btn category-link" data-section="best-selling">
                                 <div class="d-flex justify-content-between align-items-center w-100">
                                     <div class="d-flex align-items-center">
-                                        <i class="bi bi-book me-2"></i>
-                                        <span class="category-title">{{ $categoryName }}</span>
-                                        <span class="category-badge">{{ $count }}</span>
+                                        <i class="bi bi-star me-2"></i>
+                                        <span class="category-title">Best Sellers</span>
                                     </div>
+                                    <span class="category-badge">{{ count($books['bestSelling']) }}</span>
                                 </div>
                             </a>
                         </div>
-                    @endforeach
+
+                        <div class="category-btn">
+                            <a href="#all-books" class="btn category-link" data-section="all-books">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-collection me-2"></i>
+                                        <span class="category-title">All Books</span>
+                                    </div>
+                                    <span class="category-badge">{{ count($books['allBooks']) }}</span>
+                                </div>
+                            </a>
+                        </div>
+
+                        <div class="category-divider my-3">
+                            <span class="text-muted small">Book Categories</span>
+                        </div>
+
+                        @foreach ($books['byCategory'] as $categoryName => $categoryBooks)
+                            <div class="category-btn">
+                                <a href="#category-{{ Str::slug($categoryName) }}" class="btn category-link"
+                                    data-section="category-{{ Str::slug($categoryName) }}">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <div class="d-flex align-items-center">
+                                            <i class="bi bi-book me-2"></i>
+                                            <span class="category-title">{{ $categoryName }}</span>
+                                        </div>
+                                        <span class="category-badge">{{ count($categoryBooks) }}</span>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
 
@@ -105,6 +120,44 @@
     </div>
 
     <style>
+        .category-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 150px);
+            /* Adjust based on your header height */
+            padding: 1rem 0;
+        }
+
+        .scrollable-categories {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-top: 1rem;
+        }
+
+        .scrollable-categories::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .scrollable-categories::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .scrollable-categories::-webkit-scrollbar-thumb {
+            background: #8B4513;
+            border-radius: 10px;
+        }
+
+        .scrollable-categories::-webkit-scrollbar-thumb:hover {
+            background: #693310;
+        }
+
+        .category-btn a.active {
+            background-color: #8B4513;
+            color: white;
+        }
+
         .search-wrapper {
             position: fixed;
             top: 0;
@@ -311,6 +364,59 @@
             }
         }
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sections = document.querySelectorAll('section[id]');
+            const categoryLinks = document.querySelectorAll('.category-link');
+
+            // Function to update active state
+            function updateActiveLink() {
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - 300)) {
+                        current = '#' + section.getAttribute('id');
+                    }
+                });
+
+                categoryLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === current) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            // Update active state on scroll
+            window.addEventListener('scroll', updateActiveLink);
+
+            // Update active state on page load
+            updateActiveLink();
+
+            // Handle click events on category links
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetSection = document.querySelector(targetId);
+
+                    if (targetSection) {
+                        const offsetTop = targetSection.offsetTop - 100; // Adjust offset as needed
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+
+                        // Update active state
+                        categoryLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
     <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>
 
