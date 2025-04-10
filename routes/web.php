@@ -19,7 +19,6 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeWebController::class, 'index'])->name('view.home');
     Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
-
 });
 
 Route::get('/images/login', function () {
