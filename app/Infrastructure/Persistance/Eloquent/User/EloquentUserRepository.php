@@ -2,9 +2,12 @@
 
 namespace App\Infrastructure\Persistance\Eloquent\User;
 
-use App\Domain\User\UserRespository;
 use App\Domain\User\User;
-
+use App\Domain\User\UserRespository;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class EloquentUserRepository implements UserRespository
 {
@@ -13,25 +16,27 @@ class EloquentUserRepository implements UserRespository
      * **/
     public function create(User $user): void
     {
-        $newUser = new UserModel();
+        $newUser = new UserModel;
         $newUser->userID = $user->getUserID();
         $newUser->isAdmin = $user->getIsAdmin();
-        $newUser->fistname = $user->getFirstName();
+        $newUser->firstname = $user->getFirstName();
         $newUser->lastname = $user->getLastName();
         $newUser->address = $user->getAddress();
         $newUser->contactnumber = $user->getContactNumber();
         $newUser->image = $user->getImage();
         $newUser->email = $user->getEmail();
-        $newUser->createdAt = $user->createdAt();
-        $newUser->updatedAt = $user->updatedAt();
+        $newUser->password = Hash::make($user->getPassword());
+        $newUser->created_at = Carbon::now()->toDateTimeString();
+        $newUser->updated_at = Carbon::now()->toDateTimeString();
         $newUser->save();
     }
+
     /**
      * Function to update the user data.
      * **/
     public function update(User $user): void
     {
-        $newUserData = UserModel::find($user->getId()) ?? new UserModel();
+        $newUserData = UserModel::find($user->getId()) ?? new UserModel;
         $newUserData->userID = $user->getUserID();
         $newUserData->isAdmin = $user->getIsAdmin();
         $newUserData->fistname = $user->getFirstName();
@@ -40,18 +45,20 @@ class EloquentUserRepository implements UserRespository
         $newUserData->contactnumber = $user->getContactNumber();
         $newUserData->image = $user->getImage();
         $newUserData->email = $user->getEmail();
-        $newUserData->updatedAt = $user->updatedAt();
+        $newUserData->updated_at = $user->updatedAt();
         $newUserData->save();
     }
+
     /**
      * Funtion to get a user data by id.
      * **/
     public function findById(int $id): ?User
     {
         $user = UserModel::find($id);
-        if (!$user) {
+        if (! $user) {
             return null;
         }
+
         return new User(
             $user->id,
             $user->userID,
@@ -66,15 +73,17 @@ class EloquentUserRepository implements UserRespository
             $user->updatedAt,
         );
     }
+
     /**
      * Fucntion to get user data by userID.
      * **/
     public function findByUserID(string $userID): ?User
     {
         $user = UserModel::where('userID', $userID)->first();
-        if (!$user) {
+        if (! $user) {
             return null;
         }
+
         return new User(
             $user->id,
             $user->userID,
@@ -89,12 +98,13 @@ class EloquentUserRepository implements UserRespository
             $user->updatedAt,
         );
     }
+
     /**
      * Function to get all data from the table user.
      * **/
     public function findAll(): array
     {
-        return UserModel::all()->map(fn($user) => new User(
+        return UserModel::all()->map(fn ($user) => new User(
             id: $user->id,
             userID: $user->userID,
             isAdmin: $user->isAdmin,
@@ -108,26 +118,43 @@ class EloquentUserRepository implements UserRespository
             updatedAt: $user->updatedAt,
         ))->toArray();
     }
+
     /**
      * Function to get the authenticated user.
      * **/
-    public function authUser(): ?User{
-        $user = auth()->user();
-        if (!$user) {
-            return null;
+    public function authUser(string $email, string $password): ?User
+    {
+        $credentials = [
+            'email' => $email,
+            'password' => $password,
+        ];
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            return new User(
+                $user->id,
+                $user->userID,
+                $user->isAdmin,
+                $user->firstname,
+                $user->lastname,
+                $user->address,
+                $user->contactnumber,
+                $user->image,
+                $user->email,
+                $user->created_at,
+                $user->updated_at
+            );
         }
-        return new User(
-            $user->id,
-            $user->userID,
-            $user->isAdmin,
-            $user->firstname,
-            $user->lastname,
-            $user->address,
-            $user->contactNumber,
-            $user->image,
-            $user->email,
-            $user->createdAt,
-            $user->updatedAt,
-        );
+
+        return null;
+    }
+
+    /**
+     * Function to logout the user.
+     * **/
+    public function logout(): void
+    {
+        Session::flush();
+        Auth::logout();
     }
 }

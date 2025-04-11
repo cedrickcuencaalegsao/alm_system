@@ -13,13 +13,13 @@ Route::middleware('guest')->group(function () {
     Route::get('/login', [WebAuthController::class, 'viewLogin'])->name('login.page');
     Route::post('/login', [WebAuthController::class, 'validateLogin'])->name('login');
     Route::get('/view-register', [WebAuthController::class, 'viewRegister'])->name('register.page');
+    Route::post('/register', [WebAuthController::class, 'validateRegister'])->name('register');
 
 });
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeWebController::class, 'index'])->name('view.home');
     Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
-
 });
 
 Route::get('/images/login', function () {

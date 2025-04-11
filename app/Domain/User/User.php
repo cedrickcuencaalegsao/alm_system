@@ -26,6 +26,7 @@ class User
         ?int $contactNumber = null,
         ?string $image = null,
         ?string $email = null,
+        ?string $password = null,
         ?string $createdAt = null,
         ?string $updatedAt = null,
     ) {
@@ -38,6 +39,7 @@ class User
         $this->contactNumber = $contactNumber;
         $this->image = $image;
         $this->email = $email;
+        $this->password = $password;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
@@ -94,6 +96,10 @@ class User
     public function getEmail(): string|null
     {
         return $this->email;
+    }
+    public function getPassword(): string|null
+    {
+        return $this->password;
     }
     public function createdAt(): string|null
     {
