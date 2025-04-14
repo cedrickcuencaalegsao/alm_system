@@ -7,5 +7,9 @@ use Illuminate\Http\Request;
 
 class CartWebController extends Controller
 {
-    
+    public function index(Request $request)
+    {
+        // Logic to display the cart
+        return view('Page.Cart.cart');
+    }
 }

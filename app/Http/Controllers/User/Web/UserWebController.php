@@ -45,8 +45,8 @@ class UserWebController extends Controller
     /**
      * View index page for auth.
      * **/
-    public function index(): void
+    public function index(): View
     {
-        // return view();
+        return view('Page.Profile.profile');
     }
 }

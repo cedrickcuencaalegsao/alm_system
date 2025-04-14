@@ -47,6 +47,7 @@ class WebAuthController extends Controller
         return view('Page.Auth.Register');
     }
 
+    
     public function validateRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -79,6 +80,9 @@ class WebAuthController extends Controller
 
     }
 
+    /**
+     * Fucntion to logout user session.
+     * **/
     public function logout()
     {
         $this->registerUser->logout();
@@ -86,6 +90,9 @@ class WebAuthController extends Controller
         return redirect()->route('login');
     }
 
+    /**
+     * Function to generate unique user ID.
+     * **/
     public function generateUserID()
     {
         do {

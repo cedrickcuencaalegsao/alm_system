@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\Auth\Web\WebAuthController;
+use App\Http\Controllers\Cart\Web\CartWebController;
 use App\Http\Controllers\Home\Web\HomeWebController;
+use App\Http\Controllers\Order\WEB\OrderWEBController;
+use App\Http\Controllers\User\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
 
 // Guest Routes
@@ -20,6 +23,9 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeWebController::class, 'index'])->name('view.home');
     Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
+    Route::get('/cart', [CartWebController::class, 'index'])->name('view.cart');
+    Route::get('/profile', [UserWebController::class, 'index'])->name('view.profile');
+    Route::get('/orders', [OrderWEBController::class, 'index'])->name('view.orders');
 });
 
 Route::get('/images/login', function () {

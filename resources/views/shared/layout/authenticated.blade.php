@@ -24,9 +24,12 @@
                 </div>
 
                 <div class="action-buttons">
-                    <button class="btn action-btn position-relative">
+                    <button class="btn action-btn position-relative" onclick="window.location.href='/cart'">
                         <i class="bi bi-cart3"></i>
                         <span class="cart-badge">3</span>
+                    </button>
+                    <button class="btn action-btn position-relative" onclick="window.location.href='/orders'">
+                        <i class="bi bi-box-seam"></i>
                     </button>
                     <div class="dropdown">
                         <button class="btn action-btn ms-3" type="button" id="profileDropdown"
@@ -35,7 +38,7 @@
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('view.profile') }}">
                                     <i class="bi bi-person me-2"></i>Profile
                                 </a>
                             </li>
