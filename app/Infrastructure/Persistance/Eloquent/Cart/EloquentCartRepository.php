@@ -130,4 +130,5 @@ class EloquentCartRepository implements CartRepository
             updatedAt: $cart->updatedAt,
         ))->toArray();
     }
+    
 }

@@ -37,7 +37,7 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('view.cart', encrypt(Auth::user()->userID)) }}">
                                 <i class="bi bi-cart3 me-2"></i>Cart
-                                <span class="cart-badge">3</span>
+                                <span class="cart-badge">{{ $cartCount ?? 0 }}</span>
                             </a>
                         </li>
                         <li>

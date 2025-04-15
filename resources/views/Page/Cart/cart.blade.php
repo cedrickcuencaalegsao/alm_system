@@ -128,7 +128,7 @@
 
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="mb-0">Shopping Cart</h4>
-            <span class="text-muted">3 items</span>
+            <span class="text-muted">{{ count($carts) }} items</span>
         </div>
 
         <div class="row">
@@ -169,7 +169,7 @@
                     <h5 class="mb-4">Order Summary</h5>
                     <div class="mb-3">
                         <div class="d-flex justify-content-between mb-2">
-                            <span class="text-muted">Selected Items (2)</span>
+                            <span class="text-muted">Selected Items ({{ count($carts) }})</span>
                             <span>$64.97</span>
                         </div>
                         <div class="d-flex justify-content-between mb-2">

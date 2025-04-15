@@ -3,14 +3,17 @@
 namespace App\Providers;
 
 use App\Domain\Book\BookRepository;
-use App\Domain\User\UserRespository;
 use App\Domain\Cart\CartRepository;
+use App\Domain\User\UserRespository;
 use App\Infrastructure\Persistance\Eloquent\Book\EloqeuntBookRepository;
-use App\Infrastructure\Persistance\Eloquent\User\EloquentUserRepository;
+use App\Infrastructure\Persistance\Eloquent\Cart\CartModel;
 use App\Infrastructure\Persistance\Eloquent\Cart\EloquentCartRepository;
+use App\Infrastructure\Persistance\Eloquent\User\EloquentUserRepository;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider 
 {
     /**
      * Register any application services.
@@ -27,6 +30,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        View::composer('shared.layout.authenticated', function ($view) {
+            $cartCount = 0;
+            if (Auth::check()) {
+                $cartCount = CartModel::where('userID', Auth::user()->userID)->count();
+            }
+            $view->with('cartCount', $cartCount);
+        });
     }
 }

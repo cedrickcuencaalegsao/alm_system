@@ -48,4 +48,9 @@ class RegisterUser
     {
         return $this->userRespository->findByUserID($userID);
     }
+
+    public function findAll(): array
+    {
+        return $this->userRespository->findAll();
+    }
 }
