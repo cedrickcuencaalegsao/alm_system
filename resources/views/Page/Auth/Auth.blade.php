@@ -14,7 +14,7 @@
                                     style="object-fit: cover; border-radius: 1rem 0 0 1rem;">
                             </div>
                             <div class="col-md-6">
-                                <div class="card-body p-5">
+                                <div class="card-body p-4 p-md-5">
                                     <!-- Logo -->
                                     <div class="text-center mb-4">
                                         <h4 class="fw-bold mb-1">Welcome Back</h4>
@@ -39,16 +39,6 @@
                                                 @endforeach
                                             </div>
                                         </div>
-
-                                        <script>
-                                            document.addEventListener('DOMContentLoaded', function() {
-                                                const toast = document.getElementById('errorToast');
-                                                toast.classList.add('show');
-                                                setTimeout(() => {
-                                                    toast.classList.remove('show');
-                                                }, 5000);
-                                            });
-                                        </script>
                                     @endif
 
                                     @if (session('success'))
@@ -66,16 +56,6 @@
                                                 <div class="toast-message">{{ session('success') }}</div>
                                             </div>
                                         </div>
-
-                                        <script>
-                                            document.addEventListener('DOMContentLoaded', function() {
-                                                const toast = document.getElementById('successToast');
-                                                toast.classList.add('show');
-                                                setTimeout(() => {
-                                                    toast.classList.remove('show');
-                                                }, 5000);
-                                            });
-                                        </script>
                                     @endif
 
                                     <!-- Login Form -->
@@ -92,8 +72,6 @@
                                             <input type="password" name="password" class="form-control"
                                                 placeholder="Enter your password">
                                         </div>
-
-
 
                                         <button type="submit" class="btn btn-primary w-100 mb-3">
                                             Sign In
@@ -174,7 +152,7 @@
             top: 20px;
             transform: translateX(-50%) translateY(-100%);
             min-width: 300px;
-            max-width: 400px;
+            max-width: 90%;
             background: white;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             border-radius: 8px;
@@ -184,14 +162,12 @@
             pointer-events: none;
         }
 
-        /* Add this new style for the show class */
         .notification-toast.show {
             opacity: 1;
             transform: translateX(-50%) translateY(0);
             pointer-events: auto;
         }
 
-        /* Update toast-body styling */
         .toast-body {
             padding: 12px 16px;
             color: #333;
@@ -214,8 +190,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            display: flex;
-            align-items: center;
             font-size: 0.875rem;
         }
 
@@ -257,15 +231,50 @@
             transition: transform 0.3s ease;
         }
 
-        @media (min-width: 768px) {
+        /* Mobile Responsive Styles */
+        @media (max-width: 767.98px) {
+            .vh-100 {
+                min-height: 100vh;
+                height: auto;
+                padding: 1rem 0;
+            }
+
             .card {
-                border-radius: 0 1rem 1rem 0;
+                border-radius: 1rem;
+                margin: 0 1rem;
+            }
+
+            .card-body {
+                padding: 1.5rem !important;
+            }
+
+            .form-control {
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+
+            .btn-primary {
+                padding: 0.75rem;
+            }
+
+            .notification-toast {
+                width: 90%;
+                max-width: 400px;
+                left: 50%;
+                transform: translateX(-50%) translateY(-100%);
+            }
+
+            .toast-header {
+                padding: 10px 12px;
+            }
+
+            .toast-body {
+                padding: 10px 12px;
             }
         }
 
-        @media (max-width: 767px) {
+        @media (min-width: 768px) {
             .card {
-                border-radius: 1rem;
+                border-radius: 0 1rem 1rem 0;
             }
         }
 
@@ -281,17 +290,14 @@
             color: var(--primary-brown) !important;
         }
 
-        /* Add subtle brown border to form controls */
         .form-control {
             border-color: #DEB887;
         }
 
-        /* Add brown tint to the card shadow */
         .shadow-lg {
             box-shadow: 0 1rem 3rem rgba(139, 69, 19, 0.175) !important;
         }
 
-        /* Text colors */
         .text-muted {
             color: #8B7355 !important;
         }
@@ -332,7 +338,7 @@
                 toast.classList.remove('show');
                 setTimeout(() => {
                     toast.style.display = 'none';
-                }, 300); // Match the transition duration
+                }, 300);
             }
         }
 
@@ -340,7 +346,6 @@
             const toasts = document.querySelectorAll('.notification-toast');
             toasts.forEach(toast => {
                 toast.style.display = 'block';
-                // Force a reflow
                 toast.offsetHeight;
                 toast.classList.add('show');
 

@@ -23,8 +23,8 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeWebController::class, 'index'])->name('view.home');
     Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
-    Route::get('/cart', [CartWebController::class, 'index'])->name('view.cart');
-    Route::get('/profile', [UserWebController::class, 'index'])->name('view.profile');
+    Route::get('/cart/{userID}', [CartWebController::class, 'index'])->name('view.cart');
+    Route::get('/profile/{userID}', [UserWebController::class, 'index'])->name('view.profile');
     Route::get('/orders', [OrderWEBController::class, 'index'])->name('view.orders');
 });
 

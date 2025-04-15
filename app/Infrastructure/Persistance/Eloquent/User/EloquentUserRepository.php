@@ -79,6 +79,7 @@ class EloquentUserRepository implements UserRespository
      * **/
     public function findByUserID(string $userID): ?User
     {
+        $userID = decrypt($userID);
         $user = UserModel::where('userID', $userID)->first();
         if (! $user) {
             return null;
@@ -91,11 +92,11 @@ class EloquentUserRepository implements UserRespository
             $user->firstname,
             $user->lastname,
             $user->address,
-            $user->contactNumber,
+            $user->contactnumber,
             $user->image,
             $user->email,
-            $user->createdAt,
-            $user->updatedAt,
+            $user->created_at,
+            $user->updated_at,
         );
     }
 

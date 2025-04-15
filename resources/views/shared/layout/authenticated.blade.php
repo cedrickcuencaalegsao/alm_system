@@ -23,38 +23,40 @@
                     </div>
                 </div>
 
-                <div class="action-buttons">
-                    <button class="btn action-btn position-relative" onclick="window.location.href='/cart'">
-                        <i class="bi bi-cart3"></i>
-                        <span class="cart-badge">3</span>
+                <div class="dropdown">
+                    <button class="btn action-btn" type="button" id="profileDropdown" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <i class="bi bi-list"></i>
                     </button>
-                    <button class="btn action-btn position-relative" onclick="window.location.href='/orders'">
-                        <i class="bi bi-box-seam"></i>
-                    </button>
-                    <div class="dropdown">
-                        <button class="btn action-btn ms-3" type="button" id="profileDropdown"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-list"></i>
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-                            <li>
-                                <a class="dropdown-item" href="{{ route('view.profile') }}">
-                                    <i class="bi bi-person me-2"></i>Profile
-                                </a>
-                            </li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item text-danger">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Logout
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li>
+                            <a class="dropdown-item" href="{{ route('view.profile', encrypt(Auth::user()->userID)) }}">
+                                <i class="bi bi-person me-2"></i>Profile
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('view.cart', encrypt(Auth::user()->userID)) }}">
+                                <i class="bi bi-cart3 me-2"></i>Cart
+                                <span class="cart-badge">3</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ route('view.orders', encrypt(Auth::user()->userID)) }}">
+                                <i class="bi bi-box-seam me-2"></i>Orders
+                            </a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="dropdown-item text-danger">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -173,57 +175,6 @@
         }
 
         .search-container {
-            width: 400px;
-        }
-
-        .action-buttons {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .action-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: #FDF5E6;
-            color: #000000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            border: none;
-        }
-
-        .action-btn:hover {
-            background-color: rgba(0, 0, 0, 0.05);
-            color: #000;
-        }
-
-        .cart-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #dc3545;
-            color: white;
-            border-radius: 50%;
-            padding: 2px 6px;
-            font-size: 0.7rem;
-            font-weight: 500;
-        }
-
-        .search-wrapper {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 85%;
-            padding: 1rem 2rem;
-            background-color: white;
-            z-index: 1000;
-            border-bottom: 1px solid rgba(139, 69, 19, 0.1);
-        }
-
-        .search-container {
             max-width: 400px;
             margin-right: 1rem;
         }
@@ -248,12 +199,15 @@
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
             border-radius: 10px;
             margin-top: 10px;
+            padding: 0.5rem;
         }
 
         .dropdown-item {
-            padding: 8px 20px;
+            padding: 0.7rem 1rem;
             color: #666;
             transition: all 0.2s ease;
+            border-radius: 8px;
+            margin-bottom: 0.2rem;
         }
 
         .dropdown-item:hover {
@@ -268,6 +222,16 @@
         .dropdown-divider {
             margin: 0.5rem 0;
             border-color: rgba(139, 69, 19, 0.1);
+        }
+
+        .cart-badge {
+            background-color: #dc3545;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            margin-left: 0.5rem;
         }
 
         .category-btn {
@@ -345,8 +309,6 @@
             opacity: 1;
         }
 
-
-
         .main-content {
             margin-top: 80px;
             margin-left: 15%;
@@ -355,15 +317,73 @@
             width: 85%;
         }
 
+        /* Mobile Responsive Styles */
         @media (max-width: 768px) {
             .sidebar-wrapper {
                 width: 100%;
                 position: relative;
+                min-height: auto;
+                padding: 1rem;
+                border-right: none;
+                border-bottom: 1px solid rgba(139, 69, 19, 0.1);
             }
 
             .main-content {
                 width: 100%;
                 margin-left: 0;
+                margin-top: 0;
+                padding: 1rem;
+            }
+
+            .search-wrapper {
+                width: 100%;
+                padding: 1rem;
+                position: relative;
+            }
+
+            .search-container {
+                max-width: 100%;
+                margin-right: 0;
+            }
+
+            .action-btn {
+                width: 40px;
+                height: 40px;
+                background-color: #FDF5E6;
+                color: #8B4513;
+                border: none;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .action-btn i {
+                font-size: 1.2rem;
+            }
+
+            .dropdown-menu {
+                width: 100%;
+                margin-top: 0.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .search-wrapper {
+                padding: 0.75rem;
+            }
+
+            .search-container .form-control {
+                padding: 0.6rem 0.9rem;
+            }
+
+            .action-btn {
+                width: 35px;
+                height: 35px;
+            }
+
+            .action-btn i {
+                font-size: 1.1rem;
             }
         }
     </style>

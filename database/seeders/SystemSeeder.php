@@ -99,7 +99,6 @@ class SystemSeeder extends Seeder
         for ($i = 1; $i <= 5; $i++) {
             $userID = $userIDs[array_rand($userIDs)];
             $bookID = $bookIDs[array_rand($bookIDs)];
-            $quantity = rand(1, 5);
             $bookPrice = DB::table('tbl_books')
                 ->where('bookID', $bookID)
                 ->value('bookprice');
@@ -108,8 +107,6 @@ class SystemSeeder extends Seeder
                 'cartID' => 'CRT'.Str::random(12),
                 'userID' => $userID,
                 'bookID' => $bookID,
-                'qunatity' => $quantity,
-                'totalammount' => $quantity * $bookPrice,
                 'createdAt' => now()->toDateTimeString(),
                 'updatedAt' => now()->toDateTimeString(),
             ]);

@@ -45,8 +45,10 @@ class UserWebController extends Controller
     /**
      * View index page for auth.
      * **/
-    public function index(): View
+    public function index(string $userID): View
     {
-        return view('Page.Profile.profile');
+        $userData = $this->registerUser->findByUserID($userID);
+
+        return view('Page.Profile.profile', compact('userData'));
     }
 }

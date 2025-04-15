@@ -15,7 +15,11 @@ class RegisterCart{
     public function create(Cart $cart){}
     public function update(){}
     public function findByID(){}
-    public function findByUserID(){}
+    public function findByUserID(string $userID){
+        return $this->cartRepository->findByUserID($userID);
+    }
     public function findByCartID(){}
-    public function findAll(){}
+    public function findAll(){
+        return $this->cartRepository->findAll();
+    }
 }

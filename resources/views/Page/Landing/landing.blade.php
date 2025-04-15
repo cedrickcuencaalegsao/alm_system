@@ -70,6 +70,60 @@
             box-shadow: 0 2px 6px rgba(139, 69, 19, 0.1);
         }
 
+        /* Mobile Menu Styles */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 80%;
+                height: 100vh;
+                background-color: #fff;
+                padding: 2rem;
+                transition: all 0.3s ease;
+                z-index: 1000;
+                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            }
+
+            .navbar-collapse.show {
+                left: 0;
+            }
+
+            .navbar-nav {
+                margin-top: 2rem;
+            }
+
+            .nav-item {
+                margin-bottom: 1rem;
+            }
+
+            .navbar-toggler {
+                z-index: 1001;
+            }
+
+            .navbar-toggler:focus {
+                box-shadow: none;
+            }
+
+            /* Overlay when menu is open */
+            .navbar-collapse::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                left: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: -1;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .navbar-collapse.show::before {
+                opacity: 1;
+            }
+        }
+
         /* Hero Section */
         .hero-section {
             background-color: var(--subtle-brown);
@@ -215,6 +269,103 @@
 
         .footer-contact a:hover {
             color: var(--subtle-brown);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 0;
+            }
+
+            .hero-content {
+                text-align: center;
+                margin-bottom: 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-content .d-flex {
+                justify-content: center;
+            }
+
+            .book-card {
+                margin-bottom: 1.5rem;
+            }
+
+            .about-card {
+                margin-bottom: 2rem;
+            }
+
+            .footer-contact {
+                text-align: center;
+            }
+
+            .footer-social-links {
+                justify-content: center;
+            }
+
+            .col-md-4.text-end {
+                text-align: center !important;
+                margin-top: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .nav-link.btn-brown {
+                padding: 8px 20px;
+                font-size: 0.85rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .btn-brown,
+            .btn-outline-dark {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Add smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Improve touch targets for mobile */
+        .nav-link,
+        .btn {
+            padding: 0.5rem 1rem;
+        }
+
+        /* Ensure images are responsive */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Add padding for mobile navbar */
+        .navbar {
+            padding: 1rem 0;
+        }
+
+        /* Improve card spacing on mobile */
+        .row.g-4 {
+            margin: 0 -0.5rem;
+        }
+
+        .row.g-4>[class*="col-"] {
+            padding: 0 0.5rem;
         }
     </style>
 </head>
@@ -391,6 +542,32 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+
+            navbarToggler.addEventListener('click', function() {
+                navbarCollapse.classList.toggle('show');
+            });
+
+            // Close menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!navbarCollapse.contains(event.target) && !navbarToggler.contains(event.target)) {
+                    navbarCollapse.classList.remove('show');
+                }
+            });
+
+            // Close menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    navbarCollapse.classList.remove('show');
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -6,7 +6,7 @@
     <section class="py-5" id="best-selling">
         <div class="container">
             <h2 class="mb-4">Best Selling Books</h2>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
                 @foreach ($books['bestSelling'] as $book)
                     <div class="col">
                         <div class="card book-card h-100">
@@ -52,7 +52,7 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>All Books</h2>
             </div>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
                 @foreach ($books['allBooks'] as $book)
                     <div class="col">
                         <div class="card book-card h-100">
@@ -100,7 +100,7 @@
                     <h2 class="section-title">{{ $categoryName }}</h2>
                     <p class="text-muted">Explore our {{ $categoryName }} collection</p>
                 </div>
-                <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-4 g-4">
                     @foreach ($categoryBooks as $book)
                         <div class="col">
                             <div class="card book-card h-100">
@@ -181,7 +181,6 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             white-space: normal;
-            /* Allow text to wrap */
             text-overflow: ellipsis;
         }
 
@@ -265,6 +264,94 @@
 
         .card-body {
             padding: 1.5rem;
+        }
+
+        /* Mobile Responsive Styles */
+        @media (max-width: 768px) {
+            .book-card {
+                margin-bottom: 1rem;
+            }
+
+            .book-image-wrapper {
+                height: 180px;
+            }
+
+            .card-title {
+                font-size: 0.95rem;
+                min-height: 2.2rem;
+            }
+
+            .card-text.text-muted {
+                font-size: 0.8rem;
+            }
+
+            .book-description {
+                font-size: 0.75rem;
+                min-height: 2rem;
+            }
+
+            .price-badge {
+                padding: 0.2rem 0.6rem;
+                font-size: 0.75rem;
+            }
+
+            .add-to-cart-btn,
+            .buy-now-btn {
+                padding: 0.4rem;
+                font-size: 0.85rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .section-header p {
+                font-size: 0.85rem;
+            }
+
+            .container-fluid {
+                padding-left: 0.75rem;
+                padding-right: 0.75rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .book-image-wrapper {
+                height: 160px;
+            }
+
+            .card-title {
+                font-size: 0.9rem;
+                min-height: 2rem;
+            }
+
+            .card-text.text-muted {
+                font-size: 0.75rem;
+            }
+
+            .book-description {
+                font-size: 0.7rem;
+                min-height: 1.8rem;
+            }
+
+            .price-badge {
+                padding: 0.15rem 0.5rem;
+                font-size: 0.7rem;
+            }
+
+            .add-to-cart-btn,
+            .buy-now-btn {
+                padding: 0.35rem;
+                font-size: 0.8rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .section-header p {
+                font-size: 0.8rem;
+            }
         }
     </style>
 

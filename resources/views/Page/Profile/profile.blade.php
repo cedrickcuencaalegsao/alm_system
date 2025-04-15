@@ -44,7 +44,7 @@
             <div class="row align-items-center">
                 <div class="col-md-3 text-center">
                     <div class="position-relative">
-                        <img src="https://via.placeholder.com/150" class="rounded-circle img-thumbnail mb-3"
+                        <img src="{{ route('login.image') }}" class="rounded-circle img-thumbnail mb-3"
                             alt="Profile Picture" id="profileImage">
                         <label for="profilePicture"
                             class="btn btn-sm btn-brown position-absolute bottom-0 start-50 translate-middle-x">
@@ -63,6 +63,7 @@
 
     <div class="container py-5">
         <div class="row">
+            {{-- {{ dd($userData) }} --}}
             <div class="col-md-8 mx-auto">
                 <div class="card shadow-sm">
                     <div class="card-body">
@@ -76,12 +77,12 @@
                                     <div class="col-md-6">
                                         <label for="firstName" class="form-label">First Name</label>
                                         <input type="text" class="form-control" id="firstName" name="first_name"
-                                            value="{{ old('first_name', $user->first_name ?? '') }}">
+                                            value="{{ Auth::user()->firstname }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="lastName" class="form-label">Last Name</label>
                                         <input type="text" class="form-control" id="lastName" name="last_name"
-                                            value="{{ old('last_name', $user->last_name ?? '') }}">
+                                            value="{{ Auth::user()->lastname }}">
                                     </div>
                                 </div>
                             </div>
@@ -92,12 +93,12 @@
                                     <div class="col-md-6">
                                         <label for="email" class="form-label">Email Address</label>
                                         <input type="email" class="form-control" id="email" name="email"
-                                            value="{{ old('email', $user->email ?? '') }}">
+                                            value="{{ Auth::user()->email }}">
                                     </div>
                                     <div class="col-md-6">
                                         <label for="phone" class="form-label">Phone Number</label>
                                         <input type="tel" class="form-control" id="phone" name="phone"
-                                            value="{{ old('phone', $user->phone ?? '') }}">
+                                            value="{{ Auth::user()->contactnumber }}">
                                     </div>
                                 </div>
                             </div>
@@ -106,25 +107,11 @@
                                 <h5 class="border-bottom pb-2">Address</h5>
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label for="address" class="form-label">Street Address</label>
+                                        <label for="address" class="form-label">Address</label>
                                         <input type="text" class="form-control" id="address" name="address"
-                                            value="{{ old('address', $user->address ?? '') }}">
+                                            value="{{ Auth::user()->address }}">
                                     </div>
-                                    <div class="col-md-6">
-                                        <label for="city" class="form-label">City</label>
-                                        <input type="text" class="form-control" id="city" name="city"
-                                            value="{{ old('city', $user->city ?? '') }}">
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="state" class="form-label">State</label>
-                                        <input type="text" class="form-control" id="state" name="state"
-                                            value="{{ old('state', $user->state ?? '') }}">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label for="zipCode" class="form-label">ZIP Code</label>
-                                        <input type="text" class="form-control" id="zipCode" name="zip_code"
-                                            value="{{ old('zip_code', $user->zip_code ?? '') }}">
-                                    </div>
+
                                 </div>
                             </div>
 

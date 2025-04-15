@@ -134,57 +134,33 @@
         <div class="row">
             <!-- Cart Items -->
             <div class="col-md-8">
-                <div class="cart-item">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="d-flex">
-                            <div class="form-check me-3">
-                                <input class="form-check-input" type="checkbox" checked>
-                            </div>
-                            <img src="https://via.placeholder.com/80x100" alt="Book cover" class="me-3">
-                            <div>
-                                <h6 class="mb-1">The Great Gatsby</h6>
-                                <p class="text-muted small mb-2">F. Scott Fitzgerald</p>
-                                <div class="quantity-control">
-                                    <button class="quantity-btn decrease">-</button>
-                                    <input type="number" class="quantity-input" value="1" min="1">
-                                    <button class="quantity-btn increase">+</button>
+                @foreach ($carts as $cart)
+                    <div class="cart-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div class="d-flex">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" checked>
+                                </div>
+                                <img src="{{ route('login.image') }}" alt="Book cover" class="me-3">
+                                <div>
+                                    <h6 class="mb-1">{{ $cart->getBookName() }}</h6>
+                                    <p class="text-muted small mb-2">{{ $cart->getAuthor() }}</p>
+                                    <div class="quantity-control">
+                                        <button class="quantity-btn decrease">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button class="quantity-btn increase">+</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="text-end">
-                            <h6 class="mb-2">$24.99</h6>
-                            <button class="delete-btn">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="cart-item">
-                    <div class="d-flex justify-content-between align-items-start">
-                        <div class="d-flex">
-                            <div class="form-check me-3">
-                                <input class="form-check-input" type="checkbox" checked>
-                            </div>
-                            <img src="https://via.placeholder.com/80x100" alt="Book cover" class="me-3">
-                            <div>
-                                <h6 class="mb-1">1984</h6>
-                                <p class="text-muted small mb-2">George Orwell</p>
-                                <div class="quantity-control">
-                                    <button class="quantity-btn decrease">-</button>
-                                    <input type="number" class="quantity-input" value="2" min="1">
-                                    <button class="quantity-btn increase">+</button>
-                                </div>
+                            <div class="text-end">
+                                <h6 class="mb-2">{{ $cart->getPrice() }}</h6>
+                                <button class="delete-btn">
+                                    <i class="bi bi-trash"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="text-end">
-                            <h6 class="mb-2">$19.99</h6>
-                            <button class="delete-btn">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </div>
                     </div>
-                </div>
+                @endforeach
             </div>
 
             <!-- Order Summary -->
