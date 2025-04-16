@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Order\WEB;
 
+use App\Application\Book\RegisterBook;
 use App\Application\Sales\RegisterSales;
-use App\Domain\Book\BookRepository;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
@@ -11,27 +11,111 @@ class OrderWEBController extends Controller
 {
     private RegisterSales $registerSales;
 
-    public function __construct(RegisterSales $registerSales, BookRepository $bookRepository)
+    private RegisterBook $registerBook;
+
+    public function __construct(RegisterSales $registerSales, RegisterBook $registerBook)
     {
         $this->registerSales = $registerSales;
-        $this->bookRepository = $bookRepository;
+        $this->registerBook = $registerBook;
     }
 
+    /**
+     * Function to create sales on the buy now button.
+     * **/
     public function checkoutItemDrectly(Request $request)
     {
-        dd($request->all());
-        // $this->registerSales->create($request->all());
+        $bookPrice = $this->getBookPrice($request->book_id);
+        $tax = $bookPrice * 0.12;
+        $sales = $bookPrice * intval($request->quantity);
+        $totalsales = $sales + $tax;
+        $salesID = $this->generateSalesID();
+        $refID = $this->generateRefID();
 
-        // return redirect()->back()->with('success', 'Order created successfully');
+        $data = [
+            'salesID' => $salesID,
+            'bookID' => $request->book_id,
+            'userID' => $request->user_id,
+            'refID' => $refID,
+            'quantity' => intval($request->quantity),
+            'status' => 'pending',
+            'tax' => $tax,
+            'totalsales' => $totalsales,
+        ];
+
+        $this->registerSales->createSales($data);
+
+        return redirect('/home')->with('success', 'Order created successfully');
     }
 
+    /**
+     * Function to get book price.
+     * **/
+    public function getBookPrice(string $bookID)
+    {
+        $book = $this->registerBook->findByBookID($bookID);
+
+        return $book->getPrice();
+    }
+
+    /**
+     * Function to generate unique sales ID.
+     * **/
+    public function generateSalesID()
+    {
+        do {
+            $prefix = 'SLS';
+
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            $randomPart = '';
+
+            for ($i = 0; $i < 12; $i++) {
+                $randomPart .= $characters[rand(0, strlen($characters) - 1)];
+            }
+
+            $salesID = $prefix.$randomPart;
+
+            $exists = $this->registerSales->findBySalesID($salesID);
+        } while ($exists !== null);
+
+        return $salesID;
+    }
+
+    /**
+     * Function to generate unique ref ID.
+     * **/
+    public function generateRefID()
+    {
+        do {
+            $prefix = 'REF';
+
+            $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            $randomPart = '';
+
+            for ($i = 0; $i < 12; $i++) {
+                $randomPart .= $characters[rand(0, strlen($characters) - 1)];
+            }
+
+            $refID = $prefix.$randomPart;
+
+            $exists = $this->registerSales->findByRefID($refID);
+        } while ($exists !== null);
+
+        return $refID;
+    }
+
+    /**
+     * Function to view checkout page.
+     * **/
     public function viewCheckout(string $bookID)
     {
-        $book = $this->bookRepository->findByBookID($bookID);
+        $book = $this->registerBook->findByBookID($bookID);
 
         return view('Page.Checkout.checkout', compact('book'));
     }
 
+    /**
+     * Function to view order page.
+     * **/
     public function index()
     {
         return view('Page.Order.order');

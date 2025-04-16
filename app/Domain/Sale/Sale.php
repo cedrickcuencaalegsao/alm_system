@@ -92,6 +92,11 @@ class Sale
         return $this->tax;
     }
 
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
     public function getCreatedAt(): ?string
     {
         return $this->createdAt;

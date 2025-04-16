@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SaleModel extends Model
 {
     protected $table = 'tbl_sales';
+
     protected $fillable = [
         'salesID',
         'bookID',
@@ -14,6 +15,11 @@ class SaleModel extends Model
         'booksold',
         'totalsales',
         'createdAt',
-        'updatedAt'
+        'updatedAt',
     ];
+
+    // Set custom timestamp column names
+    const CREATED_AT = 'createdAt';
+
+    const UPDATED_AT = 'updatedAt';
 }

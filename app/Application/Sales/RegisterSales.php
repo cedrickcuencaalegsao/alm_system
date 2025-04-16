@@ -2,7 +2,9 @@
 
 namespace App\Application\Sales;
 
+use App\Domain\Sale\Sale;
 use App\Domain\Sale\SaleRepository;
+use Carbon\Carbon;
 
 class RegisterSales
 {
@@ -13,13 +15,32 @@ class RegisterSales
         $this->salesRepository = $salesRepository;
     }
 
-    public function create(array $data)
+    public function createSales(array $data)
     {
-        dd($data);
-        // $sales = new Sales(
+        $sales = new Sale(
+            null,
+            $data['salesID'],
+            $data['bookID'],
+            $data['userID'],
+            $data['refID'],
+            $data['quantity'],
+            $data['status'],
+            $data['totalsales'],
+            $data['tax'],
+            Carbon::now(),
+            Carbon::now(),
+        );
 
-        // );
+        return $this->salesRepository->create($sales);
+    }
 
-        // return $this->salesRepository->create($sales);
+    public function findBySalesID(string $salesID)
+    {
+        return $this->salesRepository->findBySaleID($salesID);
+    }
+
+    public function findByRefID(string $refID)
+    {
+        return $this->salesRepository->findByRefID($refID);
     }
 }

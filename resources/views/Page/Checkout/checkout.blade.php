@@ -198,8 +198,7 @@
                     <h5 class="section-title">Book Details</h5>
                     <div class="row">
                         <div class="col-md-4 text-center">
-                            <img src="https://via.placeholder.com/180x250" alt="{{ $book->getBookName() }}"
-                                class="book-img">
+                            <img src="{{ route('login.image') }}" alt="{{ $book->getBookName() }}" class="book-img">
                         </div>
                         <div class="col-md-8">
                             <div class="book-info-item">
@@ -245,7 +244,7 @@
                     <h5 class="section-title">Order Summary</h5>
                     <div class="order-items">
                         <div class="order-item">
-                            <img src="https://via.placeholder.com/80x100" alt="Book cover">
+                            <img src="{{ route('login.image') }}" alt="Book cover">
                             <div class="order-item-details">
                                 <h6 class="order-item-title">{{ $book->getBookName() }}</h6>
                                 <p class="mb-1 text-muted">{{ $book->getAuthor() }}</p>
@@ -274,15 +273,16 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-credit-card me-2"></i>Complete Purchase
-                    </button>
+                    <form action="{{ route('checkout.item.directly') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
+                        <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
+                        <input type="hidden" name="quantity" id="form-quantity" value="1">
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-credit-card me-2"></i>Checkout Now
+                        </button>
+                    </form>
 
-                    <div class="mt-3 text-center">
-                        <small class="text-muted">
-                            <i class="bi bi-shield-lock me-1"></i>Secure transaction
-                        </small>
-                    </div>
                 </div>
             </div>
         </div>
@@ -319,6 +319,9 @@
             // Calculate and update total
             const total = subtotal + tax;
             document.getElementById('total').textContent = '$' + total.toFixed(2);
+
+            // Update hidden form quantity
+            document.getElementById('form-quantity').value = qty;
         }
     </script>
 </body>
