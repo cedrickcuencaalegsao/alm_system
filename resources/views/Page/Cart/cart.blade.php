@@ -144,7 +144,8 @@
                                 <img src="{{ route('login.image') }}" alt="Book cover" class="me-3">
                                 <div>
                                     <h6 class="mb-1">{{ $cart->getBookName() }}</h6>
-                                    <p class="text-muted small mb-2">{{ $cart->getAuthor() }} - {{ $cart->getBookCategory() }}</p>
+                                    <p class="text-muted small mb-2">{{ $cart->getAuthor() }} -
+                                        {{ $cart->getBookCategory() }}</p>
                                     <div class="quantity-control">
                                         <button class="quantity-btn decrease">-</button>
                                         <input type="number" class="quantity-input" value="1" min="1">
@@ -154,9 +155,13 @@
                             </div>
                             <div class="text-end">
                                 <h6 class="mb-2">{{ $cart->getPrice() }}</h6>
-                                <button class="delete-btn">
-                                    <i class="bi bi-trash"></i>
-                                </button>
+                                <form method="POST" action="{{ route('remove.from.cart', $cart->getCartID()) }}"
+                                    style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="delete-btn">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

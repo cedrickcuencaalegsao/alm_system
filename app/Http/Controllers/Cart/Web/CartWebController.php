@@ -64,4 +64,14 @@ class CartWebController extends Controller
 
         return $cartID;
     }
+
+    /**
+     * Function to soft delete cart.
+     * **/
+    public function softDelete(string $cartID)
+    {
+        $this->registerCart->softDelete($cartID);
+
+        return redirect()->back()->with('success', 'Item removed from cart successfully');
+    }
 }

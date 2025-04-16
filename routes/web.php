@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{userID}', [UserWebController::class, 'index'])->name('view.profile');
     Route::get('/orders', [OrderWEBController::class, 'index'])->name('view.orders');
     Route::post('/add-to-cart', [CartWebController::class, 'addToCart'])->name('add.to.cart');
+    Route::post('/remove-from-cart/{cartID}', [CartWebController::class, 'softDelete'])->name('remove.from.cart');
 });
 
 Route::get('/images/login', function () {

@@ -48,4 +48,9 @@ class RegisterCart
     {
         return $this->cartRepository->findAll();
     }
+
+    public function softDelete(string $cartID)
+    {
+        return $this->cartRepository->softDelete($cartID);
+    }
 }

@@ -12,6 +12,8 @@ interface CartRepository
 
     public function findByUserID(string $userID): ?array;
 
+    public function softDelete(string $cartID);
+
     public function findByCartID(string $cartID): ?Cart;
 
     public function findAll(): array;

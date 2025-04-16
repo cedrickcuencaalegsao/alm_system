@@ -16,7 +16,7 @@ class EloquentCartRepository implements CartRepository
         $newCart->cartID = $cart->getCartID();
         $newCart->userID = $cart->getUserID();
         $newCart->bookID = $cart->getBookID();
-        $newCart->isDeleted = $cart->getIsDeleted();
+        $newCart->isDeleted = false;
         $newCart->createdAt = $cart->createdAt();
         $newCart->updatedAt = $cart->updatedAt();
         $newCart->save();
@@ -103,11 +103,20 @@ class EloquentCartRepository implements CartRepository
             $cart->cartID,
             $cart->userID,
             $cart->bookID,
+            $cart->isDeleted,
             $cart->createdAt,
             $cart->updatedAt,
         );
     }
-
+    /**
+     * Function to soft delete cart.
+     * **/
+    public function softDelete(string $cartID)
+    {
+        $cart = CartModel::where('cartID', $cartID)->first();
+        $cart->isDeleted = true;
+        $cart->save();
+    }
     /**
      * Function to get all cart data.
      * **/
