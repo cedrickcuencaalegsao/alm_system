@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;       // Add this
-use Illuminate\Support\Facades\Hash;     // Add this
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class SystemSeeder extends Seeder
@@ -120,13 +120,19 @@ class SystemSeeder extends Seeder
             for ($i = 1; $i <= 3; $i++) {
                 $userID = $userIDs[array_rand($userIDs)];
                 $quantity = rand(1, 3);
-                $totalSales = $quantity * $book->bookprice;
+                $statuses = ['pending', 'delivered', 'delivering', 'cancelled'];
+                $status = $statuses[array_rand($statuses)];
+                $tax = $book->bookprice * $quantity * 0.12; // Assuming 12% tax
+                $totalSales = ($book->bookprice * $quantity) + $tax;
 
                 DB::table('tbl_sales')->insert([
                     'salesID' => 'SLS'.Str::random(12),
                     'userID' => $userID,
                     'bookID' => $book->bookID,
+                    'quantity' => $quantity,
                     'booksold' => $quantity,
+                    'status' => $status,
+                    'tax' => $tax,
                     'totalsales' => $totalSales,
                     'createdAt' => now()->toDateTimeString(),
                     'updatedAt' => now()->toDateTimeString(),
