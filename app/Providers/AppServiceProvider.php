@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider 
+class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
@@ -33,7 +33,9 @@ class AppServiceProvider extends ServiceProvider
         View::composer('shared.layout.authenticated', function ($view) {
             $cartCount = 0;
             if (Auth::check()) {
-                $cartCount = CartModel::where('userID', Auth::user()->userID)->count();
+                $cartCount = CartModel::where('userID', Auth::user()->userID)
+                    ->where('isDeleted', false)
+                    ->count();
             }
             $view->with('cartCount', $cartCount);
         });
