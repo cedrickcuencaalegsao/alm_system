@@ -20,6 +20,59 @@ class OrderWEBController extends Controller
     }
 
     /**
+     * Function to create sales on the cart page (multiple items).
+     * **/
+    public function checkoutMultipleItems(Request $request)
+    {
+        $request->validate([
+            'user_id' => 'required|string',
+            'selected_items' => 'required|array',
+            'selected_items.*' => 'required|string',
+            'quantity' => 'required|array',
+            'book_id' => 'required|array',
+            'shipping_cost' => 'required|numeric',
+            'order_total' => 'required|numeric',
+        ]);
+
+        // Process each selected item
+        $salesData = [];
+        $totalTax = 0;
+        $totalSales = 0;
+        $refID = $this->generateRefID();
+
+        foreach ($request->selected_items as $cartID) {
+            $bookID = $request->book_id[$cartID];
+            $quantity = intval($request->quantity[$cartID]);
+            $bookPrice = $this->getBookPrice($bookID);
+
+            $tax = $bookPrice * 0.12 * $quantity;
+            $sales = $bookPrice * $quantity;
+
+            $totalTax += $tax;
+            $totalSales += $sales;
+
+            $salesID = $this->generateSalesID();
+
+            $salesData[] = [
+                'salesID' => $salesID,
+                'bookID' => $bookID,
+                'userID' => $request->user_id,
+                'refID' => $refID,
+                'quantity' => $quantity,
+                'status' => 'pending',
+                'tax' => $tax,
+                'totalsales' => $sales + $tax,
+            ];
+        }
+        // Create sales records for all items
+        foreach ($salesData as $data) {
+            $this->registerSales->createSales($data);
+        }
+
+        return redirect('/home')->with('success', 'Order created successfully');
+    }
+
+    /**
      * Function to create sales on the buy now button.
      * **/
     public function checkoutItemDrectly(Request $request)

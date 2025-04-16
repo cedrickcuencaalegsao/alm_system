@@ -131,72 +131,80 @@
             <span class="text-muted">{{ count($carts) }} items</span>
         </div>
 
-        <div class="row">
-            <!-- Cart Items -->
-            <div class="col-md-8">
-                @foreach ($carts as $cart)
-                    <div class="cart-item">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div class="d-flex">
-                                <div class="form-check me-3">
-                                    <input class="form-check-input" type="checkbox" checked>
-                                </div>
-                                <img src="{{ route('login.image') }}" alt="Book cover" class="me-3">
-                                <div>
-                                    <h6 class="mb-1">{{ $cart->getBookName() }}</h6>
-                                    <p class="text-muted small mb-2">{{ $cart->getAuthor() }} -
-                                        {{ $cart->getBookCategory() }}</p>
-                                    <div class="quantity-control">
-                                        <button class="quantity-btn decrease">-</button>
-                                        <input type="number" class="quantity-input" value="1" min="1">
-                                        <button class="quantity-btn increase">+</button>
+        <form id="checkout-form" method="POST" action="{{ route('checkout.multiple.items') }}">
+            @csrf
+            <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
+            <div class="row">
+                <!-- Cart Items -->
+                <div class="col-md-6">
+                    @foreach ($carts as $cart)
+                        <div class="cart-item">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="d-flex">
+                                    <div class="form-check me-3">
+                                        <input class="form-check-input item-checkbox" type="checkbox"
+                                            name="selected_items[]" value="{{ $cart->getCartID() }}" checked>
+                                        <input type="hidden" name="book_id[{{ $cart->getCartID() }}]"
+                                            value="{{ $cart->getBookID() }}">
+                                    </div>
+                                    <img src="{{ route('login.image') }}" alt="Book cover" class="me-3">
+                                    <div>
+                                        <h6 class="mb-1">{{ $cart->getBookName() }}</h6>
+                                        <p class="text-muted small mb-2">{{ $cart->getAuthor() }} -
+                                            {{ $cart->getBookCategory() }}</p>
+                                        <div class="quantity-control">
+                                            <button type="button" class="quantity-btn decrease">-</button>
+                                            <input type="number" class="quantity-input"
+                                                name="quantity[{{ $cart->getCartID() }}]" value="1"
+                                                min="1">
+                                            <button type="button" class="quantity-btn increase">+</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="text-end">
-                                <h6 class="mb-2">{{ $cart->getPrice() }}</h6>
-                                <form method="POST" action="{{ route('remove.from.cart', $cart->getCartID()) }}"
-                                    style="display:inline;">
-                                    @csrf
-                                    <button type="submit" class="delete-btn">
-                                        <i class="bi bi-trash"></i>
-                                    </button>
-                                </form>
+                                <div class="text-end">
+                                    <h6 class="mb-2">{{ $cart->getPrice() }}</h6>
+                                    <input type="hidden" name="price[{{ $cart->getCartID() }}]"
+                                        value="{{ $cart->getPrice() }}">
+                                    <form method="POST" action="{{ route('remove.from.cart', $cart->getCartID()) }}"
+                                        style="display:inline;">
+                                        @csrf
+                                        <button type="submit" class="delete-btn">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                @endforeach
-            </div>
+                    @endforeach
+                </div>
 
-            <!-- Order Summary -->
-            <div class="col-md-4">
-                <div class="order-summary">
-                    <h5 class="mb-4">Order Summary</h5>
-                    <div class="mb-3">
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="text-muted">Selected Items ({{ count($carts) }})</span>
-                            <span>$64.97</span>
+                <!-- Order Summary -->
+                <div class="col-md-6">
+                    <div class="order-summary">
+                        <h5 class="mb-4">Order Summary</h5>
+                        <div class="mb-3">
+                            <div id="item-calculations">
+                                <!-- Individual item calculations will be inserted here -->
+                            </div>
+                            <div class="d-flex justify-content-between my-3">
+                                <span class="text-muted">Shipping</span>
+                                <span id="shipping-cost">$5.00</span>
+                                <input type="hidden" name="shipping_cost" value="5.00">
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between">
+                                <span class="fw-bold">Total</span>
+                                <span class="fw-bold" id="order-total">$0.00</span>
+                                <input type="hidden" name="order_total" id="order-total-input" value="0.00">
+                            </div>
                         </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="text-muted">Shipping</span>
-                            <span>$5.00</span>
-                        </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span class="text-muted">Tax</span>
-                            <span>$5.20</span>
-                        </div>
-                        <hr>
-                        <div class="d-flex justify-content-between">
-                            <span class="fw-bold">Total</span>
-                            <span class="fw-bold">$75.17</span>
-                        </div>
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="bi bi-credit-card me-2"></i>Checkout Now
+                        </button>
                     </div>
-                    <button class="btn btn-primary w-100">
-                        <i class="bi bi-credit-card me-2"></i>Checkout Now
-                    </button>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -204,7 +212,11 @@
         document.addEventListener('DOMContentLoaded', function() {
             const quantityInputs = document.querySelectorAll('.quantity-input');
             const quantityButtons = document.querySelectorAll('.quantity-btn');
-            const checkboxes = document.querySelectorAll('.form-check-input');
+            const checkboxes = document.querySelectorAll('.item-checkbox');
+            const shippingCost = 5.00;
+
+            // Initial calculation
+            updateOrderSummary();
 
             // Update quantity
             function updateQuantity(input, change) {
@@ -238,8 +250,50 @@
 
             // Update order summary
             function updateOrderSummary() {
-                // This would be implemented based on your actual cart logic
-                console.log('Order summary updated');
+                let itemsTotal = 0;
+                let itemCalculationsHTML = '';
+                let selectedItems = [];
+
+                // Calculate items total from selected items
+                checkboxes.forEach((checkbox, index) => {
+                    if (checkbox.checked) {
+                        const cartItem = checkbox.closest('.cart-item');
+                        const quantity = parseInt(cartItem.querySelector('.quantity-input').value);
+                        const priceText = cartItem.querySelector('.text-end h6').textContent;
+                        const price = parseFloat(priceText.replace(/[^0-9.-]+/g, ''));
+                        const bookName = cartItem.querySelector('h6').textContent.trim();
+                        const itemTotal = price * quantity;
+
+                        itemsTotal += itemTotal;
+
+                        // Create HTML for individual item calculation
+                        itemCalculationsHTML += `
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="text-muted small" style="max-width: 70%;" title="${bookName}">
+                                    ${bookName.length > 20 ? bookName.substring(0, 20) + '...' : bookName}
+                                    <span class="text-secondary">(${quantity} × $${price.toFixed(2)})</span>
+                                </span>
+                                <span>$${itemTotal.toFixed(2)}</span>
+                            </div>
+                        `;
+
+                        selectedItems.push({
+                            id: checkbox.value,
+                            quantity: quantity,
+                            price: price,
+                            total: itemTotal
+                        });
+                    }
+                });
+
+                // Update the DOM with individual item calculations
+                document.getElementById('item-calculations').innerHTML = itemCalculationsHTML ||
+                    '<div class="text-muted mb-2">No items selected</div>';
+                document.getElementById('shipping-cost').textContent = '$' + shippingCost.toFixed(2);
+
+                const orderTotal = itemsTotal + shippingCost;
+                document.getElementById('order-total').textContent = '$' + orderTotal.toFixed(2);
+                document.getElementById('order-total-input').value = orderTotal.toFixed(2);
             }
         });
     </script>
