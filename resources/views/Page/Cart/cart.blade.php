@@ -144,7 +144,7 @@
                                 <img src="{{ route('login.image') }}" alt="Book cover" class="me-3">
                                 <div>
                                     <h6 class="mb-1">{{ $cart->getBookName() }}</h6>
-                                    <p class="text-muted small mb-2">{{ $cart->getAuthor() }}</p>
+                                    <p class="text-muted small mb-2">{{ $cart->getAuthor() }} - {{ $cart->getBookCategory() }}</p>
                                     <div class="quantity-control">
                                         <button class="quantity-btn decrease">-</button>
                                         <input type="number" class="quantity-input" value="1" min="1">

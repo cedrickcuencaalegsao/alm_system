@@ -10,16 +10,13 @@ class EloquentCartRepository implements CartRepository
     /**
      * Function to create new cart.
      * **/
-    public function create(Cart $cart): void
+    public function create(Cart $cart)
     {
+        // dd($cart);
         $newCart = new CartModel;
         $newCart->cartID = $cart->getCartID();
         $newCart->userID = $cart->getUserID();
-        $newCart->bookname = $cart->getBookName();
-        $newCart->bookcategory = $cart->getBookCategory();
-        $newCart->author = $cart->getAuthor();
-        $newCart->price = $cart->getPrice();
-        $newCart->image = $cart->getImage();
+        $newCart->bookID = $cart->getBookID();
         $newCart->createdAt = $cart->createdAt();
         $newCart->updatedAt = $cart->updatedAt();
         $newCart->save();
@@ -28,19 +25,15 @@ class EloquentCartRepository implements CartRepository
     /**
      * Function to update cart data.
      * **/
-    public function update(Cart $cart): void
+    public function update(Cart $cart)
     {
-        $newCartData = CartModel::find($cart->getID()) ?? new CartModel;
-        $newCartData->cartID = $cart->getCartID();
-        $newCartData->userID = $cart->getUserID();
-        $newCartData->bookname = $cart->getBookName();
-        $newCartData->bookcategory = $cart->getBookCategory();
-        $newCartData->author = $cart->getAuthor();
-        $newCartData->price = $cart->getPrice();
-        $newCartData->image = $cart->getImage();
-        $newCartData->createdAt = $cart->createdAt();
-        $newCartData->updatedAt = $cart->updatedAt();
-        $newCartData->save();
+        $newCart = new CartModel;
+        $newCart->cartID = $cart->getCartID();
+        $newCart->userID = $cart->getUserID();
+        $newCart->bookID = $cart->getBookID();
+        $newCart->createdAt = $cart->createdAt();
+        $newCart->updatedAt = $cart->updatedAt();
+        $newCart->save();
     }
 
     /**
@@ -80,32 +73,32 @@ class EloquentCartRepository implements CartRepository
             $cart->id,
             $cart->cartID,
             $cart->userID,
+            $cart->bookID,
+            $cart->createdAt,
+            $cart->updatedAt,
             $cart->book->bookname,
             $cart->book->bookcategory,
             $cart->book->author,
             $cart->book->bookprice,
             $cart->book->image,
-            $cart->createdAt,
-            $cart->updatedAt,
         ))->toArray();
     }
 
     /**
      * Function to find cart by cartID.
      * **/
-    public function findByCartID(Cart $cart): ?Cart
+    public function findByCartID(string $cartID): ?Cart
     {
-        $cart = CartModel::where('cardID', $cart->getCartID())->first();
+        $cart = CartModel::where('cartID', $cartID)->first();
+        if (! $cart) {
+            return null;
+        }
 
         return new Cart(
             $cart->id,
             $cart->cartID,
             $cart->userID,
-            $cart->bookname,
-            $cart->bookcategory,
-            $cart->author,
-            $cart->price,
-            $cart->image,
+            $cart->bookID,
             $cart->createdAt,
             $cart->updatedAt,
         );
@@ -130,5 +123,4 @@ class EloquentCartRepository implements CartRepository
             updatedAt: $cart->updatedAt,
         ))->toArray();
     }
-    
 }

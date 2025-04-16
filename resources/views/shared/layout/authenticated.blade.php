@@ -124,6 +124,39 @@
         </div>
     </div>
 
+    <!-- Notification Toasts -->
+    @if (session('success'))
+        <div class="notification-toast success-toast" id="successToast">
+            <div class="toast-header">
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                <strong class="text-success">Success</strong>
+                <button type="button" class="btn-close-custom ms-auto" onclick="closeToast('successToast')">
+                    <span class="me-1 text-success">Close</span>
+                    <i class="bi bi-x-lg text-success"></i>
+                </button>
+            </div>
+            <div class="toast-body">
+                <div class="toast-message">{{ session('success') }}</div>
+            </div>
+        </div>
+    @endif
+
+    @if (session('error'))
+        <div class="notification-toast error-toast" id="errorToast">
+            <div class="toast-header">
+                <i class="bi bi-exclamation-circle-fill text-danger me-2"></i>
+                <strong class="text-danger">Error</strong>
+                <button type="button" class="btn-close-custom ms-auto" onclick="closeToast('errorToast')">
+                    <span class="me-1 text-danger">Close</span>
+                    <i class="bi bi-x-lg text-danger"></i>
+                </button>
+            </div>
+            <div class="toast-body">
+                <div class="toast-message">{{ session('error') }}</div>
+            </div>
+        </div>
+    @endif
+
     <style>
         .category-container {
             display: flex;
@@ -386,6 +419,64 @@
                 font-size: 1.1rem;
             }
         }
+
+        /* Toast Notification Styles */
+        .notification-toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 2000;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            overflow: hidden;
+            animation: slideInRight 0.5s ease-out;
+        }
+
+        @keyframes slideInRight {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification-toast .toast-header {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .notification-toast .toast-body {
+            padding: 1rem;
+        }
+
+        .notification-toast .toast-message {
+            font-size: 0.95rem;
+        }
+
+        .success-toast {
+            border-left: 4px solid #28a745;
+        }
+
+        .error-toast {
+            border-left: 4px solid #dc3545;
+        }
+
+        .btn-close-custom {
+            background: none;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+        }
     </style>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -439,6 +530,47 @@
                 });
             });
         });
+
+        function closeToast(toastId) {
+            const toast = document.getElementById(toastId);
+            if (toast) {
+                toast.style.animation = 'slideOutRight 0.5s ease-out forwards';
+                setTimeout(() => {
+                    toast.remove();
+                }, 500);
+            }
+        }
+
+        // Auto-close toasts after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            const toasts = document.querySelectorAll('.notification-toast');
+            toasts.forEach(toast => {
+                setTimeout(() => {
+                    if (toast) {
+                        toast.style.animation = 'slideOutRight 0.5s ease-out forwards';
+                        setTimeout(() => {
+                            toast.remove();
+                        }, 500);
+                    }
+                }, 5000);
+            });
+        });
+
+        // Add slideOutRight animation keyframes
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideOutRight {
+                0% {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
     <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 </body>

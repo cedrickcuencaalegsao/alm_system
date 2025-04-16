@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cart/{userID}', [CartWebController::class, 'index'])->name('view.cart');
     Route::get('/profile/{userID}', [UserWebController::class, 'index'])->name('view.profile');
     Route::get('/orders', [OrderWEBController::class, 'index'])->name('view.orders');
+    Route::post('/add-to-cart', [CartWebController::class, 'addToCart'])->name('add.to.cart');
 });
 
 Route::get('/images/login', function () {

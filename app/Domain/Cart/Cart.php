@@ -5,77 +5,107 @@ namespace App\Domain\Cart;
 class Cart
 {
     private ?int $id;
+
     private ?string $cartID;
+
     private ?string $userID;
-    private ?string $bookname;
-    private ?string $bookcategory;
-    private ?string $author;
-    private ?float $price;
-    private ?string $image;
+
+    private ?string $bookID;
+
     private ?string $createdAt;
+
     private ?string $updatedAt;
+
+    public ?string $bookname;
+
+    public ?string $bookcategory;
+
+    public ?string $author;
+
+    public ?string $price;
+
+    public ?string $image;
 
     public function __construct(
         ?int $id = null,
         ?string $cartID = null,
         ?string $userID = null,
-        ?string $bookname = null,
-        ?string $bookcategoy = null,
-        ?string $author = null,
-        ?float $price = null,
-        ?string $image = null,
+        ?string $bookID = null,
         ?string $createdAt = null,
         ?string $updatedAt = null,
+        ?string $bookname = null,
+        ?string $bookcategory = null,
+        ?string $author = null,
+        ?string $price = null,
+        ?string $image = null,
     ) {
         $this->id = $id;
         $this->cartID = $cartID;
         $this->userID = $userID;
+        $this->bookID = $bookID;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
         $this->bookname = $bookname;
-        $this->bookcategory = $bookcategoy;
+        $this->bookcategory = $bookcategory;
         $this->author = $author;
         $this->price = $price;
         $this->image = $image;
-        $this->createdAt = $createdAt;
-        $this->updatedAt = $updatedAt;
     }
-    public function getID(): int|null
+
+    public function getID(): ?int
     {
         return $this->id;
     }
-    public function getCartID(): string|null
+
+    public function getCartID(): ?string
     {
         return $this->cartID;
     }
-    public function getUserID(): string|null
+
+    public function getUserID(): ?string
     {
         return $this->userID;
     }
-    public function getBookName(): string|null
+
+    public function getBookID(): ?string
     {
-        return $this->bookname;
+        return $this->bookID;
     }
-    public function getBookCategory(): string|null
-    {
-        return $this->bookcategory;
-    }
-    public function getAuthor(): string|null
-    {
-        return $this->author;
-    }
-    public function getPrice(): string|null
-    {
-        return $this->price;
-    }
-    public function getImage(): string|null
-    {
-        return $this->image;
-    }
-    public function createdAt(): string|null
+
+    public function createdAt(): ?string
     {
         return $this->createdAt;
     }
-    public function updatedAt(): string|null
+
+    public function updatedAt(): ?string
     {
         return $this->updatedAt;
     }
+
+    public function getBookName(): ?string
+    {
+        return $this->bookname;
+    }
+
+    public function getBookCategory(): ?string
+    {
+        return $this->bookcategory;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+    
 }

@@ -2,6 +2,7 @@
 @section('title', 'Home')
 
 @section('content')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {{-- {{ dd($books) }} --}}
     <section class="py-5" id="best-selling">
         <div class="container">
@@ -31,13 +32,24 @@
                                 </div>
                                 <div class="mt-auto">
                                     <div class="d-grid gap-2">
-                                        <button class="btn btn-outline-primary add-to-cart-btn"
-                                            data-book-id="{{ $book->getBookID() }}">
-                                            <i class="bi bi-cart-plus me-2"></i>Add to Cart
-                                        </button>
-                                        <button class="btn btn-primary buy-now-btn">
-                                            <i class="bi bi-lightning-fill me-2"></i>Buy Now
-                                        </button>
+                                        <form action="{{ route('add.to.cart') }}" method="POST"
+                                            class="add-to-cart-form w-100">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
+                                            <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
+                                            <button type="submit" class="btn btn-outline-primary add-to-cart-btn"
+                                                data-book-id="{{ $book->getBookID() }}">
+                                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                                            </button>
+                                        </form>
+                                        <form action="#" method="POST" class="add-to-cart-form w-100">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
+                                            <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
+                                            <button type="submit" class="btn btn-primary buy-now-btn">
+                                                <i class="bi bi-lightning-fill me-2"></i>Buy Now
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -77,13 +89,24 @@
                                 </div>
                                 <div class="mt-auto">
                                     <div class="d-grid gap-2">
-                                        <button class="btn btn-outline-primary add-to-cart-btn"
-                                            data-book-id="{{ $book->getBookID() }}">
-                                            <i class="bi bi-cart-plus me-2"></i>Add to Cart
-                                        </button>
-                                        <button class="btn btn-primary buy-now-btn">
-                                            <i class="bi bi-lightning-fill me-2"></i>Buy Now
-                                        </button>
+                                        <form action="{{ route('add.to.cart') }}" method="POST"
+                                            class="add-to-cart-form w-100">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
+                                            <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
+                                            <button type="submit" class="btn btn-outline-primary add-to-cart-btn"
+                                                data-book-id="{{ $book->getBookID() }}">
+                                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                                            </button>
+                                        </form>
+                                        <form action="#" method="POST" class="add-to-cart-form w-100">
+                                            @csrf
+                                            <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
+                                            <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
+                                            <button type="submit" class="btn btn-primary buy-now-btn">
+                                                <i class="bi bi-lightning-fill me-2"></i>Buy Now
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -125,13 +148,24 @@
                                     </div>
                                     <div class="mt-auto">
                                         <div class="d-grid gap-2">
-                                            <button class="btn btn-outline-primary add-to-cart-btn"
-                                                data-book-id="{{ $book->getBookID() }}">
-                                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
-                                            </button>
-                                            <button class="btn btn-primary buy-now-btn">
-                                                <i class="bi bi-lightning-fill me-2"></i>Buy Now
-                                            </button>
+                                            <form action="{{ route('add.to.cart') }}" method="POST"
+                                                class="add-to-cart-form w-100">
+                                                @csrf
+                                                <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
+                                                <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
+                                                <button type="submit" class="btn btn-outline-primary add-to-cart-btn"
+                                                    data-book-id="{{ $book->getBookID() }}">
+                                                    <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                                                </button>
+                                            </form>
+                                            <form action="#" method="POST" class="add-to-cart-form w-100">
+                                                @csrf
+                                                <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
+                                                <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
+                                                <button type="submit" class="btn btn-primary buy-now-btn">
+                                                    <i class="bi bi-lightning-fill me-2"></i>Buy Now
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
@@ -238,10 +272,29 @@
             border-radius: 20px;
         }
 
-        .add-to-cart-btn {
+        .add-to-cart-btn,
+        .buy-now-btn {
             border-color: #8B4513;
-            color: #8B4513;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            height: 42px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.3s ease;
+            min-width: 150px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .add-to-cart-form {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .add-to-cart-btn {
+            color: #8B4513;
         }
 
         .add-to-cart-btn:hover {
@@ -297,8 +350,9 @@
 
             .add-to-cart-btn,
             .buy-now-btn {
-                padding: 0.4rem;
+                padding: 0.4rem 0.6rem;
                 font-size: 0.85rem;
+                height: 38px;
             }
 
             .section-title {
@@ -341,8 +395,9 @@
 
             .add-to-cart-btn,
             .buy-now-btn {
-                padding: 0.35rem;
-                font-size: 0.8rem;
+                padding: 0.35rem 0.5rem;
+                font-size: 0.75rem;
+                height: 36px;
             }
 
             .section-title {
@@ -358,29 +413,62 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
-            addToCartButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const bookId = this.dataset.bookId;
-                    this.innerHTML =
-                        '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding...';
-                    this.disabled = true;
-                    setTimeout(() => {
-                        this.innerHTML = '<i class="bi bi-check2"></i> Added to Cart';
-                        this.classList.add('btn-success');
-                        setTimeout(() => {
-                            this.innerHTML =
-                                '<i class="bi bi-cart-plus me-2"></i>Add to Cart';
-                            this.classList.remove('btn-success');
-                            this.disabled = false;
-                        }, 2000);
-                    }, 1000);
-                });
-            });
+            const forms = document.querySelectorAll('.add-to-cart-form');
 
-            const buyNowButtons = document.querySelectorAll('.buy-now-btn');
-            buyNowButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    window.location.href = '/checkout';
+            // Prevent form submission and use JavaScript instead
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    if (form.querySelector('.add-to-cart-btn')) {
+                        e.preventDefault();
+                        const button = form.querySelector('.add-to-cart-btn');
+                        const bookId = button.dataset.bookId;
+
+                        // Create and submit a form to add to cart
+                        if (bookId) {
+                            const dynamicForm = document.createElement('form');
+                            dynamicForm.method = 'POST';
+                            dynamicForm.action = '{{ route('add.to.cart') }}';
+
+                            // Add CSRF token
+                            const csrfToken = document.createElement('input');
+                            csrfToken.type = 'hidden';
+                            csrfToken.name = '_token';
+                            csrfToken.value = document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content');
+                            dynamicForm.appendChild(csrfToken);
+
+                            // Add user ID
+                            const userIdInput = document.createElement('input');
+                            userIdInput.type = 'hidden';
+                            userIdInput.name = 'user_id';
+                            userIdInput.value = '{{ Auth::user()->userID }}';
+                            dynamicForm.appendChild(userIdInput);
+
+                            // Add book ID
+                            const bookIdInput = document.createElement('input');
+                            bookIdInput.type = 'hidden';
+                            bookIdInput.name = 'book_id';
+                            bookIdInput.value = bookId;
+                            dynamicForm.appendChild(bookIdInput);
+
+                            // Append to body and submit
+                            document.body.appendChild(dynamicForm);
+
+                            button.innerHTML =
+                                '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Adding...';
+                            button.disabled = true;
+
+                            dynamicForm.submit();
+                        } else {
+                            console.error('Book ID not found');
+                            button.innerHTML = '<i class="bi bi-exclamation-triangle"></i> Error';
+                            setTimeout(() => {
+                                button.innerHTML =
+                                    '<i class="bi bi-cart-plus me-2"></i>Add to Cart';
+                                button.disabled = false;
+                            }, 2000);
+                        }
+                    }
                 });
             });
         });
