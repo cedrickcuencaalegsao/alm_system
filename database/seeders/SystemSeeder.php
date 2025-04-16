@@ -27,6 +27,7 @@ class SystemSeeder extends Seeder
             'image' => 'admin-profile.jpg',
             'password' => Hash::make('admin123'),
             'remember_token' => Str::random(10),
+            'isDeleted' => false,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
@@ -61,6 +62,7 @@ class SystemSeeder extends Seeder
                 'image' => 'user-'.($index + 1).'.jpg',
                 'password' => Hash::make('password123'),
                 'remember_token' => Str::random(10),
+                'isDeleted' => false,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -86,6 +88,7 @@ class SystemSeeder extends Seeder
                 'datepublish' => "$year-$month-$day",
                 'image' => 'book-'.$i.'.jpg',
                 'bookprice' => rand(100, 1000) + (rand(0, 99) / 100),
+                'isDeleted' => false,
                 'createdAt' => now()->toDateTimeString(),
                 'updatedAt' => now()->toDateTimeString(),
             ]);
@@ -95,8 +98,8 @@ class SystemSeeder extends Seeder
         $userIDs = DB::table('users')->pluck('userID')->toArray();
         $bookIDs = DB::table('tbl_books')->pluck('bookID')->toArray();
 
-        // Create 5 cart items
-        for ($i = 1; $i <= 5; $i++) {
+        // Create 10 cart items
+        for ($i = 1; $i <= 10; $i++) {
             $userID = $userIDs[array_rand($userIDs)];
             $bookID = $bookIDs[array_rand($bookIDs)];
             $bookPrice = DB::table('tbl_books')
@@ -107,6 +110,7 @@ class SystemSeeder extends Seeder
                 'cartID' => 'CRT'.Str::random(12),
                 'userID' => $userID,
                 'bookID' => $bookID,
+                'isDeleted' => false,
                 'createdAt' => now()->toDateTimeString(),
                 'updatedAt' => now()->toDateTimeString(),
             ]);
@@ -134,6 +138,7 @@ class SystemSeeder extends Seeder
                     'status' => $status,
                     'tax' => $tax,
                     'totalsales' => $totalSales,
+                    'isDeleted' => false,
                     'createdAt' => now()->toDateTimeString(),
                     'updatedAt' => now()->toDateTimeString(),
                 ]);

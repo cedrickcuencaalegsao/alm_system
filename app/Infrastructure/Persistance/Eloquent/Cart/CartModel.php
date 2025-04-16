@@ -15,6 +15,7 @@ class CartModel extends Model
         'cartID',
         'userID',
         'bookID',
+        'isDeleted',
         'createdAt',
         'updatedAt',
     ];

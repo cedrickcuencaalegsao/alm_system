@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('address', 100)->nullable();
             $table->string('contactnumber', 20)->nullable();
             $table->string('image', 25)->nullable();
+            $table->boolean('isDeleted')->default(false);
             $table->string('password')->nullable();
             $table->rememberToken();
             $table->timestamps();

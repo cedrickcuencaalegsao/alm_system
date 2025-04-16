@@ -12,11 +12,11 @@ class EloquentCartRepository implements CartRepository
      * **/
     public function create(Cart $cart)
     {
-        // dd($cart);
         $newCart = new CartModel;
         $newCart->cartID = $cart->getCartID();
         $newCart->userID = $cart->getUserID();
         $newCart->bookID = $cart->getBookID();
+        $newCart->isDeleted = $cart->getIsDeleted();
         $newCart->createdAt = $cart->createdAt();
         $newCart->updatedAt = $cart->updatedAt();
         $newCart->save();
@@ -31,6 +31,7 @@ class EloquentCartRepository implements CartRepository
         $newCart->cartID = $cart->getCartID();
         $newCart->userID = $cart->getUserID();
         $newCart->bookID = $cart->getBookID();
+        $newCart->isDeleted = $cart->getIsDeleted();
         $newCart->createdAt = $cart->createdAt();
         $newCart->updatedAt = $cart->updatedAt();
         $newCart->save();
@@ -47,6 +48,8 @@ class EloquentCartRepository implements CartRepository
             $cart->id,
             $cart->cartID,
             $cart->userID,
+            $cart->bookID,
+            $cart->isDeleted,
             $cart->bookname,
             $cart->bookcategory,
             $cart->author,
@@ -60,20 +63,21 @@ class EloquentCartRepository implements CartRepository
     /**
      * Function to get cart data by userID.
      * **/
-    public function findByUserID(string $userID): array
+    public function findByUserID(string $userID): ?array
     {
         $userID = decrypt($userID);
 
-        $cart = CartModel::where('userID', $userID)->get();
+        $cart = CartModel::where('userID', $userID)->where('isDeleted', false)->get();
         if (! $cart) {
-            return [];
+            return null;
         }
 
-        return CartModel::where('userID', $userID)->get()->map(fn ($cart) => new Cart(
+        return CartModel::where('userID', $userID)->where('isDeleted', false)->get()->map(fn ($cart) => new Cart(
             $cart->id,
             $cart->cartID,
             $cart->userID,
             $cart->bookID,
+            $cart->isDeleted,
             $cart->createdAt,
             $cart->updatedAt,
             $cart->book->bookname,

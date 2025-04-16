@@ -12,6 +12,8 @@ class Cart
 
     private ?string $bookID;
 
+    private ?bool $isDeleted;
+
     private ?string $createdAt;
 
     private ?string $updatedAt;
@@ -31,6 +33,7 @@ class Cart
         ?string $cartID = null,
         ?string $userID = null,
         ?string $bookID = null,
+        ?bool $isDeleted = null,
         ?string $createdAt = null,
         ?string $updatedAt = null,
         ?string $bookname = null,
@@ -43,6 +46,7 @@ class Cart
         $this->cartID = $cartID;
         $this->userID = $userID;
         $this->bookID = $bookID;
+        $this->isDeleted = $isDeleted;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
         $this->bookname = $bookname;
@@ -70,6 +74,11 @@ class Cart
     public function getBookID(): ?string
     {
         return $this->bookID;
+    }
+
+    public function getIsDeleted(): ?bool
+    {
+        return $this->isDeleted;
     }
 
     public function createdAt(): ?string
@@ -107,5 +116,5 @@ class Cart
     {
         return $this->image;
     }
-    
+
 }

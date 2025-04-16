@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('status', 15)->nullable(); // pending, delivered, delivering,or cancelled.
             $table->double('tax')->nullable();
             $table->double('totalsales')->nullable();
+            $table->boolean('isDeleted')->default(false);
             $table->string('createdAt')->nullable();
             $table->string('updatedAt')->nullable();
         });

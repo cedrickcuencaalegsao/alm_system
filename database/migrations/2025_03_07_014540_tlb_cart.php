@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('tbl_cart', function (Blueprint $table) {
             $table->id();
             $table->string('cartID', 15)->nullable();
-            $table->string('userID', 15)->nullable(); // this will be the cart ownerID.
-            $table->string('bookID', 15)->nullable(); // this is the book added to cart.
+            $table->string('userID', 15)->nullable();
+            $table->string('bookID', 15)->nullable();
+            $table->boolean('isDeleted')->default(false);
             $table->string('createdAt')->nullable();
             $table->string('updatedAt')->nullable();
         });

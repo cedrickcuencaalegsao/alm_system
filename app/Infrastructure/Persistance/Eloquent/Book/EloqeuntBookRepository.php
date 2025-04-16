@@ -117,6 +117,7 @@ class EloqeuntBookRepository implements BookRepository
                 'tbl_books.datepublish',
                 'tbl_books.image',
                 'tbl_books.bookprice',
+                'tbl_books.isDeleted',
                 'tbl_books.createdAt',
                 'tbl_books.updatedAt')
             ->orderByRaw('COALESCE(SUM(tbl_sales.booksold), 0) DESC')

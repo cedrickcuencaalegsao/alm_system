@@ -10,7 +10,7 @@ interface CartRepository
 
     public function findByID(Cart $cart): ?Cart;
 
-    public function findByUserID(string $userID): array;
+    public function findByUserID(string $userID): ?array;
 
     public function findByCartID(string $cartID): ?Cart;
 

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('datepublish', 15)->nullable();
             $table->string('image', 25)->nullable();
             $table->double('bookprice')->nullable();
+            $table->boolean('isDeleted')->default(false);
             $table->string('createdAt')->nullable();
             $table->string('updatedAt')->nullable();
         });
