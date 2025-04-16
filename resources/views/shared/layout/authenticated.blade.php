@@ -43,6 +43,7 @@
                         <li>
                             <a class="dropdown-item" href="{{ route('view.orders', encrypt(Auth::user()->userID)) }}">
                                 <i class="bi bi-box-seam me-2"></i>Orders
+                                <span class="cart-badge">{{ $userOrders ?? 0 }}</span>
                             </a>
                         </li>
                         <li>

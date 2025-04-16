@@ -83,7 +83,7 @@ class SystemSeeder extends Seeder
                 'bookname' => $this->generateBookTitle($category),
                 'bookdetails' => $this->generateBookDescription(),
                 'author' => $author,
-                'stocks' => rand(5, 100),
+                'stocks' => rand(5, 1000),
                 'bookcategory' => $category,
                 'datepublish' => "$year-$month-$day",
                 'image' => 'book-'.$i.'.jpg',

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 use App\Infrastructure\Persistance\Eloquent\Cart\CartModel;
+use App\Infrastructure\Persistance\Eloquent\Sale\SaleModel;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,8 +43,13 @@ class AppServiceProvider extends ServiceProvider
                 $cartCount = CartModel::where('userID', Auth::user()->userID)
                     ->where('isDeleted', false)
                     ->count();
+                $userOrders = SaleModel::where('userID', Auth::user()->userID)
+                    ->where('status', 'pending')
+                    ->where('isDeleted', false)
+                    ->count();
             }
             $view->with('cartCount', $cartCount);
+            $view->with('userOrders', $userOrders);
         });
     }
 }
