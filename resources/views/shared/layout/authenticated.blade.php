@@ -71,27 +71,23 @@
                 <div class="category-container">
                     <div class="text-center small text-muted mb-2">Category List</div>
                     <div class="scrollable-categories">
-                        <div class="category-btn">
+                        <div class="category-btn mt-2">
                             <a href="#best-selling" class="btn category-link" data-section="best-selling">
-                                <div class="d-flex justify-content-between align-items-center w-100">
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-star me-2"></i>
-                                        <span class="category-title">Best Sellers</span>
-                                    </div>
-                                    <span class="category-badge">{{ count($books['bestSelling']) }}</span>
+                                <div class="d-flex align-items-center w-100">
+                                    <i class="bi bi-star me-2"></i>
+                                    <span class="category-title">Best Sellers</span>
                                 </div>
+                                <span class="category-badge">{{ count($books['bestSelling']) }}</span>
                             </a>
                         </div>
 
                         <div class="category-btn">
                             <a href="#all-books" class="btn category-link" data-section="all-books">
-                                <div class="d-flex justify-content-between align-items-center w-100">
-                                    <div class="d-flex align-items-center">
-                                        <i class="bi bi-collection me-2"></i>
-                                        <span class="category-title">All Books</span>
-                                    </div>
-                                    <span class="category-badge">{{ count($books['allBooks']) }}</span>
+                                <div class="d-flex align-items-center w-100">
+                                    <i class="bi bi-collection me-2"></i>
+                                    <span class="category-title">All Books</span>
                                 </div>
+                                <span class="category-badge">{{ count($books['allBooks']) }}</span>
                             </a>
                         </div>
 
@@ -103,13 +99,11 @@
                             <div class="category-btn">
                                 <a href="#category-{{ Str::slug($categoryName) }}" class="btn category-link"
                                     data-section="category-{{ Str::slug($categoryName) }}">
-                                    <div class="d-flex justify-content-between align-items-center w-100">
-                                        <div class="d-flex align-items-center">
-                                            <i class="bi bi-book me-2"></i>
-                                            <span class="category-title">{{ $categoryName }}</span>
-                                        </div>
-                                        <span class="category-badge">{{ count($categoryBooks) }}</span>
+                                    <div class="d-flex align-items-center w-100">
+                                        <i class="bi bi-book me-2"></i>
+                                        <span class="category-title">{{ $categoryName }}</span>
                                     </div>
+                                    <span class="category-badge">{{ count($categoryBooks) }}</span>
                                 </a>
                             </div>
                         @endforeach
@@ -124,23 +118,35 @@
         </div>
     </div>
 
-    <!-- Notification Toasts -->
+    <!-- Success Modal -->
     @if (session('success'))
-        <div class="notification-toast success-toast" id="successToast">
-            <div class="toast-header">
-                <i class="bi bi-check-circle-fill text-success me-2"></i>
-                <strong class="text-success">Success</strong>
-                <button type="button" class="btn-close-custom ms-auto" onclick="closeToast('successToast')">
-                    <span class="me-1 text-success">Close</span>
-                    <i class="bi bi-x-lg text-success"></i>
-                </button>
-            </div>
-            <div class="toast-body">
-                <div class="toast-message">{{ session('success') }}</div>
+        <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header success-modal-header">
+                        <h5 class="modal-title" id="successModalLabel">
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>Success
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center mb-3">
+                            <div class="success-icon-circle">
+                                <i class="bi bi-check-lg"></i>
+                            </div>
+                        </div>
+                        <p class="success-message text-center">{{ session('success') }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Continue
+                            Shopping</button>
+                    </div>
+                </div>
             </div>
         </div>
     @endif
 
+    <!-- Error Toast -->
     @if (session('error'))
         <div class="notification-toast error-toast" id="errorToast">
             <div class="toast-header">
@@ -161,34 +167,38 @@
         .category-container {
             display: flex;
             flex-direction: column;
-            height: calc(100vh - 150px);
-            /* Adjust based on your header height */
+            gap: 0.5rem;
             padding: 1rem 0;
+            height: calc(100vh - 150px);
+            /* Adjust based on header height */
         }
 
         .scrollable-categories {
             flex-grow: 1;
             overflow-y: auto;
-            padding-right: 10px;
+            padding-right: 5px;
             margin-top: 1rem;
+            padding-left: 5px;
+            padding-bottom: 1rem;
+            padding-top: 5px;
         }
 
         .scrollable-categories::-webkit-scrollbar {
-            width: 5px;
+            width: 4px;
         }
 
         .scrollable-categories::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: rgba(241, 241, 241, 0.5);
             border-radius: 10px;
         }
 
         .scrollable-categories::-webkit-scrollbar-thumb {
-            background: #8B4513;
+            background: rgba(139, 69, 19, 0.5);
             border-radius: 10px;
         }
 
         .scrollable-categories::-webkit-scrollbar-thumb:hover {
-            background: #693310;
+            background: #8B4513;
         }
 
         .category-btn a.active {
@@ -269,56 +279,101 @@
 
         .category-btn {
             width: 100%;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-top: 10px;
+            padding-right: 10px;
         }
 
         .category-btn a {
             width: 100%;
-            background-color: transparent;
-            border: 1px solid #8B4513;
+            background-color: rgba(253, 245, 230, 0.5);
+            border: 1px solid rgba(139, 69, 19, 0.2);
             color: #8B4513;
-            padding: 0.6rem 1rem;
-            border-radius: 6px;
-            transition: all 0.3s ease;
+            padding: 0.85rem 1rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
             text-decoration: none;
             display: flex;
             align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+            position: relative;
+            overflow: visible;
         }
 
         .category-btn a:hover,
         .category-btn a.active {
             background-color: #8B4513;
             color: white;
-            transform: translateY(-2px);
+            border-color: #8B4513;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.2);
         }
 
         .category-title {
             color: inherit;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             font-weight: 500;
             margin: 0 0.5rem;
         }
 
         .category-badge {
-            background-color: rgba(139, 69, 19, 0.1);
-            color: inherit;
-            padding: 0.2rem 0.6rem;
+            background-color: #dc3545;
+            color: white;
+            padding: 0.25rem 0.7rem;
             border-radius: 20px;
-            font-size: 0.75rem;
-            margin-left: auto;
+            font-size: 0.8rem;
+            font-weight: 600;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-width: 24px;
+            text-align: center;
+            line-height: 1;
+            z-index: 2;
+        }
+
+        .category-btn a:hover .category-badge,
+        .category-btn a.active .category-badge {
+            background-color: #c82333;
         }
 
         .category-btn .bi {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: inherit;
             opacity: 0.9;
         }
 
-        .category-container {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            padding: 1rem 0;
+        .category-divider {
+            margin: 1rem 0;
+            padding: 0 0.5rem;
+            position: relative;
+            text-align: left;
+        }
+
+        .category-divider span {
+            display: inline-block;
+            font-size: 0.8rem;
+            color: #8B4513;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            opacity: 0.7;
+            background: #FDF5E6;
+            padding-right: 0.75rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .category-divider::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(139, 69, 19, 0.15);
+            z-index: 0;
         }
 
         /* Update sidebar styles to match */
@@ -420,6 +475,49 @@
             }
         }
 
+        /* Success Modal Styles */
+        .success-modal-header {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .success-icon-circle {
+            width: 80px;
+            height: 80px;
+            background-color: #d4edda;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .success-icon-circle i {
+            font-size: 40px;
+            color: #28a745;
+        }
+
+        .success-message {
+            font-size: 1.1rem;
+            color: #333;
+            margin-top: 15px;
+        }
+
+        .modal-footer {
+            border-top: none;
+            justify-content: center;
+        }
+
+        .btn-success {
+            background-color: #8B4513;
+            border-color: #8B4513;
+        }
+
+        .btn-success:hover {
+            background-color: #693310;
+            border-color: #693310;
+        }
+
         /* Toast Notification Styles */
         .notification-toast {
             position: fixed;
@@ -482,6 +580,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             const sections = document.querySelectorAll('section[id]');
             const categoryLinks = document.querySelectorAll('.category-link');
+
+            // Show success modal on page load if success message exists
+            const successModal = document.getElementById('successModal');
+            if (successModal) {
+                const modal = new bootstrap.Modal(successModal);
+                modal.show();
+            }
 
             // Function to update active state
             function updateActiveLink() {
