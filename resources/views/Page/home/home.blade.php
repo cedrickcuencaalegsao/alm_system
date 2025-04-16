@@ -21,13 +21,27 @@
                                     {{ $book->getAuthor() }}</p>
                                 <p class="card-text small book-description">{{ Str::limit($book->getBookDetails(), 100) }}
                                 </p>
-                                <div class="price-section d-flex align-items-center mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
                                     <span class="price-badge">
                                         @if ($book->getPrice())
                                             ₱ {{ number_format($book->getPrice(), 2) }}
                                         @else
                                             Price not set
                                         @endif
+                                    </span>
+                                    @php
+                                        $stockClass = '';
+                                        $stock = $book->getStock();
+                                        if ($stock < 20) {
+                                            $stockClass = 'stock-low';
+                                        } elseif ($stock >= 20 && $stock < 100) {
+                                            $stockClass = 'stock-medium';
+                                        } else {
+                                            $stockClass = 'stock-high';
+                                        }
+                                    @endphp
+                                    <span class="stock-badge {{ $stockClass }}">
+                                        {{ $book->getStock() }} in stock
                                     </span>
                                 </div>
                                 <div class="mt-auto">
@@ -74,13 +88,27 @@
                                     {{ $book->getAuthor() }}</p>
                                 <p class="card-text small book-description">{{ Str::limit($book->getBookDetails(), 100) }}
                                 </p>
-                                <div class="price-section d-flex align-items-center mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
                                     <span class="price-badge">
                                         @if ($book->getPrice())
                                             ₱ {{ number_format($book->getPrice(), 2) }}
                                         @else
                                             Price not set
                                         @endif
+                                    </span>
+                                    @php
+                                        $stockClass = '';
+                                        $stock = $book->getStock();
+                                        if ($stock < 20) {
+                                            $stockClass = 'stock-low';
+                                        } elseif ($stock >= 20 && $stock < 100) {
+                                            $stockClass = 'stock-medium';
+                                        } else {
+                                            $stockClass = 'stock-high';
+                                        }
+                                    @endphp
+                                    <span class="stock-badge {{ $stockClass }}">
+                                        {{ $book->getStock() }} in stock
                                     </span>
                                 </div>
                                 <div class="mt-auto">
@@ -129,13 +157,27 @@
                                         {{ $book->getAuthor() }}</p>
                                     <p class="card-text small book-description">
                                         {{ Str::limit($book->getBookDetails(), 100) }}</p>
-                                    <div class="price-section d-flex align-items-center mb-3">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
                                         <span class="price-badge">
                                             @if ($book->getPrice())
                                                 ₱ {{ number_format($book->getPrice(), 2) }}
                                             @else
                                                 Price not set
                                             @endif
+                                        </span>
+                                        @php
+                                            $stockClass = '';
+                                            $stock = $book->getStock();
+                                            if ($stock < 20) {
+                                                $stockClass = 'stock-low';
+                                            } elseif ($stock >= 20 && $stock < 100) {
+                                                $stockClass = 'stock-medium';
+                                            } else {
+                                                $stockClass = 'stock-high';
+                                            }
+                                        @endphp
+                                        <span class="stock-badge {{ $stockClass }}">
+                                            {{ $book->getStock() }} in stock
                                         </span>
                                     </div>
                                     <div class="mt-auto">
@@ -248,6 +290,29 @@
             display: inline-block;
         }
 
+        .stock-badge {
+            padding: 0.3rem 0.6rem;
+            font-size: 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+            color: white;
+        }
+
+        .stock-low {
+            background-color: #dc3545;
+            border: none;
+        }
+
+        .stock-medium {
+            background-color: #ffc107;
+            border: none;
+        }
+
+        .stock-high {
+            background-color: #28a745;
+            border: none;
+        }
+
         .text-truncate {
             max-width: 100%;
         }
@@ -331,7 +396,8 @@
                 min-height: 2rem;
             }
 
-            .price-badge {
+            .price-badge,
+            .stock-badge {
                 padding: 0.2rem 0.6rem;
                 font-size: 0.75rem;
             }
@@ -376,7 +442,8 @@
                 min-height: 1.8rem;
             }
 
-            .price-badge {
+            .price-badge,
+            .stock-badge {
                 padding: 0.15rem 0.5rem;
                 font-size: 0.7rem;
             }
