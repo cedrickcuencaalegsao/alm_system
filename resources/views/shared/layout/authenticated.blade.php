@@ -65,8 +65,10 @@
             <div class="sidebar-wrapper" style="background-color: #FDF5E6;">
                 <div class="sidebar-title mb-4">
                     <h4 class="fw-bold text-center" style="color: #8B4513;">
-                        <i class="bi bi-book-half me-2"></i>
-                        BookHaven
+                        <a href="{{ route('view.home') }}" style="text-decoration: none; color: #8B4513;">
+                            <i class="bi bi-book-half me-2"></i>
+                            BookHaven
+                        </a>
                     </h4>
                 </div>
                 <div class="category-container">
