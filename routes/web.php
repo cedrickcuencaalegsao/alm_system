@@ -28,6 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/orders', [OrderWEBController::class, 'index'])->name('view.orders');
     Route::post('/add-to-cart', [CartWebController::class, 'addToCart'])->name('add.to.cart');
     Route::post('/remove-from-cart/{cartID}', [CartWebController::class, 'softDelete'])->name('remove.from.cart');
+    Route::get('/checkout/{bookID}', [OrderWEBController::class, 'viewCheckout'])->name('view.checkout');
+    Route::post('/checkout-item-directly', [OrderWEBController::class, 'checkoutItemDrectly'])->name('checkout.item.directly');
 });
 
 Route::get('/images/login', function () {

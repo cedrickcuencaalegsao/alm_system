@@ -49,11 +49,11 @@ class EloqeuntBookRepository implements BookRepository
             $bookData->bookname,
             $bookData->bookdetails,
             $bookData->author,
-            $bookData->stock,
-            $bookData->category,
+            $bookData->stocks,
+            $bookData->bookcategory,
             $bookData->datepublish,
             $bookData->image,
-            $bookData->price,
+            $bookData->bookprice,
             $bookData->createdAt,
             $bookData->updatedAt,
         );
@@ -106,7 +106,7 @@ class EloqeuntBookRepository implements BookRepository
     {
         $bestSelling = BookModel::select('tbl_books.*')
             ->leftJoin('tbl_sales', 'tbl_books.bookID', '=', 'tbl_sales.bookID')
-            ->selectRaw('SUM(tbl_sales.booksold) as totalSold')
+            ->selectRaw('SUM(tbl_sales.quantity) as totalSold')
             ->groupBy('tbl_books.id',
                 'tbl_books.bookID',
                 'tbl_books.bookname',
@@ -120,7 +120,7 @@ class EloqeuntBookRepository implements BookRepository
                 'tbl_books.isDeleted',
                 'tbl_books.createdAt',
                 'tbl_books.updatedAt')
-            ->orderByRaw('COALESCE(SUM(tbl_sales.booksold), 0) DESC')
+            ->orderByRaw('COALESCE(SUM(tbl_sales.quantity), 0) DESC')
             ->take(8)
             ->get()
             ->map(fn ($book) => new Book(

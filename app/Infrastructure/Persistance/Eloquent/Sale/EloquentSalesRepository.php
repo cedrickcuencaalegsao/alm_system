@@ -12,99 +12,164 @@ class EloquentSalesRepository implements SaleRepository
      * **/
     public function create(Sale $sales): void
     {
-        $saleData = new SaleModel();
+        $saleData = new SaleModel;
         $saleData->salesID = $sales->getSalesID();
+        $saleData->bookID = $sales->getBookID();
         $saleData->userID = $sales->getUserID();
-        $saleData->booksold = $sales->getBookSold();
+        $saleData->refID = $sales->getRefID();
+        $saleData->quantity = $sales->getBookSold();
+        $saleData->status = $sales->getStatus();
         $saleData->totalsales = $sales->getTotalSales();
-        $saleData->createdAt = $sales->craetedAt();
-        $saleData->updatedAt = $sales->updatedAt();
+        $saleData->tax = $sales->getTax();
+        $saleData->createdAt = $sales->getCreatedAt();
+        $saleData->updatedAt = $sales->getUpdatedAt();
         $saleData->save();
     }
+
     /**
      * Function to update sales data.
      * **/
     public function update(Sale $sales): void
     {
-        $saleData = SaleModel::find($sales->getId()) ?? new SaleModel();
+        $saleData = SaleModel::find($sales->getId()) ?? new SaleModel;
         $saleData->salesID = $sales->getSalesID();
+        $saleData->bookID = $sales->getBookID();
         $saleData->userID = $sales->getUserID();
-        $saleData->booksold = $sales->getBookSold();
+        $saleData->refID = $sales->getRefID();
+        $saleData->quantity = $sales->getBookSold();
+        $saleData->status = $sales->getStatus();
         $saleData->totalsales = $sales->getTotalSales();
-        $saleData->createdAt = $sales->craetedAt();
-        $saleData->updatedAt = $sales->updatedAt();
+        $saleData->tax = $sales->getTax();
+        $saleData->createdAt = $sales->getCreatedAt();
+        $saleData->updatedAt = $sales->getUpdatedAt();
         $saleData->save();
     }
+
     /**
      * Function to get sales data by id.
      * **/
-    public function findByID(int $id): Sale|null
+    public function findByID(int $id): ?Sale
     {
         $saleData = SaleModel::find('id', $id);
-        if (!$saleData) {
+        if (! $saleData) {
             return null;
         }
+
         return new Sale(
             $saleData->id,
             $saleData->salesID,
+            $saleData->bookID,
             $saleData->userID,
-            $saleData->booksold,
+            $saleData->refID,
+            $saleData->quantity,
+            $saleData->status,
             $saleData->totalsales,
+            $saleData->tax,
             $saleData->createdAt,
             $saleData->updatedAt,
         );
     }
+
     /**
      * Function to get sales data by userID.
      * **/
-    public function findByUserID(string $userID): Sale|null
+    public function findByUserID(string $userID): ?Sale
     {
         $saleData = SaleModel::where('userID', $userID)->first();
-        if (!$saleData) {
+        if (! $saleData) {
             return null;
         }
+
         return new Sale(
             $saleData->id,
             $saleData->salesID,
+            $saleData->bookID,
             $saleData->userID,
-            $saleData->booksold,
+            $saleData->refID,
+            $saleData->quantity,
+            $saleData->status,
             $saleData->totalsales,
+            $saleData->tax,
             $saleData->createdAt,
             $saleData->updatedAt,
         );
     }
+
     /**
      * Function to get sales data by salesID.
      * **/
-    public function findBySaleID(string $saleID): Sale|null
+    public function findBySaleID(string $saleID): ?Sale
     {
-        $saleData = SaleModel::where('saleID', $saleID);
-        if (!$saleData) {
+        $saleData = SaleModel::where('salesID', $saleID)->first();
+        if (! $saleData) {
             return null;
         }
+
         return new Sale(
             $saleData->id,
             $saleData->salesID,
+            $saleData->bookID,
             $saleData->userID,
-            $saleData->booksold,
+            $saleData->refID,
+            $saleData->quantity,
+            $saleData->status,
             $saleData->totalsales,
+            $saleData->tax,
             $saleData->createdAt,
             $saleData->updatedAt,
         );
     }
+
+    /**
+     * Function to get sales data by refID.
+     * **/
+    public function findByRefID(string $refID): ?Sale
+    {
+        $saleData = SaleModel::where('refID', $refID)->first();
+        if (! $saleData) {
+            return null;
+        }
+
+        return new Sale(
+            $saleData->id,
+            $saleData->salesID,
+            $saleData->bookID,
+            $saleData->userID,
+            $saleData->refID,
+            $saleData->quantity,
+            $saleData->status,
+            $saleData->totalsales,
+            $saleData->tax,
+            $saleData->createdAt,
+            $saleData->updatedAt,
+        );
+    }
+
     /**
      * Function to get all sales data.
      * **/
     public function findAll(): array
     {
-        return SaleModel::all()->map(fn($sale) => new Sale(
-            id: $sale->id,
-            salesID: $sale->salesID,
-            userID: $sale->userID,
-            booksold: $sale->booksold,
-            totalsales: $sale->totalsales,
-            createdAt: $sale->createdAt,
-            updatedAt: $sale->updatedAt,
+        return SaleModel::all()->map(fn ($sale) => new Sale(
+            $sale->id,
+            $sale->salesID,
+            $sale->bookID,
+            $sale->userID,
+            $sale->refID,
+            $sale->quantity,
+            $sale->status,
+            $sale->totalsales,
+            $sale->tax,
+            $sale->createdAt,
+            $sale->updatedAt,
         ))->toArray();
+    }
+
+    public function delete(string $saleID)
+    {
+        $saleData = SaleModel::where('salesID', $saleID)->first();
+        if (! $saleData) {
+            return null;
+        }
     }
 }

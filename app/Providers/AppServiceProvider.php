@@ -5,13 +5,18 @@ namespace App\Providers;
 use App\Domain\Book\BookRepository;
 use App\Domain\Cart\CartRepository;
 use App\Domain\User\UserRespository;
+use App\Domain\Sale\SaleRepository;
+
 use App\Infrastructure\Persistance\Eloquent\Book\EloqeuntBookRepository;
-use App\Infrastructure\Persistance\Eloquent\Cart\CartModel;
 use App\Infrastructure\Persistance\Eloquent\Cart\EloquentCartRepository;
 use App\Infrastructure\Persistance\Eloquent\User\EloquentUserRepository;
+use App\Infrastructure\Persistance\Eloquent\Sale\EloquentSalesRepository;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+
+use App\Infrastructure\Persistance\Eloquent\Cart\CartModel;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(bookRepository::class, EloqeuntBookRepository::class);
         $this->app->bind(UserRespository::class, EloquentUserRepository::class);
         $this->app->bind(CartRepository::class, EloquentCartRepository::class);
+        $this->app->bind(SaleRepository::class, EloquentSalesRepository::class);
     }
 
     /**

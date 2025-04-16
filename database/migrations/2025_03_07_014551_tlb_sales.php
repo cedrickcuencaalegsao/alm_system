@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('salesID', 15)->nullable();
             $table->string('bookID', 15)->nullable();
             $table->string('userID', 15)->nullable();
+            $table->string('refID', 15)->nullable();
             $table->unsignedInteger('quantity')->nullable();
-            $table->unsignedInteger('booksold')->nullable();
             $table->string('status', 15)->nullable(); // pending, delivered, delivering,or cancelled.
             $table->double('tax')->nullable();
             $table->double('totalsales')->nullable();

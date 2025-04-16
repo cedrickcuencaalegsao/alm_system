@@ -119,11 +119,11 @@ class SystemSeeder extends Seeder
         // Get all books
         $books = DB::table('tbl_books')->get();
 
-        // Create 3 sales for each book
+        // Create 10 sales for each book
         foreach ($books as $book) {
-            for ($i = 1; $i <= 3; $i++) {
+            for ($i = 1; $i <= 10; $i++) {
                 $userID = $userIDs[array_rand($userIDs)];
-                $quantity = rand(1, 3);
+                $quantity = rand(1, 10);
                 $statuses = ['pending', 'delivered', 'delivering', 'cancelled'];
                 $status = $statuses[array_rand($statuses)];
                 $tax = $book->bookprice * $quantity * 0.12; // Assuming 12% tax
@@ -133,8 +133,8 @@ class SystemSeeder extends Seeder
                     'salesID' => 'SLS'.Str::random(12),
                     'userID' => $userID,
                     'bookID' => $book->bookID,
+                    'refID' => 'REF'.Str::random(12),
                     'quantity' => $quantity,
-                    'booksold' => $quantity,
                     'status' => $status,
                     'tax' => $tax,
                     'totalsales' => $totalSales,

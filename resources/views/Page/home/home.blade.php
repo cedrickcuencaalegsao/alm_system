@@ -42,14 +42,10 @@
                                                 <i class="bi bi-cart-plus me-2"></i>Add to Cart
                                             </button>
                                         </form>
-                                        <form action="#" method="POST" class="add-to-cart-form w-100">
-                                            @csrf
-                                            <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
-                                            <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
-                                            <button type="submit" class="btn btn-primary buy-now-btn">
-                                                <i class="bi bi-lightning-fill me-2"></i>Buy Now
-                                            </button>
-                                        </form>
+                                        <a href="{{ route('view.checkout', ['bookID' => $book->getBookID()]) }}"
+                                            class="btn btn-primary buy-now-btn">
+                                            <i class="bi bi-lightning-fill me-2"></i>Buy Now
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -99,14 +95,10 @@
                                                 <i class="bi bi-cart-plus me-2"></i>Add to Cart
                                             </button>
                                         </form>
-                                        <form action="#" method="POST" class="add-to-cart-form w-100">
-                                            @csrf
-                                            <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
-                                            <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
-                                            <button type="submit" class="btn btn-primary buy-now-btn">
-                                                <i class="bi bi-lightning-fill me-2"></i>Buy Now
-                                            </button>
-                                        </form>
+                                        <a href="{{ route('view.checkout', ['bookID' => $book->getBookID()]) }}"
+                                            class="btn btn-primary buy-now-btn">
+                                            <i class="bi bi-lightning-fill me-2"></i>Buy Now
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -158,14 +150,10 @@
                                                     <i class="bi bi-cart-plus me-2"></i>Add to Cart
                                                 </button>
                                             </form>
-                                            <form action="#" method="POST" class="add-to-cart-form w-100">
-                                                @csrf
-                                                <input type="hidden" name="user_id" value="{{ Auth::user()->userID }}">
-                                                <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
-                                                <button type="submit" class="btn btn-primary buy-now-btn">
-                                                    <i class="bi bi-lightning-fill me-2"></i>Buy Now
-                                                </button>
-                                            </form>
+                                            <a href="{{ route('view.checkout', ['bookID' => $book->getBookID()]) }}"
+                                                class="btn btn-primary buy-now-btn">
+                                                <i class="bi bi-lightning-fill me-2"></i>Buy Now
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
