@@ -420,6 +420,46 @@
             color: var(--primary-dark);
         }
 
+        /* Filter Button Styles */
+        .category-buttons {
+            position: relative;
+        }
+
+        .filter-btn {
+            color: var(--text-dark);
+            background-color: white;
+            border-radius: 50px;
+            padding: 0.6rem 1.25rem;
+            transition: all 0.2s;
+            font-weight: 500;
+            border: 1px solid #e9ecef;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .filter-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow);
+        }
+
+        .filter-btn.active {
+            color: white !important;
+            background-color: var(--primary) !important;
+            border-color: var(--primary-dark) !important;
+            box-shadow: 0 4px 8px rgba(139, 69, 19, 0.4) !important;
+            position: relative;
+            transform: translateY(-2px);
+            font-weight: 600;
+            outline: 2px solid var(--primary-dark);
+            outline-offset: 1px;
+        }
+
+        .filter-btn i {
+            font-size: 1rem;
+        }
+
         /* Improved responsive layout */
         @media (max-width: 767px) {
             .container {
@@ -492,13 +532,34 @@
             <h1 class="section-title mb-0">My Orders</h1>
         </div>
 
+        <!-- Category Buttons -->
+        <div class="category-buttons mb-4">
+            <div class="d-flex flex-wrap gap-2" id="filter-buttons-container">
+                <button class="btn filter-btn" data-filter="all" id="filter-all">
+                    <i class="bi bi-grid-3x3-gap me-2"></i>All Orders
+                </button>
+                <button class="btn filter-btn" data-filter="pending" id="filter-pending">
+                    <i class="bi bi-clock-history me-2"></i>Pending
+                </button>
+                <button class="btn filter-btn" data-filter="processing" id="filter-processing">
+                    <i class="bi bi-gear-fill me-2"></i>Processing
+                </button>
+                <button class="btn filter-btn" data-filter="delivering" id="filter-delivering">
+                    <i class="bi bi-truck me-2"></i>Delivering
+                </button>
+                <button class="btn filter-btn" data-filter="delivered" id="filter-delivered">
+                    <i class="bi bi-check-circle me-2"></i>Delivered
+                </button>
+            </div>
+        </div>
+
         <!-- Recent Orders Section -->
         <div class="recent-orders">
             <div class="orders-list">
                 @if (isset($sales) && count($sales) > 0)
                     <div class="row row-cols-1 row-cols-md-2 g-4">
                         @foreach ($sales as $index => $sale)
-                            <div class="col">
+                            <div class="col order-item-col" data-status="{{ $sale->getStatus() }}">
                                 <div class="order-item">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
                                         <div>
@@ -545,10 +606,11 @@
                         @endforeach
                     </div>
                 @else
-                    <div class="empty-state">
+                    <div class="empty-state" id="empty-state"
+                        style="{{ isset($sales) && count($sales) > 0 ? 'display: none;' : '' }}">
                         <i class="bi bi-bag-x"></i>
-                        <h5>No Orders Found</h5>
-                        <p class="text-muted">You haven't placed any orders yet.</p>
+                        <h5 id="empty-state-title">No Orders Found</h5>
+                        <p class="text-muted" id="empty-state-message">You haven't placed any orders yet.</p>
                         <a href="/home" class="btn back-btn mt-3">Start Shopping</a>
                     </div>
                 @endif
@@ -733,6 +795,97 @@
     @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Client-side filtering for orders
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get references to all needed elements
+            const filterButtonsContainer = document.getElementById('filter-buttons-container');
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const orderItems = document.querySelectorAll('.order-item-col');
+            const emptyState = document.getElementById('empty-state');
+            const emptyStateTitle = document.getElementById('empty-state-title');
+            const emptyStateMessage = document.getElementById('empty-state-message');
+
+            // Set default filter if not already set
+            if (!localStorage.getItem('orderFilterStatus')) {
+                localStorage.setItem('orderFilterStatus', 'all');
+            }
+
+            // Get the saved filter or default to 'all'
+            const savedFilter = localStorage.getItem('orderFilterStatus') || 'all';
+
+            // Function to apply the active class to a button
+            function setActiveButton(status) {
+                // First remove active class from all buttons
+                filterButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                });
+
+                // Find the button for the current status
+                const targetButton = document.getElementById(`filter-${status}`);
+
+                // If found, set it as active
+                if (targetButton) {
+                    targetButton.classList.add('active');
+                }
+            }
+
+            // Function to filter orders by status
+            function filterOrders(status) {
+                // Save the current filter
+                localStorage.setItem('orderFilterStatus', status);
+
+                // Apply the active class to button
+                setActiveButton(status);
+
+                // Counter for visible items
+                let visibleCount = 0;
+
+                // Loop through all order items and show/hide based on status
+                orderItems.forEach(item => {
+                    if (status === 'all' || item.getAttribute('data-status') === status) {
+                        item.style.display = '';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Update empty state if needed
+                if (visibleCount === 0 && orderItems.length > 0) {
+                    // Show empty state with appropriate message
+                    emptyState.style.display = 'block';
+                    if (status !== 'all') {
+                        emptyStateTitle.textContent =
+                            `No ${status.charAt(0).toUpperCase() + status.slice(1)} Orders Found`;
+                        emptyStateMessage.textContent = `You don't have any orders with ${status} status.`;
+                    } else {
+                        emptyStateTitle.textContent = 'No Orders Found';
+                        emptyStateMessage.textContent = 'You haven\'t placed any orders yet.';
+                    }
+                } else {
+                    // Hide empty state if we have items
+                    emptyState.style.display = 'none';
+                }
+            }
+
+            // Add click event listeners to buttons through delegation
+            filterButtonsContainer.addEventListener('click', function(event) {
+                // Find the closest button if we clicked on a child element
+                const button = event.target.closest('.filter-btn');
+
+                // If we found a button, filter by its status
+                if (button) {
+                    const status = button.getAttribute('data-filter');
+                    filterOrders(status);
+                }
+            });
+
+            // Apply the initial filter on page load
+            filterOrders(savedFilter);
+        });
+    </script>
 </body>
 
 </html>
