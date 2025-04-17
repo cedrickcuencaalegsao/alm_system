@@ -66,6 +66,7 @@ class OrderWEBController extends Controller
         }
         // Create sales records for all items
         foreach ($salesData as $data) {
+            $this->updateStockWhenItemBought($data['bookID'], $data['quantity']);
             $this->registerSales->createSales($data);
         }
 
@@ -96,8 +97,17 @@ class OrderWEBController extends Controller
         ];
 
         $this->registerSales->createSales($data);
+        $this->updateStockWhenItemBought($request->book_id, $request->quantity);
 
         return redirect('/home')->with('success', 'Order created successfully');
+    }
+
+    /**
+     * Function to update stock when item is bought.
+     * **/
+    public function updateStockWhenItemBought(string $bookID, int $quantity): void
+    {
+        $this->registerBook->updateStockWhenItemBought($bookID, $quantity);
     }
 
     /**

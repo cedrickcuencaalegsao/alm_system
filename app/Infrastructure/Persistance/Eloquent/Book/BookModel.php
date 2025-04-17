@@ -2,12 +2,13 @@
 
 namespace App\Infrastructure\Persistance\Eloquent\Book;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Infrastructure\Persistance\Eloquent\Sales\SalesModel;
+use Illuminate\Database\Eloquent\Model;
 
 class BookModel extends Model
 {
     protected $table = 'tbl_books';
+
     protected $fillable = [
         'bookID',
         'bookname',
@@ -20,10 +21,15 @@ class BookModel extends Model
         'price',
     ];
 
+    const CREATED_AT = 'createdAt';
+
+    const UPDATED_AT = 'updatedAt';
+
     /**
      * Create a relationship with the SalesModel.
      **/
-    public function sales(){
+    public function sales()
+    {
         return $this->hasMany(SalesModel::class, 'bookID', 'bookID');
     }
 }

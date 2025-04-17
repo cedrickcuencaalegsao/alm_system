@@ -236,4 +236,14 @@ class EloqeuntBookRepository implements BookRepository
             $bookData->updatedAt,
         );
     }
+
+    /**
+     * Function to update stock when item is bought.
+     * **/
+    public function updateStockWhenItemBought(string $bookID, int $quantity): void
+    {
+        $bookData = BookModel::where('bookID', $bookID)->first();
+        $bookData->stocks = $bookData->stocks - $quantity;
+        $bookData->save();
+    }
 }

@@ -23,4 +23,9 @@ class RegisterBook
     {
         return $this->bookRepository->findByBookID($bookID);
     }
+
+    public function updateStockWhenItemBought(string $bookID, int $quantity): void
+    {
+        $this->bookRepository->updateStockWhenItemBought($bookID, $quantity);
+    }
 }

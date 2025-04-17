@@ -11,4 +11,5 @@ interface BookRepository
     public function findAll(): array;
     public function findByName(string $bookname): ?Book;
     public function findByAuthor(string $author): ?Book;
+    public function updateStockWhenItemBought(string $bookID, int $quantity);
 }
