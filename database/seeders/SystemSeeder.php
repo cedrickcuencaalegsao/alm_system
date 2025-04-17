@@ -95,10 +95,10 @@ class SystemSeeder extends Seeder
         }
 
         // Get existing user IDs and book IDs
-        $userIDs = DB::table('users')->pluck('userID')->toArray();
+        $userIDs = DB::table('users')->where('isAdmin', false)->pluck('userID')->toArray();
         $bookIDs = DB::table('tbl_books')->pluck('bookID')->toArray();
 
-        // Create 10 cart items
+        // Create 10 cart items - exclude admin
         for ($i = 1; $i <= 10; $i++) {
             $userID = $userIDs[array_rand($userIDs)];
             $bookID = $bookIDs[array_rand($bookIDs)];
@@ -119,9 +119,9 @@ class SystemSeeder extends Seeder
         // Get all books
         $books = DB::table('tbl_books')->get();
 
-        // Create 10 sales for each book
+        // Create 3 sales for each book - exclude admin
         foreach ($books as $book) {
-            for ($i = 1; $i <= 10; $i++) {
+            for ($i = 1; $i <= 3; $i++) {
                 $userID = $userIDs[array_rand($userIDs)];
                 $quantity = rand(1, 10);
                 $statuses = ['pending', 'processing', 'delivering', 'delivered', 'cancelled'];

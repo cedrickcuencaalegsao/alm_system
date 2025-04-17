@@ -549,7 +549,7 @@
                         <i class="bi bi-bag-x"></i>
                         <h5>No Orders Found</h5>
                         <p class="text-muted">You haven't placed any orders yet.</p>
-                        <a href="/books" class="btn back-btn mt-3">Start Shopping</a>
+                        <a href="/home" class="btn back-btn mt-3">Start Shopping</a>
                     </div>
                 @endif
             </div>
