@@ -42,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
                     ->count();
                 $userOrders = SaleModel::where('userID', Auth::user()->userID)
                     ->where('status', '!=', 'delivered')
+                    ->where('status', '!=', 'cancelled')
                     ->where('isDeleted', false)
                     ->count();
             }
