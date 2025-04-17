@@ -185,7 +185,6 @@ class EloquentSalesRepository implements SaleRepository
             ->with('book')
             ->orderBy('createdAt', 'desc')
             ->where('isDeleted', false)
-            ->where('status', '!=', 'delivered')
             ->get();
         // dd($saleData);
         if (! $saleData) {

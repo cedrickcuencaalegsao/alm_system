@@ -4,20 +4,17 @@ namespace App\Providers;
 
 use App\Domain\Book\BookRepository;
 use App\Domain\Cart\CartRepository;
-use App\Domain\User\UserRespository;
 use App\Domain\Sale\SaleRepository;
-
+use App\Domain\User\UserRespository;
 use App\Infrastructure\Persistance\Eloquent\Book\EloqeuntBookRepository;
+use App\Infrastructure\Persistance\Eloquent\Cart\CartModel;
 use App\Infrastructure\Persistance\Eloquent\Cart\EloquentCartRepository;
-use App\Infrastructure\Persistance\Eloquent\User\EloquentUserRepository;
 use App\Infrastructure\Persistance\Eloquent\Sale\EloquentSalesRepository;
-
+use App\Infrastructure\Persistance\Eloquent\Sale\SaleModel;
+use App\Infrastructure\Persistance\Eloquent\User\EloquentUserRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
-
-use App\Infrastructure\Persistance\Eloquent\Cart\CartModel;
-use App\Infrastructure\Persistance\Eloquent\Sale\SaleModel;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -44,7 +41,7 @@ class AppServiceProvider extends ServiceProvider
                     ->where('isDeleted', false)
                     ->count();
                 $userOrders = SaleModel::where('userID', Auth::user()->userID)
-                    ->where('status', 'pending')
+                    ->where('status', '!=', 'delivered')
                     ->where('isDeleted', false)
                     ->count();
             }
