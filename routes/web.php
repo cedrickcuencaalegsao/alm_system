@@ -22,6 +22,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeWebController::class, 'index'])->name('view.home');
+    Route::get('/api/bestselling-books', [HomeWebController::class, 'getBestSellingBooks'])->name('api.bestselling.books');
     Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
     Route::get('/cart/{userID}', [CartWebController::class, 'index'])->name('view.cart');
     Route::get('/profile/{userID}', [UserWebController::class, 'index'])->name('view.profile');
@@ -48,3 +49,17 @@ Route::get('/images/login', function () {
 
     return response()->file($path);
 })->name('login.image');
+
+Route::get('/images/default', function () {
+    $path = public_path('assets/images/default/default.jpg');
+
+    if (! file_exists($path)) {
+        $path = public_path('assets/images/default/default.jpg');
+
+        if (! file_exists($path)) {
+            return null;
+        }
+    }
+
+    return response()->file($path);
+})->name('default.image');

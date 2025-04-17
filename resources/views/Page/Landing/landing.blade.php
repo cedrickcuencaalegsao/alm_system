@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('shared.layout.guess')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BookHaven - Your Literary Haven</title>
+@section('title', 'Home')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('assets/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+@section('content')
     <style>
         :root {
             --primary-brown: #8B4513;
@@ -20,25 +13,56 @@
         }
 
         body {
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: var(--text-brown);
+            line-height: 1.6;
         }
 
         /* Navbar Styles */
         .navbar {
-            background-color: #fff;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            padding: 12px 0;
+        }
+
+        .navbar.scrolled {
+            padding: 8px 0;
         }
 
         .navbar-brand {
             color: var(--primary-brown);
             font-weight: 700;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
         }
 
         .nav-link {
             color: var(--text-brown);
             font-weight: 500;
+            position: relative;
+            padding: 8px 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-brown);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover:after {
+            width: 70%;
         }
 
         .nav-link:hover {
@@ -48,26 +72,27 @@
         .nav-link.btn-brown {
             color: var(--primary-brown);
             background-color: transparent;
-            padding: 10px 30px;
+            padding: 10px 24px;
             border-radius: 8px;
-            transition: all 0.25s ease;
-            font-weight: 500;
+            transition: all 0.3s ease;
+            font-weight: 600;
             font-size: 0.95rem;
-            border: 1.5px solid var(--primary-brown);
+            border: 2px solid var(--primary-brown);
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            margin-left: 8px;
         }
 
         .nav-link.btn-brown:hover {
             background-color: var(--primary-brown);
             color: white;
-            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.2);
-            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 69, 19, 0.3);
+            transform: translateY(-3px);
         }
 
         .nav-link.btn-brown:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 6px rgba(139, 69, 19, 0.1);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 6px rgba(139, 69, 19, 0.2);
         }
 
         /* Mobile Menu Styles */
@@ -80,9 +105,10 @@
                 height: 100vh;
                 background-color: #fff;
                 padding: 2rem;
-                transition: all 0.3s ease;
+                transition: all 0.4s cubic-bezier(0.77, 0, 0.175, 1);
                 z-index: 1000;
-                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+                box-shadow: 2px 0 15px rgba(0, 0, 0, 0.15);
+                overflow-y: auto;
             }
 
             .navbar-collapse.show {
@@ -90,19 +116,31 @@
             }
 
             .navbar-nav {
-                margin-top: 2rem;
+                margin-top: 3rem;
             }
 
             .nav-item {
-                margin-bottom: 1rem;
+                margin-bottom: 1.2rem;
             }
 
             .navbar-toggler {
                 z-index: 1001;
+                border: none;
+                padding: 0.5rem;
             }
 
             .navbar-toggler:focus {
                 box-shadow: none;
+                outline: none;
+            }
+
+            /* Hamburger animation */
+            .navbar-toggler .navbar-toggler-icon {
+                transition: all 0.3s ease;
+            }
+
+            .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+                transform: rotate(90deg);
             }
 
             /* Overlay when menu is open */
@@ -116,20 +154,39 @@
                 background: rgba(0, 0, 0, 0.5);
                 z-index: -1;
                 opacity: 0;
-                transition: opacity 0.3s ease;
+                transition: opacity 0.4s ease;
+                backdrop-filter: blur(3px);
             }
 
             .navbar-collapse.show::before {
                 opacity: 1;
+            }
+
+            .nav-link.btn-brown {
+                display: inline-block;
+                margin-top: 10px;
+                text-align: center;
             }
         }
 
         /* Hero Section */
         .hero-section {
             background-color: var(--subtle-brown);
-            padding: 120px 0;
+            padding: 140px 0 120px;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M96,95 L4,95 L4,5 L96,5 L96,95 Z" stroke="rgba(139,69,19,0.1)" fill="none" stroke-width="2"/></svg>');
+            opacity: 0.4;
+            background-size: 40px 40px;
         }
 
         .hero-section::after {
@@ -139,12 +196,32 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background: linear-gradient(45deg, rgba(139, 69, 19, 0.1), transparent);
+            background: linear-gradient(45deg, rgba(139, 69, 19, 0.1) 0%, rgba(255, 255, 255, 0.1) 100%);
         }
 
         .hero-content {
             position: relative;
             z-index: 1;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-content h1 {
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: var(--dark-brown);
         }
 
         /* Button Styles */
@@ -153,15 +230,34 @@
             border: none;
             color: white;
             padding: 12px 28px;
-            border-radius: 6px;
-            font-weight: 500;
+            border-radius: 8px;
+            font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn-brown:hover {
             background-color: var(--dark-brown);
             color: white;
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-brown:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-outline-dark {
+            font-weight: 600;
+            border-width: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-dark:hover {
+            background-color: var(--text-brown);
+            border-color: var(--text-brown);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
         }
 
         /* Card Styles */
@@ -170,11 +266,14 @@
             border: none;
             border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+            transform-origin: center bottom;
         }
 
         .book-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.12);
         }
 
         .price {
@@ -183,16 +282,26 @@
             font-weight: 600;
         }
 
-        /* Add to existing styles */
         .price-badge {
             background-color: var(--subtle-brown);
             color: var(--primary-brown);
             padding: 6px 12px;
             border-radius: 20px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.9rem;
             display: inline-block;
-            margin-top: 8px;
+            margin-top: 12px;
+            box-shadow: 0 2px 4px rgba(139, 69, 19, 0.15);
+        }
+
+        .book-card .card-img-top {
+            height: 240px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .book-card:hover .card-img-top {
+            transform: scale(1.05);
         }
 
         .book-card .card-body {
@@ -201,85 +310,130 @@
 
         .book-card .card-title {
             margin-bottom: 0.5rem;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.1rem;
         }
 
         .book-card .text-muted {
             font-size: 0.9rem;
+            margin-bottom: 0.8rem;
         }
 
         /* Features Section */
-        .feature-icon {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            background-color: var(--subtle-brown);
-            color: var(--primary-brown);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 1rem;
+        .about-section {
+            padding: 100px 0;
+            background-color: #fcf9f5;
         }
 
-        .price-badge {
-            background-color: var(--subtle-brown);
+        .about-card {
+            padding: 2rem;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-icon {
+            font-size: 2.5rem;
             color: var(--primary-brown);
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
             display: inline-block;
-            margin-top: 8px;
         }
 
-        .book-card .card-body {
-            padding: 1.5rem;
+        /* Section headings */
+        section h2 {
+            position: relative;
+            font-weight: 700;
+            color: var(--dark-brown);
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
         }
 
-        .book-card .card-title {
-            margin-bottom: 0.5rem;
-            font-weight: 600;
+        section h2:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 80px;
+            height: 3px;
+            background: var(--primary-brown);
+            transform: translateX(-50%);
         }
 
-        .book-card .text-muted {
-            font-size: 0.9rem;
+        /* Footer */
+        footer {
+            background: linear-gradient(to right, var(--dark-brown), var(--primary-brown));
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--light-brown), var(--primary-brown));
         }
 
         .footer-social-links a {
             color: white;
             font-size: 1.5rem;
-            margin: 0 10px;
-            transition: color 0.3s ease;
+            margin: 0 12px;
+            transition: all 0.3s ease;
+            opacity: 0.9;
         }
 
         .footer-social-links a:hover {
             color: var(--subtle-brown);
+            transform: translateY(-3px);
+            opacity: 1;
         }
 
         .footer-contact {
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-contact p {
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
         }
 
         .footer-contact a {
             color: white;
             text-decoration: none;
             transition: color 0.3s ease;
+            margin-left: 8px;
         }
 
         .footer-contact a:hover {
             color: var(--subtle-brown);
+            text-decoration: underline;
+        }
+
+        /* Bestselling section */
+        #books {
+            padding: 100px 0;
+            background-color: white;
         }
 
         /* Responsive Styles */
         @media (max-width: 768px) {
             .hero-section {
-                padding: 80px 0;
+                padding: 100px 0 80px;
             }
 
             .hero-content {
                 text-align: center;
-                margin-bottom: 2rem;
+                margin-bottom: 3rem;
             }
 
             .hero-content h1 {
@@ -288,6 +442,11 @@
 
             .hero-content .d-flex {
                 justify-content: center;
+                flex-wrap: wrap;
+            }
+
+            .hero-content .btn {
+                margin: 0.5rem;
             }
 
             .book-card {
@@ -304,22 +463,35 @@
 
             .footer-social-links {
                 justify-content: center;
+                margin: 1.5rem 0;
             }
 
             .col-md-4.text-end {
                 text-align: center !important;
                 margin-top: 2rem;
             }
+
+            section {
+                padding: 60px 0;
+            }
+
+            section h2 {
+                margin-bottom: 2rem;
+            }
         }
 
         @media (max-width: 576px) {
             .navbar-brand {
-                font-size: 1.2rem;
+                font-size: 1.3rem;
             }
 
             .nav-link.btn-brown {
                 padding: 8px 20px;
                 font-size: 0.85rem;
+                display: block;
+                margin: 1rem auto;
+                text-align: center;
+                width: 80%;
             }
 
             .hero-content h1 {
@@ -332,56 +504,107 @@
 
             .btn-brown,
             .btn-outline-dark {
-                padding: 8px 16px;
+                padding: 10px 20px;
                 font-size: 0.9rem;
+                width: 100%;
+                margin: 0.5rem 0;
             }
+
+            .hero-content .d-flex {
+                flex-direction: column;
+            }
+
+            .about-card {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        .visually-hidden {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* Focus styles for better accessibility */
+        a:focus,
+        button:focus {
+            outline: 3px solid rgba(139, 69, 19, 0.5);
+            outline-offset: 2px;
         }
 
         /* Add smooth scrolling */
         html {
             scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+            /* Adjust based on navbar height */
         }
 
-        /* Improve touch targets for mobile */
-        .nav-link,
-        .btn {
-            padding: 0.5rem 1rem;
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-brown);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 99;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
-        /* Ensure images are responsive */
-        img {
-            max-width: 100%;
-            height: auto;
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
         }
 
-        /* Add padding for mobile navbar */
-        .navbar {
-            padding: 1rem 0;
+        .back-to-top:hover {
+            background: var(--dark-brown);
+            transform: translateY(-3px);
         }
 
-        /* Improve card spacing on mobile */
-        .row.g-4 {
-            margin: 0 -0.5rem;
+        /* Loading animation */
+        .book-img-skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
         }
 
-        .row.g-4>[class*="col-"] {
-            padding: 0 0.5rem;
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
     </style>
-</head>
 
-<body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg sticky-top">
         <div class="container">
-            <a class="navbar-brand" href="#">BookHaven</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <a class="navbar-brand" href="#" aria-label="BookHaven Home">BookHaven</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
+                        <a class="nav-link" href="#home" aria-current="page">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#books">Books</a>
@@ -411,7 +634,8 @@
                     </div>
                 </div>
                 <div class="col-lg-6">
-                    <img src="{{ route('login.image') }}" alt="Books Collection" class="img-fluid rounded-4 shadow">
+                    <img src="{{ route('login.image') }}" alt="Books Collection" class="img-fluid rounded-4 shadow"
+                        loading="lazy">
                 </div>
             </div>
         </div>
@@ -422,50 +646,22 @@
         <div class="container">
             <h2 class="text-center mb-5">Bestselling Books</h2>
             <div class="row g-4">
-
-                <div class="col-md-3">
-                    <div class="card book-card h-100">
-                        <img src="{{ route('login.image') }}" class="card-img-top" alt="Book Cover">
-                        <div class="card-body">
-                            <h5 class="card-title">The Great Adventure</h5>
-                            <p class="card-text text-muted">John Doe</p>
-                            <span class="price-badge">$19.99</span>
+                @foreach ($bestSellingBooks as $book)
+                    <div class="col-md-3">
+                        <div class="card book-card h-100">
+                            <div class="position-relative overflow-hidden">
+                                <img src="{{ $book->image ? asset('storage/' . $book->image) : route('default.image') }}"
+                                    class="card-img-top" alt="{{ $book->bookname }}" loading="lazy"
+                                    onerror="this.classList.add('book-img-skeleton'); this.onerror=null;">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">{{ $book->bookname }}</h5>
+                                <p class="card-text text-muted">{{ $book->author }}</p>
+                                <span class="price-badge">${{ number_format($book->bookprice, 2) }}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card book-card h-100">
-                        <img src="{{ route('login.image') }}" class="card-img-top" alt="Book Cover">
-                        <div class="card-body">
-                            <h5 class="card-title">The Great Adventure</h5>
-                            <p class="card-text text-muted">John Doe</p>
-                            <span class="price-badge">$19.99</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="card book-card h-100">
-                        <img src="{{ route('login.image') }}" class="card-img-top" alt="Book Cover">
-                        <div class="card-body">
-                            <h5 class="card-title">The Great Adventure</h5>
-                            <p class="card-text text-muted">John Doe</p>
-                            <span class="price-badge">$19.99</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card book-card h-100">
-                        <img src="{{ route('login.image') }}" class="card-img-top" alt="Book Cover">
-                        <div class="card-body">
-                            <h5 class="card-title">The Great Adventure</h5>
-                            <p class="card-text text-muted">John Doe</p>
-                            <span class="price-badge">$19.99</span>
-                        </div>
-                    </div>
-                </div>
-
-
+                @endforeach
             </div>
         </div>
     </section>
@@ -523,11 +719,11 @@
                 </div>
                 <div class="col-md-4 text-center">
                     <h5 class="mb-3">Follow Us</h5>
-                    <div class="footer-social-links">
-                        <a href="#" target="_blank"><i class="bi bi-facebook"></i></a>
-                        <a href="#" target="_blank"><i class="bi bi-twitter"></i></a>
-                        <a href="#" target="_blank"><i class="bi bi-instagram"></i></a>
-                        <a href="#" target="_blank"><i class="bi bi-linkedin"></i></a>
+                    <div class="footer-social-links d-flex justify-content-center">
+                        <a href="#" target="_blank" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="#" target="_blank" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="#" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="#" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4 text-end">
@@ -539,12 +735,15 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{ asset('assets/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Back to top button -->
+    <a href="#" class="back-to-top" aria-label="Back to top">
+        <i class="bi bi-arrow-up"></i>
+    </a>
 
+    <!-- Custom JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu handling
             const navbarToggler = document.querySelector('.navbar-toggler');
             const navbarCollapse = document.querySelector('.navbar-collapse');
 
@@ -566,8 +765,55 @@
                     navbarCollapse.classList.remove('show');
                 });
             });
+
+            // Navbar scroll effect
+            const navbar = document.querySelector('.navbar');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+
+            // Back to top button
+            const backToTopButton = document.querySelector('.back-to-top');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) {
+                    backToTopButton.classList.add('show');
+                } else {
+                    backToTopButton.classList.remove('show');
+                }
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') !== '#') {
+                        e.preventDefault();
+                        const target = document.querySelector(this.getAttribute('href'));
+                        if (target) {
+                            window.scrollTo({
+                                top: target.offsetTop - 70,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Lazy load images
+            if ('loading' in HTMLImageElement.prototype) {
+                const images = document.querySelectorAll('img[loading="lazy"]');
+                images.forEach(img => {
+                    img.src = img.src;
+                });
+            } else {
+                // Fallback for browsers that don't support lazy loading
+                const script = document.createElement('script');
+                script.src = 'https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js';
+                document.body.appendChild(script);
+            }
         });
     </script>
-</body>
-
-</html>
+@endsection

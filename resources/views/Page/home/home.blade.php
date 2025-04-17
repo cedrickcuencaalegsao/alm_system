@@ -3,7 +3,6 @@
 
 @section('content')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    {{-- {{ dd($books) }} --}}
     <section class="py-5" id="best-selling">
         <div class="container">
             <h2 class="mb-4">Best Selling Books</h2>

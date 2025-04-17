@@ -86,7 +86,7 @@ class SystemSeeder extends Seeder
                 'stocks' => rand(5, 1000),
                 'bookcategory' => $category,
                 'datepublish' => "$year-$month-$day",
-                'image' => 'book-'.$i.'.jpg',
+                'image' => null,
                 'bookprice' => rand(100, 1000) + (rand(0, 99) / 100),
                 'isDeleted' => false,
                 'createdAt' => now()->toDateTimeString(),
