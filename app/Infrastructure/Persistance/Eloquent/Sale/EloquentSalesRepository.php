@@ -17,7 +17,7 @@ class EloquentSalesRepository implements SaleRepository
         $saleData->bookID = $sales->getBookID();
         $saleData->userID = $sales->getUserID();
         $saleData->refID = $sales->getRefID();
-        $saleData->quantity = $sales->getBookSold();
+        $saleData->quantity = $sales->getQuantity();
         $saleData->status = $sales->getStatus();
         $saleData->totalsales = $sales->getTotalSales();
         $saleData->tax = $sales->getTax();
@@ -36,7 +36,7 @@ class EloquentSalesRepository implements SaleRepository
         $saleData->bookID = $sales->getBookID();
         $saleData->userID = $sales->getUserID();
         $saleData->refID = $sales->getRefID();
-        $saleData->quantity = $sales->getBookSold();
+        $saleData->quantity = $sales->getQuantity();
         $saleData->status = $sales->getStatus();
         $saleData->totalsales = $sales->getTotalSales();
         $saleData->tax = $sales->getTax();

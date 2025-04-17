@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Order\WEB;
 
 use App\Application\Book\RegisterBook;
+use App\Application\Cart\RegisterCart;
 use App\Application\Sales\RegisterSales;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,10 +14,13 @@ class OrderWEBController extends Controller
 
     private RegisterBook $registerBook;
 
-    public function __construct(RegisterSales $registerSales, RegisterBook $registerBook)
+    private RegisterCart $registerCart;
+
+    public function __construct(RegisterSales $registerSales, RegisterBook $registerBook, RegisterCart $registerCart)
     {
         $this->registerSales = $registerSales;
         $this->registerBook = $registerBook;
+        $this->registerCart = $registerCart;
     }
 
     /**
@@ -63,6 +67,8 @@ class OrderWEBController extends Controller
                 'tax' => $tax,
                 'totalsales' => $sales + $tax,
             ];
+
+            $this->registerCart->softDelete($cartID);
         }
         // Create sales records for all items
         foreach ($salesData as $data) {
@@ -96,6 +102,7 @@ class OrderWEBController extends Controller
             'totalsales' => $totalsales,
         ];
 
+        $this->registerCart->softDelete($request->cart_id);
         $this->registerSales->createSales($data);
         $this->updateStockWhenItemBought($request->book_id, $request->quantity);
 
@@ -183,7 +190,6 @@ class OrderWEBController extends Controller
     {
         $userID = decrypt($userID);
         $sales = $this->registerSales->findAllUserOrders($userID);
-        // dd($sales);
 
         return view('Page.Order.order', compact('sales'));
     }

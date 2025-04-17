@@ -26,15 +26,15 @@ class Sale
 
     private ?string $updatedAt;
 
-    private ?string $bookname;
+    public ?string $bookname;
 
-    private ?float $bookprice;
+    public ?float $bookprice;
 
-    private ?string $image;
+    public ?string $image;
 
-    private ?string $author;
+    public ?string $author;
 
-    private ?string $bookcategory;
+    public ?string $bookcategory;
 
     public function __construct(
         ?int $id,

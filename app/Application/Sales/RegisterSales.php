@@ -29,6 +29,13 @@ class RegisterSales
             $data['tax'],
             Carbon::now(),
             Carbon::now(),
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
+            null,
         );
 
         return $this->salesRepository->create($sales);
