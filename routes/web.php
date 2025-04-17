@@ -25,7 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
     Route::get('/cart/{userID}', [CartWebController::class, 'index'])->name('view.cart');
     Route::get('/profile/{userID}', [UserWebController::class, 'index'])->name('view.profile');
-    Route::get('/orders', [OrderWEBController::class, 'index'])->name('view.orders');
+    Route::get('/orders/{userID}', [OrderWEBController::class, 'index'])->name('view.orders');
     Route::post('/add-to-cart', [CartWebController::class, 'addToCart'])->name('add.to.cart');
     Route::post('/remove-from-cart/{cartID}', [CartWebController::class, 'softDelete'])->name('remove.from.cart');
     Route::get('/checkout/{bookID}', [OrderWEBController::class, 'viewCheckout'])->name('view.checkout');

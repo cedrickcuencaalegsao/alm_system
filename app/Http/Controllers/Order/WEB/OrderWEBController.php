@@ -179,8 +179,12 @@ class OrderWEBController extends Controller
     /**
      * Function to view order page.
      * **/
-    public function index()
+    public function index(string $userID)
     {
-        return view('Page.Order.order');
+        $userID = decrypt($userID);
+        $sales = $this->registerSales->findAllUserOrders($userID);
+        // dd($sales);
+
+        return view('Page.Order.order', compact('sales'));
     }
 }

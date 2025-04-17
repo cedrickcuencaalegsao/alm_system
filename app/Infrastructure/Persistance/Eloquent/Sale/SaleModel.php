@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistance\Eloquent\Sale;
 
+use App\Infrastructure\Persistance\Eloquent\Book\BookModel;
 use Illuminate\Database\Eloquent\Model;
 
 class SaleModel extends Model
@@ -22,4 +23,9 @@ class SaleModel extends Model
     const CREATED_AT = 'createdAt';
 
     const UPDATED_AT = 'updatedAt';
+
+    public function book()
+    {
+        return $this->belongsTo(BookModel::class, 'bookID', 'bookID');
+    }
 }

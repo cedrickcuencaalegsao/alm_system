@@ -12,10 +12,12 @@
         :root {
             --primary: #8B4513;
             --primary-light: #A0522D;
+            --primary-dark: #5D2906;
+            --primary-very-light: #D2B48C;
             --secondary: #FDF5E6;
-            --text-dark: #333;
-            --text-muted: #6c757d;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --text-dark: #4A3728;
+            --text-muted: #8D7B6C;
+            --shadow: 0 4px 12px rgba(139, 69, 19, 0.15);
             --radius: 12px;
         }
 
@@ -46,6 +48,7 @@
             padding: 0.5rem 1.25rem;
             transition: all 0.2s;
             font-weight: 500;
+            background-color: transparent;
         }
 
         .back-btn:hover,
@@ -57,9 +60,9 @@
         }
 
         .section-title {
-            font-weight: 600;
-            color: var(--text-dark);
-            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 1.6rem;
             margin-bottom: 1.5rem;
             position: relative;
             padding-bottom: 0.5rem;
@@ -70,8 +73,8 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 50px;
-            height: 3px;
+            width: 60px;
+            height: 4px;
             background-color: var(--primary);
             border-radius: 3px;
         }
@@ -85,6 +88,7 @@
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             padding: 2rem;
+            border-left: 5px solid var(--primary);
         }
 
         .progress-track {
@@ -149,6 +153,16 @@
             font-weight: 600;
         }
 
+        .orders-list .row {
+            margin-right: -12px;
+            margin-left: -12px;
+        }
+
+        .orders-list .col {
+            padding-right: 12px;
+            padding-left: 12px;
+        }
+
         .order-item {
             background-color: white;
             border-radius: var(--radius);
@@ -156,47 +170,85 @@
             padding: 1.5rem;
             margin-bottom: 1.5rem;
             transition: all 0.3s;
-            border-left: 4px solid var(--primary);
+            border-left: 5px solid var(--primary);
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .order-item:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 120px;
+            height: 120px;
+            background-color: var(--primary-very-light);
+            opacity: 0.15;
+            border-radius: 0 0 0 120px;
         }
 
         .order-item:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 20px rgba(139, 69, 19, 0.2);
         }
 
         .order-item img {
-            width: 65px;
-            height: 90px;
+            width: 75px;
+            height: 100px;
             object-fit: cover;
-            border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            border: 2px solid var(--primary-very-light);
         }
 
         .badge {
-            padding: 0.5rem 1rem;
-            font-weight: 500;
+            padding: 0.5rem 1.15rem;
+            font-weight: 600;
             border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: white;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .badge-success {
-            background-color: #d4edda;
-            color: #155724;
+            background-color: #2E7D32;
         }
 
         .badge-processing {
-            background-color: #fff3cd;
-            color: #856404;
+            background-color: #FF8F00;
+            color: #212529;
+        }
+
+        .badge-delivering {
+            background-color: #1976D2;
+        }
+
+        .badge-pending {
+            background-color: #757575;
+        }
+
+        .badge i {
+            font-size: 0.9rem;
         }
 
         .track-btn {
             color: var(--primary);
             border-color: var(--primary);
             border-radius: 50px;
-            padding: 0.4rem 1rem;
+            padding: 0.4rem 1.25rem;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            font-weight: 500;
         }
 
         .track-btn:hover,
@@ -204,24 +256,57 @@
             background-color: var(--primary);
             border-color: var(--primary);
             color: white;
+            box-shadow: var(--shadow);
+        }
+
+        .order-details {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .order-detail-wrapper {
             display: flex;
-            gap: 1rem;
-            align-items: center;
+            gap: 1.25rem;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .order-detail-info {
+            flex-grow: 1;
         }
 
         .order-detail-info h6 {
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 0.25rem;
+            color: var(--primary-dark);
+            font-size: 1.05rem;
         }
 
         .order-price {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--primary);
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             margin-bottom: 0.75rem;
+            position: relative;
+        }
+
+        .order-price:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background-color: var(--primary-light);
+            border-radius: 2px;
+        }
+
+        .order-actions {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .timeline-item {
@@ -265,30 +350,37 @@
         .timeline-content strong {
             display: block;
             margin-bottom: 0.25rem;
+            color: var(--primary-dark);
         }
 
         .modal-content {
             border-radius: var(--radius);
             border: none;
+            background-color: var(--secondary);
         }
 
         .modal-header {
             border-bottom: none;
             padding: 1.5rem 1.5rem 0.5rem;
+            background-color: white;
+            border-radius: var(--radius) var(--radius) 0 0;
         }
 
         .modal-footer {
             border-top: none;
             padding: 0.5rem 1.5rem 1.5rem;
+            background-color: white;
+            border-radius: 0 0 var(--radius) var(--radius);
         }
 
         .modal-body {
             padding: 1.5rem;
+            background-color: white;
         }
 
         .modal-title {
-            font-weight: 600;
-            color: var(--text-dark);
+            font-weight: 700;
+            color: var(--primary-dark);
         }
 
         .current-status {
@@ -297,6 +389,8 @@
             align-items: center;
             justify-content: center;
             padding: 1.5rem 0;
+            background-color: var(--secondary);
+            border-radius: var(--radius);
         }
 
         .current-status .badge {
@@ -308,20 +402,25 @@
         .empty-state {
             text-align: center;
             padding: 3rem 1rem;
+            background-color: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--primary);
         }
 
         .empty-state i {
-            font-size: 3rem;
-            color: var(--text-muted);
+            font-size: 3.5rem;
+            color: var(--primary-light);
             margin-bottom: 1.5rem;
         }
 
         .empty-state h5 {
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 1rem;
+            color: var(--primary-dark);
         }
 
-        /* Responsive Styles */
+        /* Improved responsive layout */
         @media (max-width: 767px) {
             .container {
                 padding: 1rem;
@@ -349,22 +448,28 @@
 
             .order-detail-wrapper {
                 flex-direction: column;
-                align-items: flex-start;
+                align-items: center;
+                text-align: center;
             }
 
-            .order-item {
-                padding: 1.25rem;
+            .order-detail-info {
+                width: 100%;
+                margin-top: 1rem;
             }
 
             .order-actions {
-                margin-top: 1rem;
-                display: flex;
-                justify-content: space-between;
-                width: 100%;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
             }
 
-            .timeline-item {
-                padding-left: 24px;
+            .order-price {
+                margin-bottom: 0;
+            }
+
+            .order-price:after {
+                left: 50%;
+                transform: translateX(-50%);
             }
         }
 
@@ -390,318 +495,244 @@
         <!-- Recent Orders Section -->
         <div class="recent-orders">
             <div class="orders-list">
-                <!-- Sample Order Items -->
-                <div class="order-item">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h5 class="mb-1">Order #12345</h5>
-                            <p class="text-muted mb-0">Placed on Jan 15, 2024</p>
-                        </div>
-                        <span class="badge badge-success">Delivered</span>
-                    </div>
-                    <hr>
-                    <div class="order-details">
-                        <div class="row align-items-center">
-                            <div class="col-md-8 col-sm-12 mb-3 mb-md-0">
-                                <div class="order-detail-wrapper">
-                                    <img src="https://via.placeholder.com/65x90" alt="Book cover" class="me-3">
-                                    <div class="order-detail-info">
-                                        <h6>The Great Gatsby</h6>
-                                        <p class="mb-0 text-muted">Quantity: 1</p>
+                @if (isset($sales) && count($sales) > 0)
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        @foreach ($sales as $index => $sale)
+                            <div class="col">
+                                <div class="order-item">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <h5 class="mb-1">Order #{{ $sale->getSalesID() }}</h5>
+                                            <p class="text-muted mb-0">Placed on
+                                                {{ date('M d, Y', strtotime($sale->getCreatedAt())) }}</p>
+                                        </div>
+                                        <span
+                                            class="badge badge-{{ $sale->getStatus() === 'delivered' ? 'success' : ($sale->getStatus() === 'processing' ? 'processing' : ($sale->getStatus() === 'delivering' ? 'delivering' : 'pending')) }}">
+                                            @if ($sale->getStatus() === 'delivered')
+                                                <i class="bi bi-check-circle"></i>
+                                            @elseif ($sale->getStatus() === 'processing')
+                                                <i class="bi bi-gear-fill"></i>
+                                            @elseif ($sale->getStatus() === 'delivering')
+                                                <i class="bi bi-truck"></i>
+                                            @else
+                                                <i class="bi bi-clock-history"></i>
+                                            @endif
+                                            {{ ucfirst($sale->getStatus()) }}
+                                        </span>
+                                    </div>
+                                    <hr>
+                                    <div class="order-details">
+                                        <div class="order-detail-wrapper">
+                                            <img src="#" alt="{{ $sale->getBookName() }} cover">
+                                            <div class="order-detail-info">
+                                                <h6>{{ $sale->getBookName() }}</h6>
+                                                <p class="mb-0 text-muted">Quantity: {{ $sale->getQuantity() }}</p>
+                                                <p class="mb-0 text-muted">Author: {{ $sale->getAuthor() }}</p>
+                                                <p class="mb-0 text-muted">Category: {{ $sale->getBookCategory() }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="order-actions">
+                                            <div class="order-price">${{ number_format($sale->getTotalSales(), 2) }}
+                                            </div>
+                                            <button class="btn track-btn" data-bs-toggle="modal"
+                                                data-bs-target="#trackModal{{ $sale->getId() }}">
+                                                <i class="bi bi-geo-alt"></i>Track Order
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-4 col-sm-12 d-flex justify-content-between align-items-center">
-                                <div class="order-price">$24.99</div>
-                                <button class="btn track-btn" data-bs-toggle="modal" data-bs-target="#trackModal12345">
-                                    <i class="bi bi-geo-alt"></i>Track Order
-                                </button>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
-                </div>
-
-                <div class="order-item">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h5 class="mb-1">Order #12344</h5>
-                            <p class="text-muted mb-0">Placed on Jan 10, 2024</p>
-                        </div>
-                        <span class="badge badge-success">Delivered</span>
+                @else
+                    <div class="empty-state">
+                        <i class="bi bi-bag-x"></i>
+                        <h5>No Orders Found</h5>
+                        <p class="text-muted">You haven't placed any orders yet.</p>
+                        <a href="/books" class="btn back-btn mt-3">Start Shopping</a>
                     </div>
-                    <hr>
-                    <div class="order-details">
-                        <div class="row align-items-center">
-                            <div class="col-md-8 col-sm-12 mb-3 mb-md-0">
-                                <div class="order-detail-wrapper">
-                                    <img src="https://via.placeholder.com/65x90" alt="Book cover" class="me-3">
-                                    <div class="order-detail-info">
-                                        <h6>1984</h6>
-                                        <p class="mb-0 text-muted">Quantity: 2</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-12 d-flex justify-content-between align-items-center">
-                                <div class="order-price">$39.98</div>
-                                <button class="btn track-btn" data-bs-toggle="modal" data-bs-target="#trackModal12344">
-                                    <i class="bi bi-geo-alt"></i>Track Order
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Example of an In-Progress Order -->
-                <div class="order-item">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <div>
-                            <h5 class="mb-1">Order #12346</h5>
-                            <p class="text-muted mb-0">Placed on Jan 22, 2024</p>
-                        </div>
-                        <span class="badge badge-processing">Processing</span>
-                    </div>
-                    <hr>
-                    <div class="order-details">
-                        <div class="row align-items-center">
-                            <div class="col-md-8 col-sm-12 mb-3 mb-md-0">
-                                <div class="order-detail-wrapper">
-                                    <img src="https://via.placeholder.com/65x90" alt="Book cover" class="me-3">
-                                    <div class="order-detail-info">
-                                        <h6>To Kill a Mockingbird</h6>
-                                        <p class="mb-0 text-muted">Quantity: 1</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4 col-sm-12 d-flex justify-content-between align-items-center">
-                                <div class="order-price">$19.99</div>
-                                <button class="btn track-btn" data-bs-toggle="modal" data-bs-target="#trackModal12346">
-                                    <i class="bi bi-geo-alt"></i>Track Order
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Empty state (only shown when no orders) -->
-                <!--
-                <div class="empty-state">
-                    <i class="bi bi-bag"></i>
-                    <h5>No orders yet</h5>
-                    <p class="text-muted">When you place an order, it will appear here</p>
-                    <a href="/" class="btn back-btn mt-3">Browse Books</a>
-                </div>
-                -->
+                @endif
             </div>
         </div>
     </div>
+
+    {{-- {{ dd($sales) }} --}}
+
+    <!-- Overall Order Progress Section -->
+    @if (isset($sales) && count($sales) > 0)
+        <div class="container order-tracker mt-4 mb-5">
+            <h2 class="section-title">Order Progress</h2>
+            <div class="tracker-wrapper">
+                <div class="progress-track">
+                    <div class="step active">
+                        <span class="icon"><i class="bi bi-check-circle-fill"></i></span>
+                        <span class="text">Orders Placed</span>
+                    </div>
+                    <div
+                        class="step {{ collect($sales)->contains(function ($sale) {return $sale->getStatus() === 'processing';})? 'active': '' }}">
+                        <span class="icon"><i class="bi bi-box-seam"></i></span>
+                        <span class="text">Processing</span>
+                    </div>
+                    <div
+                        class="step {{ collect($sales)->contains(function ($sale) {return $sale->getStatus() === 'delivering';})? 'active': '' }}">
+                        <span class="icon"><i class="bi bi-truck"></i></span>
+                        <span class="text">Delivering</span>
+                    </div>
+                    <div
+                        class="step {{ collect($sales)->contains(function ($sale) {return $sale->getStatus() === 'delivered';})? 'active': '' }}">
+                        <span class="icon"><i class="bi bi-house-check"></i></span>
+                        <span class="text">Delivered</span>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <p class="text-muted">This tracker shows the status of your most recent orders</p>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <!-- Order Tracking Modals -->
-    <div class="modal fade" id="trackModal12345" tabindex="-1" aria-labelledby="trackModalLabel12345"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="trackModalLabel12345">Track Order #12345</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="progress-track">
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-check-circle-fill"></i></span>
-                            <span class="text">Order Placed</span>
+    @if (isset($sales) && count($sales) > 0)
+        @foreach ($sales as $index => $sale)
+            <div class="modal fade" id="trackModal{{ $sale->getId() }}" tabindex="-1"
+                aria-labelledby="trackModalLabel{{ $sale->getId() }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="trackModalLabel{{ $sale->getId() }}">Track Order
+                                #{{ $sale->getSalesID() }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                         </div>
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-box-seam"></i></span>
-                            <span class="text">Processing</span>
-                        </div>
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-truck"></i></span>
-                            <span class="text">Shipped</span>
-                        </div>
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-house-check"></i></span>
-                            <span class="text">Delivered</span>
-                        </div>
-                    </div>
-                    <div class="current-status mt-3 text-center">
-                        <span class="badge badge-success">Delivered</span>
-                        <p class="text-muted small mt-2">Delivered on Jan 20, 2024</p>
-                    </div>
-                    <div class="tracking-details mt-4">
-                        <h6>Tracking History</h6>
-                        <div class="tracking-timeline mt-4">
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 20, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Delivered</strong>
-                                    <p class="mb-0 small">Package was delivered at the doorstep</p>
+                        <div class="modal-body">
+                            <div class="progress-track">
+                                <div class="step active">
+                                    <span class="icon"><i class="bi bi-check-circle-fill"></i></span>
+                                    <span class="text">Order Placed</span>
+                                </div>
+                                <div
+                                    class="step {{ in_array($sale->getStatus(), ['processing', 'delivering', 'delivered']) ? 'active' : '' }}">
+                                    <span class="icon"><i class="bi bi-box-seam"></i></span>
+                                    <span class="text">Processing</span>
+                                </div>
+                                <div
+                                    class="step {{ in_array($sale->getStatus(), ['delivering', 'delivered']) ? 'active' : '' }}">
+                                    <span class="icon"><i class="bi bi-truck"></i></span>
+                                    <span class="text">Delivering</span>
+                                </div>
+                                <div class="step {{ $sale->getStatus() === 'delivered' ? 'active' : '' }}">
+                                    <span class="icon"><i class="bi bi-house-check"></i></span>
+                                    <span class="text">Delivered</span>
                                 </div>
                             </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 18, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Out for Delivery</strong>
-                                    <p class="mb-0 small">Package is out for delivery</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 17, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Shipped</strong>
-                                    <p class="mb-0 small">Package has been shipped</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 15, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Order Placed</strong>
-                                    <p class="mb-0 small">Your order has been confirmed</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+                            <div class="current-status mt-3 text-center">
 
-    <div class="modal fade" id="trackModal12344" tabindex="-1" aria-labelledby="trackModalLabel12344"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="trackModalLabel12344">Track Order #12344</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="progress-track">
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-check-circle-fill"></i></span>
-                            <span class="text">Order Placed</span>
+                                <span
+                                    class="badge badge-{{ $sale->getStatus() === 'delivered' ? 'success' : ($sale->getStatus() === 'processing' ? 'processing' : ($sale->getStatus() === 'delivering' ? 'delivering' : 'pending')) }}">
+                                    @if ($sale->getStatus() === 'delivered')
+                                        <i class="bi bi-check-circle"></i>
+                                    @elseif ($sale->getStatus() === 'processing')
+                                        <i class="bi bi-gear-fill"></i>
+                                    @elseif ($sale->getStatus() === 'delivering')
+                                        <i class="bi bi-truck"></i>
+                                    @else
+                                        <i class="bi bi-clock-history"></i>
+                                    @endif
+                                    {{ ucfirst($sale->getStatus()) }}
+                                </span>
+                                @if ($sale->getStatus() === 'pending')
+                                    <p class="text-muted small mt-2">Your order is being reviewed</p>
+                                @elseif($sale->getStatus() === 'processing')
+                                    <p class="text-muted small mt-2">Estimated delivery:
+                                        {{ date('M d, Y', strtotime($sale->getCreatedAt() . ' + 7 days')) }}</p>
+                                @elseif($sale->getStatus() === 'delivering')
+                                    <p class="text-muted small mt-2">Estimated delivery:
+                                        {{ date('M d, Y', strtotime($sale->getCreatedAt() . ' + 3 days')) }}</p>
+                                @elseif($sale->getStatus() === 'delivered')
+                                    <p class="text-muted small mt-2">Delivered on
+                                        {{ date('M d, Y', strtotime($sale->getUpdatedAt())) }}</p>
+                                @endif
+                            </div>
+                            <div class="tracking-details mt-4">
+                                <h6>Tracking History</h6>
+                                <div class="tracking-timeline mt-4">
+                                    @if ($sale->getStatus() === 'delivered')
+                                        <div class="timeline-item">
+                                            <div class="timeline-date">
+                                                {{ date('M d, Y', strtotime($sale->getUpdatedAt())) }}</div>
+                                            <div class="timeline-content">
+                                                <strong>Delivered</strong>
+                                                <p class="mb-0 small">Package was delivered at the doorstep</p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <div class="timeline-date">
+                                                {{ date('M d, Y', strtotime($sale->getCreatedAt() . ' + 4 days')) }}
+                                            </div>
+                                            <div class="timeline-content">
+                                                <strong>Out for Delivery</strong>
+                                                <p class="mb-0 small">Package is out for delivery</p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <div class="timeline-date">
+                                                {{ date('M d, Y', strtotime($sale->getCreatedAt() . ' + 2 days')) }}
+                                            </div>
+                                            <div class="timeline-content">
+                                                <strong>Delivering</strong>
+                                                <p class="mb-0 small">Package has been shipped</p>
+                                            </div>
+                                        </div>
+                                    @elseif($sale->getStatus() === 'delivering')
+                                        <div class="timeline-item">
+                                            <div class="timeline-date">
+                                                {{ date('M d, Y', strtotime($sale->getUpdatedAt())) }}</div>
+                                            <div class="timeline-content">
+                                                <strong>Delivering</strong>
+                                                <p class="mb-0 small">Package has been shipped</p>
+                                            </div>
+                                        </div>
+                                        <div class="timeline-item">
+                                            <div class="timeline-date">
+                                                {{ date('M d, Y', strtotime($sale->getCreatedAt() . ' + 1 day')) }}
+                                            </div>
+                                            <div class="timeline-content">
+                                                <strong>Processing</strong>
+                                                <p class="mb-0 small">Your order is being prepared for shipping</p>
+                                            </div>
+                                        </div>
+                                    @elseif($sale->getStatus() === 'processing')
+                                        <div class="timeline-item">
+                                            <div class="timeline-date">
+                                                {{ date('M d, Y', strtotime($sale->getUpdatedAt())) }}</div>
+                                            <div class="timeline-content">
+                                                <strong>Processing</strong>
+                                                <p class="mb-0 small">Your order is being prepared for shipping</p>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    <div class="timeline-item">
+                                        <div class="timeline-date">
+                                            {{ date('M d, Y', strtotime($sale->getCreatedAt())) }}
+                                        </div>
+                                        <div class="timeline-content">
+                                            <strong>Order Placed</strong>
+                                            <p class="mb-0 small">Your order has been confirmed</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-box-seam"></i></span>
-                            <span class="text">Processing</span>
-                        </div>
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-truck"></i></span>
-                            <span class="text">Shipped</span>
-                        </div>
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-house-check"></i></span>
-                            <span class="text">Delivered</span>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </div>
-                    <div class="current-status mt-3 text-center">
-                        <span class="badge badge-success">Delivered</span>
-                        <p class="text-muted small mt-2">Delivered on Jan 15, 2024</p>
-                    </div>
-                    <div class="tracking-details mt-4">
-                        <h6>Tracking History</h6>
-                        <div class="tracking-timeline mt-4">
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 15, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Delivered</strong>
-                                    <p class="mb-0 small">Package was delivered at the doorstep</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 13, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Out for Delivery</strong>
-                                    <p class="mb-0 small">Package is out for delivery</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 12, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Shipped</strong>
-                                    <p class="mb-0 small">Package has been shipped</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 10, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Order Placed</strong>
-                                    <p class="mb-0 small">Your order has been confirmed</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Additional Modal for the Processing Order -->
-    <div class="modal fade" id="trackModal12346" tabindex="-1" aria-labelledby="trackModalLabel12346"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="trackModalLabel12346">Track Order #12346</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="progress-track">
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-check-circle-fill"></i></span>
-                            <span class="text">Order Placed</span>
-                        </div>
-                        <div class="step active">
-                            <span class="icon"><i class="bi bi-box-seam"></i></span>
-                            <span class="text">Processing</span>
-                        </div>
-                        <div class="step">
-                            <span class="icon"><i class="bi bi-truck"></i></span>
-                            <span class="text">Shipped</span>
-                        </div>
-                        <div class="step">
-                            <span class="icon"><i class="bi bi-house-check"></i></span>
-                            <span class="text">Delivered</span>
-                        </div>
-                    </div>
-                    <div class="current-status mt-3 text-center">
-                        <span class="badge badge-processing">Processing</span>
-                        <p class="text-muted small mt-2">Estimated delivery: Jan 29, 2024</p>
-                    </div>
-                    <div class="tracking-details mt-4">
-                        <h6>Tracking History</h6>
-                        <div class="tracking-timeline mt-4">
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 23, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Processing</strong>
-                                    <p class="mb-0 small">Your order is being prepared for shipping</p>
-                                </div>
-                            </div>
-                            <div class="timeline-item">
-                                <div class="timeline-date">Jan 22, 2024</div>
-                                <div class="timeline-content">
-                                    <strong>Order Placed</strong>
-                                    <p class="mb-0 small">Your order has been confirmed</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+        @endforeach
+    @endif
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
-</html>
 
 </html>

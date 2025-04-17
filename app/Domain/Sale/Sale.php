@@ -26,6 +26,16 @@ class Sale
 
     private ?string $updatedAt;
 
+    private ?string $bookname;
+
+    private ?float $bookprice;
+
+    private ?string $image;
+
+    private ?string $author;
+
+    private ?string $bookcategory;
+
     public function __construct(
         ?int $id,
         ?string $salesID,
@@ -38,6 +48,11 @@ class Sale
         ?float $tax,
         ?string $createdAt,
         ?string $updatedAt,
+        ?string $bookname,
+        ?float $bookprice,
+        ?string $image,
+        ?string $author,
+        ?string $bookcategory,
     ) {
         $this->id = $id;
         $this->salesID = $salesID;
@@ -50,6 +65,33 @@ class Sale
         $this->tax = $tax;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->bookname = $bookname;
+        $this->bookprice = $bookprice;
+        $this->image = $image;
+        $this->author = $author;
+        $this->bookcategory = $bookcategory;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'salesID' => $this->salesID,
+            'bookID' => $this->bookID,
+            'userID' => $this->userID,
+            'refID' => $this->refID,
+            'quantity' => $this->quantity,
+            'status' => $this->status,
+            'totalsales' => $this->totalsales,
+            'tax' => $this->tax,
+            'createdAt' => $this->createdAt,
+            'updatedAt' => $this->updatedAt,
+            'bookname' => $this->bookname,
+            'bookprice' => $this->bookprice,
+            'image' => $this->image,
+            'author' => $this->author,
+            'bookcategory' => $this->bookcategory,
+        ];
     }
 
     public function getId(): ?int
@@ -77,7 +119,7 @@ class Sale
         return $this->refID;
     }
 
-    public function getBookSold(): ?int
+    public function getQuantity(): ?int
     {
         return $this->quantity;
     }
@@ -105,5 +147,30 @@ class Sale
     public function getUpdatedAt(): ?string
     {
         return $this->updatedAt;
+    }
+
+    public function getBookName(): ?string
+    {
+        return $this->bookname;
+    }
+
+    public function getBookPrice(): ?float
+    {
+        return $this->bookprice;
+    }
+
+    public function getBookImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function getAuthor(): ?string
+    {
+        return $this->author;
+    }
+
+    public function getBookCategory(): ?string
+    {
+        return $this->bookcategory;
     }
 }

@@ -165,11 +165,50 @@ class EloquentSalesRepository implements SaleRepository
         ))->toArray();
     }
 
+    /**
+     * Function to delete sales data.
+     * **/
     public function delete(string $saleID)
     {
         $saleData = SaleModel::where('salesID', $saleID)->first();
         if (! $saleData) {
             return null;
         }
+    }
+
+    /**
+     * Function to get all user orders.
+     * **/
+    public function findAllUserOrders(string $userID): array
+    {
+        $saleData = SaleModel::where('userID', $userID)
+            ->with('book')
+            ->orderBy('createdAt', 'desc')
+            ->where('isDeleted', false)
+            ->where('status', '!=', 'delivered')
+            ->get();
+        // dd($saleData);
+        if (! $saleData) {
+            return null;
+        }
+
+        return $saleData->map(fn ($sale) => new Sale(
+            $sale->id,
+            $sale->salesID,
+            $sale->bookID,
+            $sale->userID,
+            $sale->refID,
+            $sale->quantity,
+            $sale->status,
+            $sale->totalsales,
+            $sale->tax,
+            $sale->createdAt,
+            $sale->updatedAt,
+            $sale->book->bookname,
+            $sale->book->bookprice,
+            $sale->book->image,
+            $sale->book->author,
+            $sale->book->bookcategory,
+        ))->toArray();
     }
 }

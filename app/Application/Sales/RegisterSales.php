@@ -43,4 +43,9 @@ class RegisterSales
     {
         return $this->salesRepository->findByRefID($refID);
     }
+
+    public function findAllUserOrders(string $userID)
+    {
+        return $this->salesRepository->findAllUserOrders($userID);
+    }
 }

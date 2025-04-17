@@ -124,7 +124,7 @@ class SystemSeeder extends Seeder
             for ($i = 1; $i <= 10; $i++) {
                 $userID = $userIDs[array_rand($userIDs)];
                 $quantity = rand(1, 10);
-                $statuses = ['pending', 'delivered', 'delivering', 'cancelled'];
+                $statuses = ['pending', 'processing', 'delivering', 'delivered', 'cancelled'];
                 $status = $statuses[array_rand($statuses)];
                 $tax = $book->bookprice * $quantity * 0.12; // Assuming 12% tax
                 $totalSales = ($book->bookprice * $quantity) + $tax;
