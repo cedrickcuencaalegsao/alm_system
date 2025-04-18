@@ -47,7 +47,7 @@ class WebAuthController extends Controller
         return view('Page.Auth.Register');
     }
 
-    
+
     public function validateRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -78,6 +78,7 @@ class WebAuthController extends Controller
         ];
         $this->registerUser->create($newUser);
 
+        return redirect()->route('login')->with('success', 'Registration successful. Please login to continue.');
     }
 
     /**
@@ -107,7 +108,7 @@ class WebAuthController extends Controller
 
             $userId = $prefix.$randomPart;
 
-            $exists = $this->registerUser->findByUserID($userId);
+            $exists = $this->registerUser->findByUserID(encrypt($userId));
         } while ($exists !== null);
 
         return $userId;

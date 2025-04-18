@@ -25,6 +25,7 @@ class EloquentUserRepository implements UserRespository
         $newUser->contactnumber = $user->getContactNumber();
         $newUser->image = $user->getImage();
         $newUser->email = $user->getEmail();
+        $newUser->isDeleted = false;
         $newUser->password = Hash::make($user->getPassword());
         $newUser->created_at = Carbon::now()->toDateTimeString();
         $newUser->updated_at = Carbon::now()->toDateTimeString();

@@ -278,8 +278,8 @@
             <div class="row align-items-center">
                 <div class="col-md-3 text-center">
                     <div class="profile-image-container">
-                        <img src="{{ route('user.image', Auth::user()->image) }}" class="rounded-circle profile-image"
-                            alt="Profile Picture" id="profileImage">
+                        <img src="{{ route('user.image', Auth::user()->image ?? 'default.jpg') }}"
+                            class="rounded-circle profile-image" alt="Profile Picture" id="profileImage">
                         <label for="profilePicture" class="image-upload-btn" title="Change Profile Picture">
                             <i class="fas fa-camera"></i>
                         </label>
