@@ -36,17 +36,28 @@ class EloquentUserRepository implements UserRespository
      * **/
     public function update(User $user): void
     {
-        $newUserData = UserModel::find($user->getId()) ?? new UserModel;
+        $newUserData = UserModel::where('userID', $user->getUserID())->first();
+
         $newUserData->userID = $user->getUserID();
         $newUserData->isAdmin = $user->getIsAdmin();
-        $newUserData->fistname = $user->getFirstName();
+        $newUserData->firstname = $user->getFirstName();
         $newUserData->lastname = $user->getLastName();
         $newUserData->address = $user->getAddress();
         $newUserData->contactnumber = $user->getContactNumber();
         $newUserData->image = $user->getImage();
         $newUserData->email = $user->getEmail();
-        $newUserData->updated_at = $user->updatedAt();
+        $newUserData->updated_at = Carbon::now()->toDateTimeString();
         $newUserData->save();
+    }
+
+    /**
+     * Function to update the user password.
+     * **/
+    public function updateUserPassword(string $userID, string $password): void
+    {
+        $user = UserModel::where('userID', $userID)->first();
+        $user->password = Hash::make($password);
+        $user->save();
     }
 
     /**

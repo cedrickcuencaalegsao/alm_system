@@ -44,6 +44,31 @@ class RegisterUser
         return $this->userRespository->create($data);
     }
 
+    public function update($user)
+    {
+        $data = new User(
+            null,
+            $user['userID'],
+            $user['isAdmin'],
+            $user['firstname'],
+            $user['lastname'],
+            $user['address'],
+            $user['contactNumber'],
+            $user['image'],
+            $user['email'],
+            null,
+            null,
+            null,
+        );
+
+        return $this->userRespository->update($data);
+    }
+
+    public function updateUserPassword(string $userID, string $password)
+    {
+        return $this->userRespository->updateUserPassword($userID, $password);
+    }
+
     public function findByUserID(string $userID): ?User
     {
         return $this->userRespository->findByUserID($userID);

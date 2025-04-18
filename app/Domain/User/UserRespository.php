@@ -17,4 +17,6 @@ interface UserRespository
     public function findByUserID(string $userID): ?User;
 
     public function findAll(): array;
+
+    public function updateUserPassword(string $userID, string $password): void;
 }
