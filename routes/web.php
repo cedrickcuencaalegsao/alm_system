@@ -6,7 +6,7 @@ use App\Http\Controllers\Home\Web\HomeWebController;
 use App\Http\Controllers\Order\WEB\OrderWEBController;
 use App\Http\Controllers\User\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Dashboard\WEB\DashboardWEBController;
 // Guest Routes
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
@@ -72,7 +72,5 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('admin.index');
-    })->name('admin.index');
+    Route::get('/dashboard', [DashboardWEBController::class, 'index'])->name('view.dashboard');
 });
