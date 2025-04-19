@@ -29,14 +29,14 @@
             </div>
 
             <div class="sidebar-item">
-                <a href="#" class="sidebar-link @if(request()->routeIs('admin.users*')) active @endif">
+                <a href="{{ route('view.manage.user') }}" class="sidebar-link @if(request()->routeIs('admin.users*')) active @endif">
                     <i class="bi bi-people"></i>
                     Users
                 </a>
             </div>
 
             <div class="sidebar-item">
-                <a href="#" class="sidebar-link @if(request()->routeIs('admin.products*')) active @endif">
+                <a href="{{ route('view.manage.books') }}" class="sidebar-link @if(request()->routeIs('admin.products*')) active @endif">
                     <i class="bi bi-box"></i>
                     Products
                     <span class="sidebar-badge">New</span>
@@ -44,14 +44,14 @@
             </div>
 
             <div class="sidebar-item">
-                <a href="#" class="sidebar-link @if(request()->routeIs('admin.orders*')) active @endif">
+                <a href="{{ route('view.manage.orders') }}" class="sidebar-link @if(request()->routeIs('admin.orders*')) active @endif">
                     <i class="bi bi-cart"></i>
                     Orders
                 </a>
             </div>
 
             <div class="sidebar-item">
-                <a href="#" class="sidebar-link @if(request()->routeIs('admin.reports*')) active @endif">
+                <a href="{{ route('view.manage.reports') }}" class="sidebar-link @if(request()->routeIs('admin.reports*')) active @endif">
                     <i class="bi bi-graph-up"></i>
                     Reports
                 </a>

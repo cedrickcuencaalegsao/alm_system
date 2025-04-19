@@ -7,6 +7,10 @@ use App\Http\Controllers\Order\WEB\OrderWEBController;
 use App\Http\Controllers\User\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\WEB\DashboardWEBController;
+use App\Http\Controllers\ManageUser\WEB\ManageUserWEBController;
+use App\Http\Controllers\ManageOrders\WEB\ManageOrdersWEBController;
+use App\Http\Controllers\ManageBooks\WEB\ManageBooksWEBController;
+use App\Http\Controllers\ManageReports\WEB\ManageReportsWEBController;
 // Guest Routes
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
@@ -59,7 +63,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout/{bookID}', [OrderWEBController::class, 'viewCheckout'])->name('view.checkout');
     Route::post('/checkout-item-directly', [OrderWEBController::class, 'checkoutItemDrectly'])->name('checkout.item.directly');
     Route::post('/checkout-multiple-items', [OrderWEBController::class, 'checkoutMultipleItems'])->name('checkout.multiple.items');
-
     Route::get('/images/users/{filename}', function ($filename) {
         $path = public_path('assets/images/users/'.$filename);
 
@@ -73,4 +76,8 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardWEBController::class, 'index'])->name('view.dashboard');
+    Route::get('/manage-user', [ManageUserWEBController::class, 'index'])->name('view.manage.user');
+    Route::get('/manage-books', [ManageBooksWEBController::class, 'index'])->name('view.manage.books');
+    Route::get('/manage-orders', [ManageOrdersWEBController::class, 'index'])->name('view.manage.orders');
+    Route::get('/manage-reports', [ManageReportsWEBController::class, 'index'])->name('view.manage.reports');
 });
