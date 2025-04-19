@@ -19,7 +19,10 @@
                         <span class="input-group-text border-0" style="background-color: #FDF5E6;">
                             <i class="bi bi-search" style="color: #8B4513;"></i>
                         </span>
-                        <input type="text" class="form-control border-0 shadow-none" placeholder="Search books...">
+                        <form action="{{ route('search') }}" method="GET">
+                            <input type="text" class="form-control border-0 shadow-none"
+                                placeholder="Search books..." name="query">
+                        </form>
                     </div>
                 </div>
 
@@ -130,7 +133,8 @@
                         <h5 class="modal-title" id="successModalLabel">
                             <i class="bi bi-check-circle-fill text-success me-2"></i>Success
                         </h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="text-center mb-3">

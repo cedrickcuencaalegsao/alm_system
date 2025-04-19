@@ -246,4 +246,29 @@ class EloqeuntBookRepository implements BookRepository
         $bookData->stocks = $bookData->stocks - $quantity;
         $bookData->save();
     }
+
+    public function search(string $searchTerm): array
+    {
+        $results = BookModel::where('bookname', 'like', "%$searchTerm%")
+            ->orWhere('author', 'like', "%$searchTerm%")
+            ->orWhere('bookcategory', 'like', "%$searchTerm%")
+            ->orWhere('bookdetails', 'like', "%$searchTerm%")
+            ->orWhere('bookprice', 'like', "%$searchTerm%")
+            ->get();
+
+        return $results->map(fn ($book) => new Book(
+            $book->id,
+            $book->bookID,
+            $book->bookname,
+            $book->bookdetails,
+            $book->author,
+            $book->stocks,
+            $book->bookcategory,
+            $book->datepublish,
+            $book->image,
+            $book->bookprice,
+            $book->createdAt,
+            $book->updatedAt,
+        ))->toArray();
+    }
 }

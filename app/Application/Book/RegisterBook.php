@@ -28,4 +28,9 @@ class RegisterBook
     {
         $this->bookRepository->updateStockWhenItemBought($bookID, $quantity);
     }
+
+    public function search(string $searchTerm): array
+    {
+        return $this->bookRepository->search($searchTerm);
+    }
 }
