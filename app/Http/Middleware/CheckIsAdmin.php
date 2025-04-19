@@ -13,6 +13,8 @@ class CheckIsAdmin
     {
         if (Auth::check() && Auth::user()->isAdmin) {
             return $next($request);
+        } else {
+            return redirect()->route('view.home');
         }
 
         return redirect()->route('login.page')->with('error', 'Unauthorized access.');
