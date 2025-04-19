@@ -27,6 +27,7 @@ Route::middleware('guest')->group(function () {
                 return redirect('https://placehold.co/800x600?text=Welcome');
             }
         }
+
         return response()->file($path);
     })->name('login.image');
 
@@ -47,7 +48,7 @@ Route::middleware('guest')->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeWebController::class, 'index'])->name('view.home');
-    Route::get('/api/bestselling-books', [HomeWebController::class, 'getBestSellingBooks'])->name('api.bestselling.books');
+    Route::get('/search', [HomeWebController::class, 'search'])->name('search');
     Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
     Route::get('/cart/{userID}', [CartWebController::class, 'index'])->name('view.cart');
     Route::get('/profile/{userID}', [UserWebController::class, 'index'])->name('view.profile');
@@ -65,8 +66,13 @@ Route::middleware('auth')->group(function () {
         if (! file_exists($path)) {
             return response()->file(public_path('assets/images/default/default.jpg'));
         }
+
         return response()->file($path);
     })->name('user.image');
 });
 
-
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.index');
+    })->name('admin.index');
+});
