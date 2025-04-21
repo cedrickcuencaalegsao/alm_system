@@ -21,65 +21,28 @@
                                         <p class="text-muted small">Please sign in to continue</p>
                                     </div>
 
-                                    <!-- Alerts -->
-                                    @if ($errors->any())
-                                        <div class="notification-toast error-toast" id="errorToast">
-                                            <div class="toast-header">
-                                                <i class="bi bi-exclamation-circle-fill text-danger me-2"></i>
-                                                <strong class="text-danger">Error</strong>
-                                                <button type="button" class="btn-close-custom ms-auto"
-                                                    onclick="closeToast('errorToast')">
-                                                    <span class="me-1 text-danger">Close</span>
-                                                    <i class="bi bi-x-lg text-danger"></i>
-                                                </button>
-                                            </div>
-                                            <div class="toast-body">
-                                                @foreach ($errors->all() as $error)
-                                                    <div class="toast-message">{{ $error }}</div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    @endif
-
-                                    @if (session('success'))
-                                        <div class="notification-toast success-toast" id="successToast">
-                                            <div class="toast-header">
-                                                <i class="bi bi-check-circle-fill text-success me-2"></i>
-                                                <strong class="text-success">Success</strong>
-                                                <button type="button" class="btn-close-custom ms-auto"
-                                                    onclick="closeToast('successToast')">
-                                                    <span class="me-1 text-success">Close</span>
-                                                    <i class="bi bi-x-lg text-success"></i>
-                                                </button>
-                                            </div>
-                                            <div class="toast-body">
-                                                <div class="toast-message">{{ session('success') }}</div>
-                                            </div>
-                                        </div>
-                                    @endif
-
                                     <!-- Login Form -->
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="mb-3">
-                                            <label class="form-label small">Email</label>
+                                            <label class="form-label small fw-medium">Email</label>
                                             <input type="email" name="email" class="form-control"
                                                 value="{{ old('email') }}" placeholder="name@example.com">
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label small">Password</label>
+                                        <div class="mb-4">
+                                            <label class="form-label small fw-medium">Password</label>
                                             <input type="password" name="password" class="form-control"
                                                 placeholder="Enter your password">
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary w-100 mb-3">
+                                        <button type="submit" class="btn btn-primary w-100 mb-4">
                                             Sign In
                                         </button>
 
                                         <p class="text-center mb-0 small">
                                             Don't have an account?
-                                            <a href="{{ Route('register.page') }}" class="text-decoration-none">
+                                            <a href="{{ Route('register.page') }}" class="text-decoration-none fw-medium">
                                                 Create Account
                                             </a>
                                         </p>
@@ -93,6 +56,45 @@
         </div>
     </div>
 
+    <!-- Modal Notifications -->
+    @if ($errors->any())
+        <div class="modal-notification error-modal" id="errorModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="bi bi-exclamation-circle-fill text-danger me-2"></i>
+                    <strong class="text-danger">Error</strong>
+                    <button type="button" class="btn-close-custom ms-auto" onclick="closeModal('errorModal')">
+                        <i class="bi bi-x-lg text-danger"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @foreach ($errors->all() as $error)
+                        <div class="modal-message">{{ $error }}</div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop" id="errorBackdrop" onclick="closeModal('errorModal')"></div>
+    @endif
+
+    @if (session('success'))
+        <div class="modal-notification success-modal" id="successModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                    <strong class="text-success">Success</strong>
+                    <button type="button" class="btn-close-custom ms-auto" onclick="closeModal('successModal')">
+                        <i class="bi bi-x-lg text-success"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-message">{{ session('success') }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-backdrop" id="successBackdrop" onclick="closeModal('successModal')"></div>
+    @endif
+
     <!-- Custom CSS -->
     <style>
         :root {
@@ -100,6 +102,7 @@
             --light-brown: #DEB887;
             --dark-brown: #654321;
             --subtle-brown: #F5DEB3;
+            --hover-brown: #7d3c0f;
         }
 
         .bg-light {
@@ -107,25 +110,35 @@
         }
 
         .card {
-            border-radius: 1rem;
+            border-radius: 1.2rem;
             background-color: #fff;
         }
 
         .btn-primary {
             background-color: var(--primary-brown);
             border-color: var(--primary-brown);
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
+            padding: 0.85rem 1rem;
+            border-radius: 0.6rem;
             font-weight: 500;
+            transition: all 0.3s ease;
         }
 
         .btn-primary:hover {
-            background-color: var(--dark-brown);
-            border-color: var(--dark-brown);
+            background-color: var(--hover-brown);
+            border-color: var(--hover-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .btn-primary:focus {
             box-shadow: 0 0 0 0.25rem rgba(139, 69, 19, 0.25);
+        }
+
+        .form-control {
+            padding: 0.85rem 1rem;
+            border-radius: 0.6rem;
+            border: 1px solid #e2e2e2;
+            transition: all 0.3s ease;
         }
 
         .form-control:focus {
@@ -135,10 +148,11 @@
 
         a {
             color: var(--primary-brown);
+            transition: color 0.2s ease;
         }
 
         a:hover {
-            color: var(--dark-brown);
+            color: var(--hover-brown);
         }
 
         .form-check-input:checked {
@@ -146,38 +160,71 @@
             border-color: var(--primary-brown);
         }
 
-        .notification-toast {
+        /* Modal Notification Styles */
+        .modal-backdrop {
             position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            display: none;
+        }
+
+        .modal-notification {
+            position: fixed;
+            top: 50%;
             left: 50%;
-            top: 20px;
-            transform: translateX(-50%) translateY(-100%);
-            min-width: 300px;
-            max-width: 90%;
-            background: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            border-radius: 8px;
-            opacity: 0;
-            transition: all 0.3s ease;
+            transform: translate(-50%, -50%) scale(0.9);
             z-index: 1050;
-            pointer-events: none;
+            max-width: 400px;
+            width: 90%;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
 
-        .notification-toast.show {
+        .modal-notification.show {
             opacity: 1;
-            transform: translateX(-50%) translateY(0);
-            pointer-events: auto;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
         }
 
-        .toast-body {
-            padding: 12px 16px;
-            color: #333;
+        .modal-content {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .toast-message {
-            margin-bottom: 8px;
+        .modal-header {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         }
 
-        .toast-message:last-child {
+        .modal-header i {
+            font-size: 1.3rem;
+        }
+
+        .modal-header strong {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-left: 0.5rem;
+        }
+
+        .modal-body {
+            padding: 1.25rem;
+        }
+
+        .modal-message {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .modal-message:last-child {
             margin-bottom: 0;
         }
 
@@ -190,45 +237,41 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.875rem;
-        }
-
-        .btn-close-custom span {
-            font-weight: 500;
+            transition: opacity 0.2s ease;
         }
 
         .btn-close-custom:hover {
             opacity: 0.7;
         }
 
-        .toast-header {
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            background: transparent;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        .error-modal .modal-content {
+            border-top: 4px solid #dc3545;
         }
 
-        .toast-header i {
-            font-size: 1.2rem;
+        .success-modal .modal-content {
+            border-top: 4px solid var(--primary-brown);
         }
 
-        .toast-header strong {
-            font-size: 1rem;
+        .success-modal .text-success {
+            color: var(--primary-brown) !important;
         }
 
-        .error-toast {
-            border-left: 4px solid #dc3545;
-        }
-
-        .success-toast {
-            border-left: 4px solid #198754;
+        .success-modal .bi-check-circle-fill {
+            color: var(--primary-brown) !important;
         }
 
         .login-image {
             min-height: 500px;
             max-height: 100%;
-            transition: transform 0.3s ease;
+            transition: transform 0.5s ease;
+        }
+
+        .login-image:hover {
+            transform: scale(1.02);
+        }
+
+        .fw-medium {
+            font-weight: 500;
         }
 
         /* Mobile Responsive Styles */
@@ -236,16 +279,16 @@
             .vh-100 {
                 min-height: 100vh;
                 height: auto;
-                padding: 1rem 0;
+                padding: 2rem 0;
             }
 
             .card {
-                border-radius: 1rem;
+                border-radius: 1.2rem;
                 margin: 0 1rem;
             }
 
             .card-body {
-                padding: 1.5rem !important;
+                padding: 1.8rem !important;
             }
 
             .form-control {
@@ -253,49 +296,22 @@
             }
 
             .btn-primary {
-                padding: 0.75rem;
+                padding: 0.85rem;
             }
 
-            .notification-toast {
-                width: 90%;
-                max-width: 400px;
-                left: 50%;
-                transform: translateX(-50%) translateY(-100%);
-            }
-
-            .toast-header {
-                padding: 10px 12px;
-            }
-
-            .toast-body {
-                padding: 10px 12px;
+            .modal-notification {
+                width: 85%;
             }
         }
 
         @media (min-width: 768px) {
             .card {
-                border-radius: 0 1rem 1rem 0;
+                border-radius: 1.2rem;
             }
         }
 
-        .success-toast {
-            border-left: 4px solid var(--primary-brown);
-        }
-
-        .success-toast .text-success {
-            color: var(--primary-brown) !important;
-        }
-
-        .success-toast .bi-check-circle-fill {
-            color: var(--primary-brown) !important;
-        }
-
-        .form-control {
-            border-color: #DEB887;
-        }
-
         .shadow-lg {
-            box-shadow: 0 1rem 3rem rgba(139, 69, 19, 0.175) !important;
+            box-shadow: 0 1.5rem 3rem rgba(139, 69, 19, 0.15) !important;
         }
 
         .text-muted {
@@ -305,54 +321,42 @@
         .fw-bold {
             color: var(--dark-brown);
         }
-
-        .form-control {
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            border: 1px solid #dee2e6;
-        }
-
-        .form-control:focus {
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.1);
-        }
-
-        .btn-primary {
-            padding: 0.75rem 1rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-        }
-
-        .card {
-            border-radius: 1rem;
-        }
-
-        .alert {
-            border: none;
-            border-radius: 0.5rem;
-        }
     </style>
     <script>
-        function closeToast(toastId) {
-            const toast = document.getElementById(toastId);
-            if (toast) {
-                toast.classList.remove('show');
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            const backdrop = document.getElementById(modalId.replace('Modal', 'Backdrop'));
+            if (modal) {
+                modal.classList.remove('show');
                 setTimeout(() => {
-                    toast.style.display = 'none';
+                    modal.style.visibility = 'hidden';
+                    if (backdrop) backdrop.style.display = 'none';
                 }, 300);
             }
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const toasts = document.querySelectorAll('.notification-toast');
-            toasts.forEach(toast => {
-                toast.style.display = 'block';
-                toast.offsetHeight;
-                toast.classList.add('show');
+            const modals = document.querySelectorAll('.modal-notification');
+            const backdrops = document.querySelectorAll('.modal-backdrop');
+
+            if (modals.length > 0) {
+                modals.forEach(modal => {
+                    modal.style.visibility = 'visible';
+                    modal.offsetHeight; // Force reflow
+                    modal.classList.add('show');
+                });
+
+                backdrops.forEach(backdrop => {
+                    backdrop.style.display = 'block';
+                });
 
                 setTimeout(() => {
-                    closeToast(toast.id);
+                    modals.forEach(modal => {
+                        const modalId = modal.id;
+                        closeModal(modalId);
+                    });
                 }, 5000);
-            });
+            }
         });
     </script>
 @endsection
