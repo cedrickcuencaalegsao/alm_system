@@ -209,4 +209,61 @@ class EloquentSalesRepository implements SaleRepository
             $sale->book->bookcategory,
         ))->toArray();
     }
+
+    public function thisMonthSales(): ?float
+    {
+        return SaleModel::where('createdAt', '>=', now()->startOfMonth())
+            ->where('createdAt', '<=', now()->endOfMonth())
+            ->sum('totalsales');
+    }
+
+    public function thisMonthSalesPercentage(): array
+    {
+        $lastMonthSales = SaleModel::where('createdAt', '>=', now()->subMonth()->startOfMonth())
+            ->where('createdAt', '<=', now()->subMonth()->endOfMonth())
+            ->sum('totalsales');
+
+        if ($lastMonthSales === 0) {
+            return [
+                'value' => $lastMonthSales,
+                'type' => 'Neutral',
+            ];
+        }
+
+        $percentage = ($this->thisMonthSales() - $lastMonthSales) / $lastMonthSales * 100;
+        $formattedPercentage = number_format($percentage, 2);
+
+        return [
+            'value' => abs($formattedPercentage),
+            'type' => $percentage > 0 ? 'increase' : ($percentage < 0 ? 'decrease' : 'neutral'),
+        ];
+    }
+
+    public function thisMonthOrders(): ?int
+    {
+        return SaleModel::where('createdAt', '>=', now()->startOfMonth())
+            ->where('createdAt', '<=', now()->endOfMonth())
+            ->count();
+    }
+
+    public function thisMonthOrdersPercentage(): array
+    {
+        $lastMonthOrders = SaleModel::where('createdAt', '>=', now()->subMonth()->startOfMonth())
+            ->where('createdAt', '<=', now()->subMonth()->endOfMonth())
+            ->count();
+        if ($lastMonthOrders === 0) {
+            return [
+                'value' => $lastMonthOrders,
+                'type' => 'Neutral',
+            ];
+        }
+
+        $percentage = ($this->thisMonthOrders() - $lastMonthOrders) / $lastMonthOrders * 100;
+        $formattedPercentage = number_format($percentage, 2);
+
+        return [
+            'value' => abs($formattedPercentage),
+            'type' => $percentage > 0 ? 'increase' : ($percentage < 0 ? 'decrease' : 'neutral'),
+        ];
+    }
 }

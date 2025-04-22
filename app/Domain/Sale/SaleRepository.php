@@ -21,4 +21,12 @@ interface SaleRepository
     public function findAll(): array;
 
     public function findAllUserOrders(string $userID): array;
+
+    public function thisMonthSales(): ?float;
+
+    public function thisMonthSalesPercentage(): array;
+
+    public function thisMonthOrders(): ?int;
+
+    public function thisMonthOrdersPercentage(): array;
 }

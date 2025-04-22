@@ -55,4 +55,24 @@ class RegisterSales
     {
         return $this->salesRepository->findAllUserOrders($userID);
     }
+
+    public function thisMonthSales()
+    {
+        return $this->salesRepository->thisMonthSales();
+    }
+
+    public function thisMonthSalesPercentage()
+    {
+        return $this->salesRepository->thisMonthSalesPercentage();
+    }
+
+    public function thisMonthOrders()
+    {
+        return $this->salesRepository->thisMonthOrders();
+    }
+
+    public function thisMonthOrdersPercentage()
+    {
+        return $this->salesRepository->thisMonthOrdersPercentage();
+    }
 }
