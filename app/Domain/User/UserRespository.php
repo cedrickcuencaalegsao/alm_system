@@ -19,4 +19,6 @@ interface UserRespository
     public function findAll(): array;
 
     public function updateUserPassword(string $userID, string $password): void;
+
+    public function getUserActivity(): array;
 }

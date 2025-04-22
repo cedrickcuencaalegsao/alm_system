@@ -170,4 +170,23 @@ class EloquentUserRepository implements UserRespository
         Session::flush();
         Auth::logout();
     }
+
+    /**
+     * Function to get the user activity.
+     * **/
+    public function getUserActivity(): array
+    {
+        $userActivity = UserModel::where('isDeleted', false)->get();
+        $countActive = $userActivity->count();
+        $countInactive = UserModel::where('isDeleted', true)->count();
+        $totalUsers = $countActive + $countInactive;
+
+        $percentage = ($countInactive / $totalUsers) * 100;
+        $formattedPercentage = number_format($percentage, 2);
+
+        return [
+            'totalUsers' => $totalUsers,
+            'percentage' => $formattedPercentage,
+        ];
+    }
 }

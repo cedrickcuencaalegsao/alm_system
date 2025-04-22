@@ -78,4 +78,9 @@ class RegisterUser
     {
         return $this->userRespository->findAll();
     }
+
+    public function getUserActivity(): array
+    {
+        return $this->userRespository->getUserActivity();
+    }
 }

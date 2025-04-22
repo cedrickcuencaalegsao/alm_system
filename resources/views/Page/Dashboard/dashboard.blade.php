@@ -105,9 +105,6 @@
                             ">
                                 {{ $data['booksInStockCount']['percentage'] }}%
                             </div>
-                            {{-- <div class="small text-info mt-2">
-                                <i class="bi"></i> {{ $data['booksInStockCount']['percentage'] }}%
-                            </div> --}}
                         </div>
                         <div class="col-auto">
                             <i class="bi bi-book fs-1 text-info opacity-50"></i>
@@ -126,9 +123,15 @@
                             <div class="small text-warning text-uppercase fw-bold mb-1">
                                 Active Customers
                             </div>
-                            <div class="h3 mb-0 fw-bold">780</div>
-                            <div class="small text-success mt-2">
-                                <i class="bi bi-arrow-up"></i> 15 new today
+                            <div class="h3 mb-0 fw-bold">{{ $data['userActivity']['totalUsers'] }}</div>
+                            <div class="small
+                                @if ($data['userActivity']['percentage'] > 0) text-success
+                                @elseif($data['userActivity']['percentage'] < 0)
+                                    text-danger
+                                @else
+                                    text-secondary @endif
+                            ">
+                                {{ $data['userActivity']['percentage'] }}%
                             </div>
                         </div>
                         <div class="col-auto">

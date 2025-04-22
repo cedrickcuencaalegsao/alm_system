@@ -4,17 +4,20 @@ namespace App\Http\Controllers\Dashboard\WEB;
 
 use App\Application\Sales\RegisterSales;
 use App\Application\Book\RegisterBook;
+use App\Application\User\RegisterUser;
 use App\Http\Controllers\Controller;
 
 class DashboardWEBController extends Controller
 {
     protected $registerSales;
     protected $registerBook;
+    protected $registerUser;
 
-    public function __construct(RegisterSales $registerSales, RegisterBook $registerBook)
+    public function __construct(RegisterSales $registerSales, RegisterBook $registerBook, RegisterUser $registerUser)
     {
         $this->registerSales = $registerSales;
         $this->registerBook = $registerBook;
+        $this->registerUser = $registerUser;
     }
 
     public function index()
@@ -25,6 +28,7 @@ class DashboardWEBController extends Controller
             'MonthlySalesPercentage' => $this->getMonthlySalesPercentage(),
             'MonthlyOrdersPercentage' => $this->getMonthlyOrdersPercentage(),
             'booksInStockCount' => $this->getBooksInStockCount(),
+            'userActivity' => $this->getUserActivity(),
         ];
 
         return view('Page.Dashboard.dashboard', compact('data'));
@@ -60,5 +64,11 @@ class DashboardWEBController extends Controller
     {
         $booksInStockCount = $this->registerBook->getBooksInStockCount();
         return $booksInStockCount;
+    }
+
+    public function getUserActivity()
+    {
+        $userActivity = $this->registerUser->getUserActivity();
+        return $userActivity;
     }
 }
