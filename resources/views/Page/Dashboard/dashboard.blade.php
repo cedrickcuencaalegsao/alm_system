@@ -189,7 +189,7 @@
             <div class="card shadow h-100">
                 <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 fw-bold text-primary">Recent Orders</h6>
-                    <a href="#" class="btn btn-sm btn-primary">View All</a>
+                    <a href="{{ route('view.manage.orders') }}" class="btn btn-sm btn-primary">View All</a>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -262,141 +262,28 @@
             <div class="card shadow h-100">
                 <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 fw-bold text-primary">Top Selling Books</h6>
-                    <a href="#" class="btn btn-sm btn-primary">View All</a>
+                    {{-- <a href="#" class="btn btn-sm btn-primary">View All</a> --}}
                 </div>
                 <div class="card-body p-0">
                     <div class="list-group list-group-flush">
-                        <a href="#" class="list-group-item list-group-item-action border-0 px-4 py-3">
-                            <div class="d-flex w-100 justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1 fw-bold">The Great Gatsby</h6>
-                                    <p class="mb-1 text-muted">F. Scott Fitzgerald</p>
-                                    <div class="small">
-                                        <span class="badge bg-light text-dark me-1">Fiction</span>
-                                        <span class="badge bg-light text-dark">Classic</span>
+                        @foreach ($data['topSellingBook'] as $book)
+                            <div class="list-group-item list-group-item-action border-0 px-4 py-3">
+                                <div class="d-flex w-100 justify-content-between align-items-center">
+                                    <div>
+                                        <h6 class="mb-1 fw-bold">{{ $book->getBookName() }}</h6>
+                                        <p class="mb-1 text-muted">{{ $book->getAuthor() }}</p>
+                                        <div class="small">
+                                            <span class="badge bg-light text-dark me-1">{{ $book->getCategory() }}</span>
+                                            <span class="badge bg-light text-dark">{{ $book->getDatePublish() }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="badge bg-primary rounded-pill">{{ $book->getTotalSold() }}</span>
+                                        <div class="small text-muted mt-1">copies sold</div>
                                     </div>
                                 </div>
-                                <div class="text-end">
-                                    <span class="badge bg-primary rounded-pill">245</span>
-                                    <div class="small text-muted mt-1">copies sold</div>
-                                </div>
                             </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 px-4 py-3">
-                            <div class="d-flex w-100 justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1 fw-bold">To Kill a Mockingbird</h6>
-                                    <p class="mb-1 text-muted">Harper Lee</p>
-                                    <div class="small">
-                                        <span class="badge bg-light text-dark me-1">Fiction</span>
-                                        <span class="badge bg-light text-dark">Classic</span>
-                                    </div>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-primary rounded-pill">198</span>
-                                    <div class="small text-muted mt-1">copies sold</div>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 px-4 py-3">
-                            <div class="d-flex w-100 justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1 fw-bold">1984</h6>
-                                    <p class="mb-1 text-muted">George Orwell</p>
-                                    <div class="small">
-                                        <span class="badge bg-light text-dark me-1">Science Fiction</span>
-                                        <span class="badge bg-light text-dark">Dystopian</span>
-                                    </div>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-primary rounded-pill">187</span>
-                                    <div class="small text-muted mt-1">copies sold</div>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 px-4 py-3">
-                            <div class="d-flex w-100 justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1 fw-bold">Harry Potter and the Sorcerer's Stone</h6>
-                                    <p class="mb-1 text-muted">J.K. Rowling</p>
-                                    <div class="small">
-                                        <span class="badge bg-light text-dark me-1">Fantasy</span>
-                                        <span class="badge bg-light text-dark">Young Adult</span>
-                                    </div>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-primary rounded-pill">176</span>
-                                    <div class="small text-muted mt-1">copies sold</div>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="#" class="list-group-item list-group-item-action border-0 px-4 py-3">
-                            <div class="d-flex w-100 justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1 fw-bold">The Hobbit</h6>
-                                    <p class="mb-1 text-muted">J.R.R. Tolkien</p>
-                                    <div class="small">
-                                        <span class="badge bg-light text-dark me-1">Fantasy</span>
-                                        <span class="badge bg-light text-dark">Adventure</span>
-                                    </div>
-                                </div>
-                                <div class="text-end">
-                                    <span class="badge bg-primary rounded-pill">154</span>
-                                    <div class="small text-muted mt-1">copies sold</div>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sales Analytics Chart -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="card shadow">
-                <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 fw-bold text-primary">Monthly Sales Analytics</h6>
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
-                            id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            Last 30 Days
-                        </button>
-                        <ul class="dropdown-menu shadow dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                            <li><a class="dropdown-item active" href="#">Last 30 Days</a></li>
-                            <li><a class="dropdown-item" href="#">Last Quarter</a></li>
-                            <li><a class="dropdown-item" href="#">Last Year</a></li>
-                            <li>
-                                <hr class="dropdown-divider">
-                            </li>
-                            <li><a class="dropdown-item" href="#">Custom Range</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="chart-container" style="height: 300px;">
-                        <canvas id="salesChart"></canvas>
-                    </div>
-                </div>
-                <div class="card-footer bg-white py-3">
-                    <div class="row text-center">
-                        <div class="col-md-3 col-6 border-end">
-                            <div class="small text-muted mb-1">Total Revenue</div>
-                            <div class="h5 mb-0">$42,389</div>
-                        </div>
-                        <div class="col-md-3 col-6 border-end">
-                            <div class="small text-muted mb-1">Avg. Order Value</div>
-                            <div class="h5 mb-0">$86.24</div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="small text-muted mb-1">Conversion Rate</div>
-                            <div class="h5 mb-0">3.28%</div>
-                        </div>
-                        <div class="col-md-3 col-6">
-                            <div class="small text-muted mb-1">Growth Rate</div>
-                            <div class="h5 mb-0">+12.5%</div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

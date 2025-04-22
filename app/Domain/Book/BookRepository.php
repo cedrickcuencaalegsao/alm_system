@@ -23,4 +23,8 @@ interface BookRepository
     public function search(string $searchTerm): array;
 
     public function getBooksInStockCount(): array;
+
+    public function getBestSellingBook(): array;
+
+    public function getTopSellingBook(): array;
 }

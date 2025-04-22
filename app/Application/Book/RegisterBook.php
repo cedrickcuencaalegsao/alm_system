@@ -38,4 +38,15 @@ class RegisterBook
     {
         return $this->bookRepository->getBooksInStockCount();
     }
+
+    public function getBestSellingBook(): array
+    {
+        return $this->bookRepository->getBestSellingBook();
+    }
+
+    public function getTopSellingBook(): array
+    {
+        return $this->bookRepository->getTopSellingBook();
+    }
+
 }

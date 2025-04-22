@@ -29,6 +29,7 @@ class DashboardWEBController extends Controller
             'MonthlyOrdersPercentage' => $this->getMonthlyOrdersPercentage(),
             'booksInStockCount' => $this->getBooksInStockCount(),
             'userActivity' => $this->getUserActivity(),
+            'topSellingBook' => $this->getTopSellingBook(),
         ];
 
         return view('Page.Dashboard.dashboard', compact('data'));
@@ -71,4 +72,12 @@ class DashboardWEBController extends Controller
         $userActivity = $this->registerUser->getUserActivity();
         return $userActivity;
     }
+
+    public function getTopSellingBook()
+    {
+        $topSellingBook = $this->registerBook->getTopSellingBook();
+        return $topSellingBook;
+    }
+
+
 }

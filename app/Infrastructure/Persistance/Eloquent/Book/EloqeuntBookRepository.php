@@ -100,9 +100,9 @@ class EloqeuntBookRepository implements BookRepository
     }
 
     /**
-     * Function to find all book data.
+     * Function to get best selling book.
      * **/
-    public function findAll(): array
+    public function getBestSellingBook(): array
     {
         $bestSelling = BookModel::select('tbl_books.*')
             ->leftJoin('tbl_sales', 'tbl_books.bookID', '=', 'tbl_sales.bookID')
@@ -137,7 +137,61 @@ class EloqeuntBookRepository implements BookRepository
                 price: $book->bookprice,
                 createdAt: $book->createdAt,
                 updatedAt: $book->updatedAt,
+                totalSold: $book->totalSold,
             ))->toArray();
+
+        return $bestSelling;
+    }
+
+    /**
+     * Function to get top selling book.
+     * **/
+    public function getTopSellingBook(): array
+    {
+        return BookModel::select('tbl_books.*')
+        ->leftJoin('tbl_sales', 'tbl_books.bookID', '=', 'tbl_sales.bookID')
+        ->selectRaw('COALESCE(SUM(tbl_sales.quantity), 0) as totalSold')
+        ->groupBy([
+            'tbl_books.id',
+            'tbl_books.bookID',
+            'tbl_books.bookname',
+            'tbl_books.bookdetails',
+            'tbl_books.author',
+            'tbl_books.stocks',
+            'tbl_books.bookcategory',
+            'tbl_books.datepublish',
+            'tbl_books.image',
+            'tbl_books.isDeleted',
+            'tbl_books.bookprice',
+            'tbl_books.createdAt',
+            'tbl_books.updatedAt'
+        ])
+        ->orderByDesc('totalSold')
+        ->take(5)
+        ->get()
+        ->map(fn ($book) => new Book(
+            id: $book->id,
+            bookID: $book->bookID,
+            bookname: $book->bookname,
+            bookdetails: $book->bookdetails,
+            author: $book->author,
+            stock: $book->stocks,
+            category: $book->bookcategory,
+            datepublish: $book->datepublish,
+            image: $book->image,
+            price: $book->bookprice,
+            isDeleted: $book->isDeleted,
+            createdAt: $book->createdAt,
+            updatedAt: $book->updatedAt,
+            totalSold: (int) $book->totalSold
+        ))->toArray();
+    }
+    /**
+     * Function to find all book data.
+     * **/
+    public function findAll(): array
+    {
+
 
         $byCategory = BookModel::query()
             ->where('stocks', '>', 0)
@@ -180,7 +234,7 @@ class EloqeuntBookRepository implements BookRepository
 
         return [
             'allBooks' => $allBooks,
-            'bestSelling' => $bestSelling,
+            'bestSelling' => $this->getBestSellingBook(),
             'byCategory' => $byCategory,
         ];
     }

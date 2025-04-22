@@ -14,8 +14,10 @@ class Book
     private ?string $datepublish;
     private ?string $image;
     private ?float $price;
+    private ?bool $isDeleted;
     private ?string $createdAt;
     private ?string $updatedAt;
+    private ?int $totalSold;
 
     public function __construct(
         ?int $id = null,
@@ -28,8 +30,10 @@ class Book
         ?string $datepublish = null,
         ?string $image = null,
         ?float $price = null,
+        ?bool $isDeleted = null,
         ?string $createdAt = null,
         ?string $updatedAt = null,
+        ?int $totalSold = null,
     ) {
         $this->id = $id;
         $this->bookID = $bookID;
@@ -41,8 +45,10 @@ class Book
         $this->datepublish = $datepublish;
         $this->image = $image;
         $this->price = $price;
+        $this->isDeleted = $isDeleted;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
+        $this->totalSold = $totalSold;
     }
     public function toArray(): array
     {
@@ -57,8 +63,10 @@ class Book
             'datepublish' => $this->datepublish,
             'image' => $this->image,
             'price' => $this->price,
+            'isDeleted' => $this->isDeleted,
             'createdAt' => $this->createdAt,
             'updatedAt' => $this->updatedAt,
+            'totalSold' => $this->totalSold,
         ];
     }
     public function getId(): int|null
@@ -101,6 +109,10 @@ class Book
     {
         return $this->price;
     }
+    public function getIsDeleted(): bool|null
+    {
+        return $this->isDeleted;
+    }
     public function createdAt(): string|null
     {
         return $this->createdAt;
@@ -108,5 +120,9 @@ class Book
     public function updatedAt(): string|null
     {
         return $this->updatedAt;
+    }
+    public function getTotalSold(): int|null
+    {
+        return $this->totalSold;
     }
 }
