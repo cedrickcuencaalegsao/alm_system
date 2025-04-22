@@ -49,4 +49,8 @@ class RegisterBook
         return $this->bookRepository->getTopSellingBook();
     }
 
+    public function get5LowStockBooks(): array
+    {
+        return $this->bookRepository->get5LowStockBooks();
+    }
 }

@@ -75,4 +75,9 @@ class RegisterSales
     {
         return $this->salesRepository->thisMonthOrdersPercentage();
     }
+
+    public function getLatestSales()
+    {
+        return $this->salesRepository->getLatestSales();
+    }
 }

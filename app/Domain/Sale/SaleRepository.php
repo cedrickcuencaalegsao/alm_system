@@ -29,4 +29,6 @@ interface SaleRepository
     public function thisMonthOrders(): ?int;
 
     public function thisMonthOrdersPercentage(): array;
+
+    public function getLatestSales(): array;
 }

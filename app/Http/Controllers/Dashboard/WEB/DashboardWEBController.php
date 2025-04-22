@@ -30,6 +30,8 @@ class DashboardWEBController extends Controller
             'booksInStockCount' => $this->getBooksInStockCount(),
             'userActivity' => $this->getUserActivity(),
             'topSellingBook' => $this->getTopSellingBook(),
+            'latestSales' => $this->getLatestSales(),
+            'get5lowStockBooks' => $this->get5LowStockBooks(),
         ];
 
         return view('Page.Dashboard.dashboard', compact('data'));
@@ -79,5 +81,15 @@ class DashboardWEBController extends Controller
         return $topSellingBook;
     }
 
+    public function getLatestSales()
+    {
+        $latestSales = $this->registerSales->getLatestSales();
+        return $latestSales;
+    }
 
+    public function get5LowStockBooks()
+    {
+        $get5lowStockBooks = $this->registerBook->get5LowStockBooks();
+        return $get5lowStockBooks;
+    }
 }

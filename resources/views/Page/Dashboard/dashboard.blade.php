@@ -153,10 +153,13 @@
                 <div class="card-body py-4">
                     <div class="row g-3">
                         <div class="col-lg-3 col-md-6">
-                            <a href="#"
+                            {{-- <a href="#"
                                 class="btn btn-primary w-100 d-flex align-items-center justify-content-center py-3">
                                 <i class="bi bi-plus-circle me-2"></i> Add New Book
-                            </a>
+                            </a> --}}
+                            <button type="button" class="btn btn-primary w-100 d-flex align-items-center justify-content-center py-3" data-bs-toggle="modal" data-bs-target="#addBookModal">
+                                <i class="bi bi-plus-circle me-2"></i> Add New Book
+                            </button>
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <a href="{{ route('view.manage.user') }}"
@@ -182,6 +185,73 @@
         </div>
     </div>
 
+    <!-- Add Book Modal -->
+    <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="addBookModalLabel">Add New Book</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="addBookForm" action="#" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="bookname" class="form-label">Book Title</label>
+                                <input type="text" class="form-control" id="bookname" name="bookname" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="author" class="form-label">Author</label>
+                                <input type="text" class="form-control" id="author" name="author" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookcategory" class="form-label">Category</label>
+                                <select class="form-select" id="bookcategory" name="bookcategory" required>
+                                    <option value="" selected disabled>Select category</option>
+                                    <option value="Fiction">Fiction</option>
+                                    <option value="Non-Fiction">Non-Fiction</option>
+                                    <option value="Science">Science</option>
+                                    <option value="History">History</option>
+                                    <option value="Biography">Biography</option>
+                                    <option value="Technology">Technology</option>
+                                    <option value="Self-Help">Self-Help</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="datepublish" class="form-label">Publish Date</label>
+                                <input type="date" class="form-control" id="datepublish" name="datepublish" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="stocks" class="form-label">Stock Quantity</label>
+                                <input type="number" class="form-control" id="stocks" name="stocks" min="0" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="bookprice" class="form-label">Price</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="bookprice" name="bookprice" min="0" step="0.01" required>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <label for="bookdetails" class="form-label">Description</label>
+                                <textarea class="form-control" id="bookdetails" name="bookdetails" rows="3" required></textarea>
+                            </div>
+                            <div class="col-12">
+                                <label for="image" class="form-label">Book Cover Image</label>
+                                <input class="form-control" type="file" id="image" name="image" accept="image/*">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Recent Orders and Top Selling Books -->
     <div class="row mb-4">
         <!-- Recent Orders -->
@@ -196,60 +266,29 @@
                         <table class="table table-hover mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th class="px-4 py-3">Order ID</th>
-                                    <th class="px-4 py-3">Customer</th>
+                                    <th class="px-4 py-3">Ref. ID</th>
+                                    <th class="px-4 py-3">Customer ID</th>
                                     <th class="px-4 py-3">Items</th>
                                     <th class="px-4 py-3">Total</th>
                                     <th class="px-4 py-3">Status</th>
-                                    <th class="px-4 py-3">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="px-4 py-3">#ORD-2023</td>
-                                    <td class="px-4 py-3">John Smith</td>
-                                    <td class="px-4 py-3">3</td>
-                                    <td class="px-4 py-3">$85.99</td>
-                                    <td class="px-4 py-3"><span class="badge bg-success">Delivered</span></td>
-                                    <td class="px-4 py-3"><a href="#" class="btn btn-sm btn-outline-primary"><i
-                                                class="bi bi-eye"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-3">#ORD-2022</td>
-                                    <td class="px-4 py-3">Emily Johnson</td>
-                                    <td class="px-4 py-3">1</td>
-                                    <td class="px-4 py-3">$24.99</td>
-                                    <td class="px-4 py-3"><span class="badge bg-warning text-dark">Processing</span></td>
-                                    <td class="px-4 py-3"><a href="#" class="btn btn-sm btn-outline-primary"><i
-                                                class="bi bi-eye"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-3">#ORD-2021</td>
-                                    <td class="px-4 py-3">Robert Brown</td>
-                                    <td class="px-4 py-3">5</td>
-                                    <td class="px-4 py-3">$137.45</td>
-                                    <td class="px-4 py-3"><span class="badge bg-primary">Shipped</span></td>
-                                    <td class="px-4 py-3"><a href="#" class="btn btn-sm btn-outline-primary"><i
-                                                class="bi bi-eye"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-3">#ORD-2020</td>
-                                    <td class="px-4 py-3">Sarah Davis</td>
-                                    <td class="px-4 py-3">2</td>
-                                    <td class="px-4 py-3">$49.98</td>
-                                    <td class="px-4 py-3"><span class="badge bg-danger">Cancelled</span></td>
-                                    <td class="px-4 py-3"><a href="#" class="btn btn-sm btn-outline-primary"><i
-                                                class="bi bi-eye"></i></a></td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-3">#ORD-2019</td>
-                                    <td class="px-4 py-3">Michael Wilson</td>
-                                    <td class="px-4 py-3">4</td>
-                                    <td class="px-4 py-3">$112.96</td>
-                                    <td class="px-4 py-3"><span class="badge bg-success">Delivered</span></td>
-                                    <td class="px-4 py-3"><a href="#" class="btn btn-sm btn-outline-primary"><i
-                                                class="bi bi-eye"></i></a></td>
-                                </tr>
+                                @foreach ($data['latestSales'] as $sale)
+                                    <tr>
+                                        <td class="px-4 py-3">{{ $sale->getSalesID() }}</td>
+                                        <td class="px-4 py-3">{{ $sale->getUserID() }}</td>
+                                        <td class="px-4 py-3">{{ $sale->getQuantity() }}</td>
+                                        <td class="px-4 py-3">{{ $sale->getTotalSales() }}</td>
+                                        <td class="px-4 py-3"><span class="badge
+                                            @if($sale->getStatus() == 'pending') bg-warning
+                                            @elseif($sale->getStatus() == 'processing') bg-info
+                                            @elseif($sale->getStatus() == 'delivering') bg-primary
+                                            @elseif($sale->getStatus() == 'delivered') bg-success
+                                            @elseif($sale->getStatus() == 'cancelled') bg-danger
+                                            @endif">{{ $sale->getStatus() }}</span></td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -296,7 +335,6 @@
             <div class="card shadow">
                 <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 fw-bold text-primary">Low Stock Alert</h6>
-                    <a href="#" class="btn btn-sm btn-primary">Restock All</a>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">
@@ -312,61 +350,19 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($data['get5lowStockBooks']['get5lowStockBooks'] as $book)
                                 <tr class="table-danger">
-                                    <td class="px-4 py-3">Pride and Prejudice</td>
-                                    <td class="px-4 py-3">978-0141439518</td>
-                                    <td class="px-4 py-3">Jane Austen</td>
-                                    <td class="px-4 py-3">Classic</td>
-                                    <td class="px-4 py-3"><span class="badge bg-danger">Out of Stock</span></td>
+                                    <td class="px-4 py-3">{{ $book->getBookName() }}</td>
+                                    <td class="px-4 py-3">{{ $book->getBookID() }}</td>
+                                    <td class="px-4 py-3">{{ $book->getAuthor() }}</td>
+                                    <td class="px-4 py-3">{{ $book->getCategory() }}</td>
+                                    <td class="px-4 py-3"><span class="badge bg-danger">{{ $book->getStock() }}</span></td>
                                     <td class="px-4 py-3">
                                         <button class="btn btn-sm btn-outline-primary me-1"><i
                                                 class="bi bi-plus-circle"></i> Restock</button>
                                     </td>
                                 </tr>
-                                <tr class="table-warning">
-                                    <td class="px-4 py-3">The Catcher in the Rye</td>
-                                    <td class="px-4 py-3">978-0316769488</td>
-                                    <td class="px-4 py-3">J.D. Salinger</td>
-                                    <td class="px-4 py-3">Fiction</td>
-                                    <td class="px-4 py-3"><span class="badge bg-warning text-dark">2 left</span></td>
-                                    <td class="px-4 py-3">
-                                        <button class="btn btn-sm btn-outline-primary me-1"><i
-                                                class="bi bi-plus-circle"></i> Restock</button>
-                                    </td>
-                                </tr>
-                                <tr class="table-warning">
-                                    <td class="px-4 py-3">Brave New World</td>
-                                    <td class="px-4 py-3">978-0060850524</td>
-                                    <td class="px-4 py-3">Aldous Huxley</td>
-                                    <td class="px-4 py-3">Science Fiction</td>
-                                    <td class="px-4 py-3"><span class="badge bg-warning text-dark">3 left</span></td>
-                                    <td class="px-4 py-3">
-                                        <button class="btn btn-sm btn-outline-primary me-1"><i
-                                                class="bi bi-plus-circle"></i> Restock</button>
-                                    </td>
-                                </tr>
-                                <tr class="table-warning">
-                                    <td class="px-4 py-3">The Lord of the Rings</td>
-                                    <td class="px-4 py-3">978-0544003415</td>
-                                    <td class="px-4 py-3">J.R.R. Tolkien</td>
-                                    <td class="px-4 py-3">Fantasy</td>
-                                    <td class="px-4 py-3"><span class="badge bg-warning text-dark">5 left</span></td>
-                                    <td class="px-4 py-3">
-                                        <button class="btn btn-sm btn-outline-primary me-1"><i
-                                                class="bi bi-plus-circle"></i> Restock</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-4 py-3">Animal Farm</td>
-                                    <td class="px-4 py-3">978-0451526342</td>
-                                    <td class="px-4 py-3">George Orwell</td>
-                                    <td class="px-4 py-3">Fiction</td>
-                                    <td class="px-4 py-3"><span class="badge bg-info">8 left</span></td>
-                                    <td class="px-4 py-3">
-                                        <button class="btn btn-sm btn-outline-primary me-1"><i
-                                                class="bi bi-plus-circle"></i> Restock</button>
-                                    </td>
-                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -374,7 +370,6 @@
                 <div class="card-footer bg-white py-3 d-flex justify-content-between align-items-center">
                     <div class="small text-muted">Showing 5 of 12 items with low stock</div>
                     <div>
-                        <button class="btn btn-sm btn-outline-secondary me-2">Export List</button>
                         <button class="btn btn-sm btn-primary">View All</button>
                     </div>
                 </div>

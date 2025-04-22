@@ -340,4 +340,31 @@ class EloqeuntBookRepository implements BookRepository
             'percentage' => $formattedPercentage,
         ];
     }
+
+    public function get5LowStockBooks(): array
+    {
+        $get5lowStockBooks = BookModel::where('stocks', '<=', 50)->orderBy('stocks', 'asc')->take(5)->get()->map(fn ($book) => new Book(
+            $book->id,
+            $book->bookID,
+            $book->bookname,
+            $book->bookdetails,
+            $book->author,
+            $book->stocks,
+            $book->bookcategory,
+            $book->datepublish,
+            $book->image,
+            $book->bookprice,
+            $book->isDeleted,
+            $book->createdAt,
+            $book->updatedAt,
+        ))->toArray();
+
+        $totalLowStockBooks = BookModel::where('stocks', '<=', 50)->count();
+
+        return [
+            'get5lowStockBooks' => $get5lowStockBooks,
+            'totalLowStockBooks' => $totalLowStockBooks,
+        ];
+    }
+
 }

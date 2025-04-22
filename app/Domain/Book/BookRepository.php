@@ -27,4 +27,6 @@ interface BookRepository
     public function getBestSellingBook(): array;
 
     public function getTopSellingBook(): array;
+
+    public function get5LowStockBooks(): array;
 }

@@ -266,4 +266,26 @@ class EloquentSalesRepository implements SaleRepository
             'type' => $percentage > 0 ? 'increase' : ($percentage < 0 ? 'decrease' : 'neutral'),
         ];
     }
+
+    public function getLatestSales(): array
+    {
+        return SaleModel::orderBy('createdAt', 'desc')->take(5)->get()->map(fn ($sale) => new Sale(
+            $sale->id,
+            $sale->salesID,
+            $sale->bookID,
+            $sale->userID,
+            $sale->refID,
+            $sale->quantity,
+            $sale->status,
+            $sale->totalsales,
+            $sale->tax,
+            $sale->createdAt,
+            $sale->updatedAt,
+            $sale->book->bookname,
+            $sale->book->bookprice,
+            $sale->book->image,
+            $sale->book->author,
+            $sale->book->bookcategory,
+        ))->toArray();
+    }
 }
