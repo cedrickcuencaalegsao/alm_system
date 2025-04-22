@@ -33,4 +33,9 @@ class RegisterBook
     {
         return $this->bookRepository->search($searchTerm);
     }
+
+    public function getBooksInStockCount(): array
+    {
+        return $this->bookRepository->getBooksInStockCount();
+    }
 }

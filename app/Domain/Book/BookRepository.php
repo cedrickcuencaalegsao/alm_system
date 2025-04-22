@@ -21,4 +21,6 @@ interface BookRepository
     public function updateStockWhenItemBought(string $bookID, int $quantity);
 
     public function search(string $searchTerm): array;
+
+    public function getBooksInStockCount(): array;
 }

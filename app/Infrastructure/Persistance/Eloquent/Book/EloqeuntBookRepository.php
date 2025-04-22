@@ -271,4 +271,19 @@ class EloqeuntBookRepository implements BookRepository
             $book->updatedAt,
         ))->toArray();
     }
+
+    public function getBooksInStockCount(): array
+    {
+        $booksInStock = BookModel::where('stocks', '>', 0)->count();
+        $booksOutOfStock = BookModel::where('stocks', 0)->count();
+        $totalBooks = $booksInStock + $booksOutOfStock;
+
+        $percentage = ($booksOutOfStock / $totalBooks) * 100;
+        $formattedPercentage = number_format($percentage, 2);
+
+        return [
+            'booksInStock' => $booksInStock,
+            'percentage' => $formattedPercentage,
+        ];
+    }
 }

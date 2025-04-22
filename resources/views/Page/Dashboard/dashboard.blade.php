@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+    {{-- {{ dd($data) }} --}}
     <!-- Dashboard Overview -->
     <div class="row mb-4">
         <!-- Total Sales Card -->
@@ -94,10 +95,19 @@
                             <div class="small text-info text-uppercase fw-bold mb-1">
                                 Books in Stock
                             </div>
-                            <div class="h3 mb-0 fw-bold">1,500</div>
-                            <div class="small text-info mt-2">
-                                <i class="bi bi-arrow-up"></i> 32 new titles
+                            <div class="h3 mb-0 fw-bold">{{ $data['booksInStockCount']['booksInStock'] }}</div>
+                            <div class="small
+                                @if ($data['booksInStockCount']['percentage'] > 0) text-success
+                                @elseif($data['booksInStockCount']['percentage'] < 0)
+                                    text-danger
+                                @else
+                                    text-secondary @endif
+                            ">
+                                {{ $data['booksInStockCount']['percentage'] }}%
                             </div>
+                            {{-- <div class="small text-info mt-2">
+                                <i class="bi"></i> {{ $data['booksInStockCount']['percentage'] }}%
+                            </div> --}}
                         </div>
                         <div class="col-auto">
                             <i class="bi bi-book fs-1 text-info opacity-50"></i>
