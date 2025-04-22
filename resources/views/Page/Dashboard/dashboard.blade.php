@@ -165,13 +165,13 @@
                             </a>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                            <a href="#"
+                            <a href="{{ route('view.manage.books') }}"
                                 class="btn btn-info w-100 d-flex align-items-center justify-content-center py-3 text-white">
-                                <i class="bi bi-box me-2"></i> Manage Inventory
+                                <i class="bi bi-book me-2"></i> Manage Books
                             </a>
                         </div>
                         <div class="col-lg-3 col-md-6">
-                            <a href="#"
+                            <a href="{{ route('view.manage.reports') }}"
                                 class="btn btn-warning w-100 d-flex align-items-center justify-content-center py-3">
                                 <i class="bi bi-file-earmark-text me-2"></i> Sales Report
                             </a>

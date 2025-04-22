@@ -37,8 +37,8 @@
 
             <div class="sidebar-item">
                 <a href="{{ route('view.manage.books') }}" class="sidebar-link @if(request()->routeIs('admin.products*')) active @endif">
-                    <i class="bi bi-box"></i>
-                    Products
+                    <i class="bi bi-book"></i>
+                    Books
                     {{-- <span class="sidebar-badge">New</span> --}}
                 </a>
             </div>
