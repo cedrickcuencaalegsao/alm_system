@@ -52,7 +52,7 @@ class ManageBooksWEBController extends Controller
             $this->create($data);
         }
 
-        return redirect()->back()->with('success', 'Book has been successfully added!');
+        return redirect()->route('view.new.book')->with('success', 'Book has been successfully added!');
     }
 
     public function create($data)

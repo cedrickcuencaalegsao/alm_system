@@ -302,6 +302,7 @@
                                     <th class="px-4 py-3">Author</th>
                                     <th class="px-4 py-3">Category</th>
                                     <th class="px-4 py-3">Current Stock</th>
+                                    <th class="px-4 py-3">Price</th>
                                     <th class="px-4 py-3">Actions</th>
                                 </tr>
                             </thead>
@@ -314,10 +315,11 @@
                                         <td class="px-4 py-3">{{ $book->getCategory() }}</td>
                                         <td class="px-4 py-3"><span
                                                 class="badge bg-danger">{{ $book->getStock() }}</span></td>
+                                        <td class="px-4 py-3">${{ $book->getPrice() }}</td>
                                         <td class="px-4 py-3">
-                                            <a href="{{ route('view.restock', encrypt($book->getBookID())) }}" class="btn btn-sm btn-outline-primary me-1" class="bi bi-plus-circle">Restock</a>
-                                            {{-- <button class="btn btn-sm btn-outline-primary me-1"><i
-                                                    ></i> Restock</button> --}}
+                                            <a href="{{ route('view.restock', encrypt($book->getBookID())) }}"
+                                                class="btn btn-sm btn-outline-primary me-1">
+                                                <i class="bi bi-plus-circle"></i> Restock</a>
                                         </td>
                                     </tr>
                                 @endforeach
