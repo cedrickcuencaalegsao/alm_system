@@ -4,6 +4,7 @@ namespace App\Application\Book;
 
 use App\Domain\Book\Book;
 use App\Domain\Book\BookRepository;
+use Carbon\Carbon;
 
 class RegisterBook
 {
@@ -12,6 +13,27 @@ class RegisterBook
     public function __construct(BookRepository $bookRepository)
     {
         $this->bookRepository = $bookRepository;
+    }
+
+    public function create(array $data): void
+    {
+        $newBook = new Book(
+            null,
+            $data['bookID'],
+            $data['bookname'],
+            $data['bookdetails'],
+            $data['author'],
+            $data['stocks'],
+            $data['bookcategory'],
+            $data['datepublish'],
+            $data['image'],
+            $data['bookprice'],
+            false,
+            Carbon::now(),
+            Carbon::now(),
+            null,
+        );
+        $this->bookRepository->create($newBook);
     }
 
     public function findAll(): array

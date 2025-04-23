@@ -102,40 +102,5 @@
             });
         }
     });
-    document.addEventListener('DOMContentLoaded', function() {
-        // Handle form submission
-        document.getElementById('addBookForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const form = e.target;
-            const formData = new FormData(form);
-
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if(data.success) {
-                    // Show success message
-                    alert('Book added successfully!');
-                    // Close modal
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('addBookModal'));
-                    modal.hide();
-                    // Optionally refresh the page or update the UI
-                    window.location.reload();
-                } else {
-                    // Show error message
-                    alert('Error: ' + (data.message || 'Failed to add book'));
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while adding the book');
-            });
-        });
-    });
+    
 </script>

@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class SystemSeeder extends Seeder
 {
@@ -18,7 +19,7 @@ class SystemSeeder extends Seeder
         // Create admin user
         DB::table('users')->insert([
             'userID' => 'ADM'.Str::random(12),
-            'isAdmin' => True,
+            'isAdmin' => true,
             'email' => 'admin@example.com',
             'firstname' => 'Admin',
             'lastname' => 'User',
@@ -32,7 +33,7 @@ class SystemSeeder extends Seeder
             'updated_at' => now(),
         ]);
 
-        // Create 2 regular users
+        // Create 5 regular users
         $users = [
             [
                 'firstname' => 'John',
@@ -48,9 +49,30 @@ class SystemSeeder extends Seeder
                 'address' => '789 Oak Avenue',
                 'contactnumber' => '9123456791',
             ],
+            [
+                'firstname' => 'Robert',
+                'lastname' => 'Johnson',
+                'email' => 'robert.johnson@example.com',
+                'address' => '101 Pine Road',
+                'contactnumber' => '9123456792',
+            ],
+            [
+                'firstname' => 'Emily',
+                'lastname' => 'Williams',
+                'email' => 'emily.williams@example.com',
+                'address' => '202 Maple Lane',
+                'contactnumber' => '9123456793',
+            ],
+            [
+                'firstname' => 'Michael',
+                'lastname' => 'Brown',
+                'email' => 'michael.brown@example.com',
+                'address' => '303 Cedar Blvd',
+                'contactnumber' => '9123456794',
+            ],
         ];
 
-        foreach ($users as $index => $user) {
+        foreach ($users as $user) {
             DB::table('users')->insert([
                 'userID' => 'USR'.Str::random(12),
                 'isAdmin' => false,
@@ -71,7 +93,8 @@ class SystemSeeder extends Seeder
         $categories = ['Fiction', 'Non-Fiction', 'Science', 'Technology', 'History', 'Biography', 'Fantasy', 'Romance'];
         $authors = ['J.K. Rowling', 'Stephen King', 'George Orwell', 'Agatha Christie', 'Ernest Hemingway', 'Jane Austen', 'Mark Twain', 'Leo Tolstoy'];
 
-        for ($i = 1; $i <= 20; $i++) {
+        // Create 50 books for more variety
+        for ($i = 1; $i <= 50; $i++) {
             $category = $categories[array_rand($categories)];
             $author = $authors[array_rand($authors)];
             $year = rand(2000, 2023);
@@ -98,13 +121,10 @@ class SystemSeeder extends Seeder
         $userIDs = DB::table('users')->where('isAdmin', false)->pluck('userID')->toArray();
         $bookIDs = DB::table('tbl_books')->pluck('bookID')->toArray();
 
-        // Create 10 cart items - exclude admin
-        for ($i = 1; $i <= 10; $i++) {
+        // Create 20 cart items - exclude admin
+        for ($i = 1; $i <= 20; $i++) {
             $userID = $userIDs[array_rand($userIDs)];
             $bookID = $bookIDs[array_rand($bookIDs)];
-            $bookPrice = DB::table('tbl_books')
-                ->where('bookID', $bookID)
-                ->value('bookprice');
 
             DB::table('tbl_cart')->insert([
                 'cartID' => 'CRT'.Str::random(12),
@@ -119,15 +139,34 @@ class SystemSeeder extends Seeder
         // Get all books
         $books = DB::table('tbl_books')->get();
 
-        // Create 3 sales for each book - exclude admin
-        foreach ($books as $book) {
-            for ($i = 1; $i <= 3; $i++) {
+        // Create sales data for the last 36 months with varying transaction counts
+        $successStatuses = ['delivered', 'processing', 'delivering'];
+        $failedStatuses = ['cancelled', 'pending'];
+
+        for ($monthOffset = 0; $monthOffset < 36; $monthOffset++) {
+            $startDate = Carbon::now()->subMonths($monthOffset)->startOfMonth();
+            $endDate = Carbon::now()->subMonths($monthOffset)->endOfMonth();
+
+            // Random number of transactions per month (between 15-50)
+            $transactionsThisMonth = rand(15, 50);
+
+            for ($i = 1; $i <= $transactionsThisMonth; $i++) {
                 $userID = $userIDs[array_rand($userIDs)];
-                $quantity = rand(1, 10);
-                $statuses = ['pending', 'processing', 'delivering', 'delivered', 'cancelled'];
-                $status = $statuses[array_rand($statuses)];
-                $tax = $book->bookprice * $quantity * 0.12; // Assuming 12% tax
+                $book = $books->random();
+                $quantity = rand(1, 5);
+
+                // 95% success rate
+                $status = (rand(1, 100) <= 95)
+                    ? $successStatuses[array_rand($successStatuses)]
+                    : $failedStatuses[array_rand($failedStatuses)];
+
+                $tax = $book->bookprice * $quantity * 0.12;
                 $totalSales = ($book->bookprice * $quantity) + $tax;
+
+                // Random date within the month with time
+                $transactionDate = Carbon::createFromTimestamp(
+                    rand($startDate->timestamp, $endDate->timestamp)
+                )->toDateTimeString();
 
                 DB::table('tbl_sales')->insert([
                     'salesID' => 'SLS'.Str::random(12),
@@ -139,8 +178,8 @@ class SystemSeeder extends Seeder
                     'tax' => $tax,
                     'totalsales' => $totalSales,
                     'isDeleted' => false,
-                    'createdAt' => now()->toDateTimeString(),
-                    'updatedAt' => now()->toDateTimeString(),
+                    'createdAt' => $transactionDate,
+                    'updatedAt' => $transactionDate,
                 ]);
             }
         }

@@ -79,4 +79,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/manage-books', [ManageBooksWEBController::class, 'index'])->name('view.manage.books');
     Route::get('/manage-orders', [ManageOrdersWEBController::class, 'index'])->name('view.manage.orders');
     Route::get('/manage-reports', [ManageReportsWEBController::class, 'index'])->name('view.manage.reports');
+    Route::get('/manage-books/new', [ManageBooksWEBController::class, 'newBookIndex'])->name('view.new.book');
+    Route::post('/manage-books/create', [ManageBooksWEBController::class, 'createNewBook'])->name('create.new.book');
+    Route::get('/manage-books/restock/{bookID}', [ManageBooksWEBController::class, 'restockIndex'])->name('view.restock');
 });

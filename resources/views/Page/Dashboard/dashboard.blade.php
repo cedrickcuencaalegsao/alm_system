@@ -96,7 +96,8 @@
                                 Books in Stock
                             </div>
                             <div class="h3 mb-0 fw-bold">{{ $data['booksInStockCount']['booksInStock'] }}</div>
-                            <div class="small
+                            <div
+                                class="small
                                 @if ($data['booksInStockCount']['percentage'] > 0) text-success
                                 @elseif($data['booksInStockCount']['percentage'] < 0)
                                     text-danger
@@ -124,7 +125,8 @@
                                 Active Customers
                             </div>
                             <div class="h3 mb-0 fw-bold">{{ $data['userActivity']['totalUsers'] }}</div>
-                            <div class="small
+                            <div
+                                class="small
                                 @if ($data['userActivity']['percentage'] > 0) text-success
                                 @elseif($data['userActivity']['percentage'] < 0)
                                     text-danger
@@ -153,13 +155,11 @@
                 <div class="card-body py-4">
                     <div class="row g-3">
                         <div class="col-lg-3 col-md-6">
-                            {{-- <a href="#"
+                            <a href="{{ route('view.new.book') }}"
                                 class="btn btn-primary w-100 d-flex align-items-center justify-content-center py-3">
                                 <i class="bi bi-plus-circle me-2"></i> Add New Book
-                            </a> --}}
-                            <button type="button" class="btn btn-primary w-100 d-flex align-items-center justify-content-center py-3" data-bs-toggle="modal" data-bs-target="#addBookModal">
-                                <i class="bi bi-plus-circle me-2"></i> Add New Book
-                            </button>
+                            </a>
+
                         </div>
                         <div class="col-lg-3 col-md-6">
                             <a href="{{ route('view.manage.user') }}"
@@ -185,69 +185,24 @@
         </div>
     </div>
 
-    <!-- Add Book Modal -->
-    <div class="modal fade" id="addBookModal" tabindex="-1" aria-labelledby="addBookModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="addBookModalLabel">Add New Book</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successModalLabel">Success</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
                 </div>
-                <form id="addBookForm" action="#" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row g-3">
-                            <div class="col-md-6">
-                                <label for="bookname" class="form-label">Book Title</label>
-                                <input type="text" class="form-control" id="bookname" name="bookname" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="author" class="form-label">Author</label>
-                                <input type="text" class="form-control" id="author" name="author" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="bookcategory" class="form-label">Category</label>
-                                <select class="form-select" id="bookcategory" name="bookcategory" required>
-                                    <option value="" selected disabled>Select category</option>
-                                    <option value="Fiction">Fiction</option>
-                                    <option value="Non-Fiction">Non-Fiction</option>
-                                    <option value="Science">Science</option>
-                                    <option value="History">History</option>
-                                    <option value="Biography">Biography</option>
-                                    <option value="Technology">Technology</option>
-                                    <option value="Self-Help">Self-Help</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="datepublish" class="form-label">Publish Date</label>
-                                <input type="date" class="form-control" id="datepublish" name="datepublish" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="stocks" class="form-label">Stock Quantity</label>
-                                <input type="number" class="form-control" id="stocks" name="stocks" min="0" required>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="bookprice" class="form-label">Price</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">$</span>
-                                    <input type="number" class="form-control" id="bookprice" name="bookprice" min="0" step="0.01" required>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <label for="bookdetails" class="form-label">Description</label>
-                                <textarea class="form-control" id="bookdetails" name="bookdetails" rows="3" required></textarea>
-                            </div>
-                            <div class="col-12">
-                                <label for="image" class="form-label">Book Cover Image</label>
-                                <input class="form-control" type="file" id="image" name="image" accept="image/*">
-                            </div>
-                        </div>
+                <div class="modal-body">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-check-circle text-success" style="font-size: 3rem;"></i>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Save Book</button>
-                    </div>
-                </form>
+                    <p class="text-center mb-0" id="successModalMessage">Book has been successfully added!</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="{{ route('view.dashboard') }}" class="btn btn-success">OK</a>
+                </div>
             </div>
         </div>
     </div>
@@ -280,13 +235,14 @@
                                         <td class="px-4 py-3">{{ $sale->getUserID() }}</td>
                                         <td class="px-4 py-3">{{ $sale->getQuantity() }}</td>
                                         <td class="px-4 py-3">{{ $sale->getTotalSales() }}</td>
-                                        <td class="px-4 py-3"><span class="badge
-                                            @if($sale->getStatus() == 'pending') bg-warning
+                                        <td class="px-4 py-3"><span
+                                                class="badge
+                                            @if ($sale->getStatus() == 'pending') bg-warning
                                             @elseif($sale->getStatus() == 'processing') bg-info
                                             @elseif($sale->getStatus() == 'delivering') bg-primary
                                             @elseif($sale->getStatus() == 'delivered') bg-success
-                                            @elseif($sale->getStatus() == 'cancelled') bg-danger
-                                            @endif">{{ $sale->getStatus() }}</span></td>
+                                            @elseif($sale->getStatus() == 'cancelled') bg-danger @endif">{{ $sale->getStatus() }}</span>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -350,27 +306,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($data['get5lowStockBooks']['get5lowStockBooks'] as $book)
-                                <tr class="table-danger">
-                                    <td class="px-4 py-3">{{ $book->getBookName() }}</td>
-                                    <td class="px-4 py-3">{{ $book->getBookID() }}</td>
-                                    <td class="px-4 py-3">{{ $book->getAuthor() }}</td>
-                                    <td class="px-4 py-3">{{ $book->getCategory() }}</td>
-                                    <td class="px-4 py-3"><span class="badge bg-danger">{{ $book->getStock() }}</span></td>
-                                    <td class="px-4 py-3">
-                                        <button class="btn btn-sm btn-outline-primary me-1"><i
-                                                class="bi bi-plus-circle"></i> Restock</button>
-                                    </td>
-                                </tr>
+                                @foreach ($data['get5lowStockBooks']['get5lowStockBooks'] as $book)
+                                    <tr class="table-danger">
+                                        <td class="px-4 py-3">{{ $book->getBookName() }}</td>
+                                        <td class="px-4 py-3">{{ $book->getBookID() }}</td>
+                                        <td class="px-4 py-3">{{ $book->getAuthor() }}</td>
+                                        <td class="px-4 py-3">{{ $book->getCategory() }}</td>
+                                        <td class="px-4 py-3"><span
+                                                class="badge bg-danger">{{ $book->getStock() }}</span></td>
+                                        <td class="px-4 py-3">
+                                            <a href="{{ route('view.restock', encrypt($book->getBookID())) }}" class="btn btn-sm btn-outline-primary me-1" class="bi bi-plus-circle">Restock</a>
+                                            {{-- <button class="btn btn-sm btn-outline-primary me-1"><i
+                                                    ></i> Restock</button> --}}
+                                        </td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
-                </div>
-                <div class="card-footer bg-white py-3 d-flex justify-content-between align-items-center">
-                    <div class="small text-muted">Showing 5 of 12 items with low stock</div>
-                    <div>
-                        <button class="btn btn-sm btn-primary">View All</button>
                     </div>
                 </div>
             </div>

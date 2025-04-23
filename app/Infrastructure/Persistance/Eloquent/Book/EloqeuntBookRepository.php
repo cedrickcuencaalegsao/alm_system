@@ -53,6 +53,7 @@ class EloqeuntBookRepository implements BookRepository
             $bookData->bookcategory,
             $bookData->datepublish,
             $bookData->image,
+            $bookData->isDeleted,
             $bookData->bookprice,
             $bookData->createdAt,
             $bookData->updatedAt,
@@ -69,11 +70,12 @@ class EloqeuntBookRepository implements BookRepository
         $newBook->bookname = $book->getBookName();
         $newBook->bookdetails = $book->getBookDetails();
         $newBook->author = $book->getAuthor();
-        $newBook->stock = $book->getStock();
-        $newBook->category = $book->getCategory();
+        $newBook->stocks = $book->getStock();
+        $newBook->bookcategory = $book->getCategory();
         $newBook->datepublish = $book->getDatePublish();
         $newBook->image = $book->getImage();
-        $newBook->price = $book->getPrice();
+        $newBook->bookprice = $book->getPrice();
+        $newBook->isDeleted = $book->getIsDeleted();
         $newBook->createdAt = $book->createdAt();
         $newBook->updatedAt = $book->updatedAt();
         $newBook->save();
@@ -149,49 +151,49 @@ class EloqeuntBookRepository implements BookRepository
     public function getTopSellingBook(): array
     {
         return BookModel::select('tbl_books.*')
-        ->leftJoin('tbl_sales', 'tbl_books.bookID', '=', 'tbl_sales.bookID')
-        ->selectRaw('COALESCE(SUM(tbl_sales.quantity), 0) as totalSold')
-        ->groupBy([
-            'tbl_books.id',
-            'tbl_books.bookID',
-            'tbl_books.bookname',
-            'tbl_books.bookdetails',
-            'tbl_books.author',
-            'tbl_books.stocks',
-            'tbl_books.bookcategory',
-            'tbl_books.datepublish',
-            'tbl_books.image',
-            'tbl_books.isDeleted',
-            'tbl_books.bookprice',
-            'tbl_books.createdAt',
-            'tbl_books.updatedAt'
-        ])
-        ->orderByDesc('totalSold')
-        ->take(5)
-        ->get()
-        ->map(fn ($book) => new Book(
-            id: $book->id,
-            bookID: $book->bookID,
-            bookname: $book->bookname,
-            bookdetails: $book->bookdetails,
-            author: $book->author,
-            stock: $book->stocks,
-            category: $book->bookcategory,
-            datepublish: $book->datepublish,
-            image: $book->image,
-            price: $book->bookprice,
-            isDeleted: $book->isDeleted,
-            createdAt: $book->createdAt,
-            updatedAt: $book->updatedAt,
-            totalSold: (int) $book->totalSold
-        ))->toArray();
+            ->leftJoin('tbl_sales', 'tbl_books.bookID', '=', 'tbl_sales.bookID')
+            ->selectRaw('COALESCE(SUM(tbl_sales.quantity), 0) as totalSold')
+            ->groupBy([
+                'tbl_books.id',
+                'tbl_books.bookID',
+                'tbl_books.bookname',
+                'tbl_books.bookdetails',
+                'tbl_books.author',
+                'tbl_books.stocks',
+                'tbl_books.bookcategory',
+                'tbl_books.datepublish',
+                'tbl_books.image',
+                'tbl_books.isDeleted',
+                'tbl_books.bookprice',
+                'tbl_books.createdAt',
+                'tbl_books.updatedAt',
+            ])
+            ->orderByDesc('totalSold')
+            ->take(5)
+            ->get()
+            ->map(fn ($book) => new Book(
+                id: $book->id,
+                bookID: $book->bookID,
+                bookname: $book->bookname,
+                bookdetails: $book->bookdetails,
+                author: $book->author,
+                stock: $book->stocks,
+                category: $book->bookcategory,
+                datepublish: $book->datepublish,
+                image: $book->image,
+                price: $book->bookprice,
+                isDeleted: $book->isDeleted,
+                createdAt: $book->createdAt,
+                updatedAt: $book->updatedAt,
+                totalSold: (int) $book->totalSold
+            ))->toArray();
     }
+
     /**
      * Function to find all book data.
      * **/
     public function findAll(): array
     {
-
 
         $byCategory = BookModel::query()
             ->where('stocks', '>', 0)
@@ -321,6 +323,7 @@ class EloqeuntBookRepository implements BookRepository
             $book->datepublish,
             $book->image,
             $book->bookprice,
+            $book->isDeleted,
             $book->createdAt,
             $book->updatedAt,
         ))->toArray();
@@ -366,5 +369,4 @@ class EloqeuntBookRepository implements BookRepository
             'totalLowStockBooks' => $totalLowStockBooks,
         ];
     }
-
 }

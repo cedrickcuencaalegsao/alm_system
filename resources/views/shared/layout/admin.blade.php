@@ -116,7 +116,7 @@
     </div>
 
     <!-- Success Alert -->
-    @if(session('success'))
+    {{-- @if(session('success'))
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
         <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
             <div class="toast-header bg-success text-white">
@@ -129,7 +129,7 @@
             </div>
         </div>
     </div>
-    @endif
+    @endif --}}
 
     <!-- Error Alert -->
     @if(session('error'))
