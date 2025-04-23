@@ -53,8 +53,8 @@ class EloqeuntBookRepository implements BookRepository
             $bookData->bookcategory,
             $bookData->datepublish,
             $bookData->image,
-            $bookData->isDeleted,
             $bookData->bookprice,
+            $bookData->isDeleted,
             $bookData->createdAt,
             $bookData->updatedAt,
         );
@@ -368,5 +368,14 @@ class EloqeuntBookRepository implements BookRepository
             'get5lowStockBooks' => $get5lowStockBooks,
             'totalLowStockBooks' => $totalLowStockBooks,
         ];
+    }
+
+    public function restockBook(array $data): void
+    {
+        // dd($data);
+        $bookData = BookModel::where('bookID', $data['bookID'])->first();
+        $bookData->stocks = $bookData->stocks + $data['quantity'];
+        $bookData->updatedAt = $data['updatedAt'];
+        $bookData->save();
     }
 }

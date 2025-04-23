@@ -29,4 +29,6 @@ interface BookRepository
     public function getTopSellingBook(): array;
 
     public function get5LowStockBooks(): array;
+
+    public function restockBook(array $data): void;
 }

@@ -81,6 +81,13 @@ class ManageBooksWEBController extends Controller
         return $bookId;
     }
 
+    public function restockBook(Request $request)
+    {
+        $this->registerBook->restockBook($request->bookID, $request->quantity);
+
+        return redirect()->back()->with('success', 'Book has been successfully restocked!');
+    }
+
     public function restockIndex(string $bookID)
     {
         $book = $this->registerBook->findByBookID(decrypt($bookID));

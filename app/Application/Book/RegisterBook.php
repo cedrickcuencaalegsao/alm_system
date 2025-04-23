@@ -75,4 +75,14 @@ class RegisterBook
     {
         return $this->bookRepository->get5LowStockBooks();
     }
+
+    public function restockBook(string $bookID, int $quantity)
+    {
+        $newStocks = [
+            'bookID' => $bookID,
+            'quantity' => $quantity,
+            'updatedAt' => Carbon::now(),
+        ];
+        $this->bookRepository->restockBook($newStocks);
+    }
 }
