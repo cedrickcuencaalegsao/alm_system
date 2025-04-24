@@ -2,15 +2,16 @@
 
 use App\Http\Controllers\Auth\Web\WebAuthController;
 use App\Http\Controllers\Cart\Web\CartWebController;
+use App\Http\Controllers\Dashboard\WEB\DashboardWEBController;
 use App\Http\Controllers\Home\Web\HomeWebController;
+use App\Http\Controllers\ManageBooks\WEB\ManageBooksWEBController;
+use App\Http\Controllers\ManageOrders\WEB\ManageOrdersWEBController;
+use App\Http\Controllers\ManageReports\WEB\ManageReportsWEBController;
+use App\Http\Controllers\ManageUser\WEB\ManageUserWEBController;
 use App\Http\Controllers\Order\WEB\OrderWEBController;
 use App\Http\Controllers\User\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Dashboard\WEB\DashboardWEBController;
-use App\Http\Controllers\ManageUser\WEB\ManageUserWEBController;
-use App\Http\Controllers\ManageOrders\WEB\ManageOrdersWEBController;
-use App\Http\Controllers\ManageBooks\WEB\ManageBooksWEBController;
-use App\Http\Controllers\ManageReports\WEB\ManageReportsWEBController;
+
 // Guest Routes
 Route::middleware('guest')->group(function () {
     Route::get('/', function () {
@@ -83,4 +84,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/manage-books/create', [ManageBooksWEBController::class, 'createNewBook'])->name('create.new.book');
     Route::get('/manage-books/restock/{bookID}', [ManageBooksWEBController::class, 'restockIndex'])->name('view.restock');
     Route::post('/manage-books/restock', [ManageBooksWEBController::class, 'restockBook'])->name('restock.book');
+    Route::get('/admin-create-user', [ManageUserWEBController::class, 'adminCreateUser'])->name('view.admin.create.user');
+    Route::post('/admin-create-user', [ManageUserWEBController::class, 'createUser'])->name('admin.create.user');
 });

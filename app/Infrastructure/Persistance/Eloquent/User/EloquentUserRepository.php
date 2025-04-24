@@ -81,6 +81,7 @@ class EloquentUserRepository implements UserRespository
             $user->contactNumber,
             $user->image,
             $user->email,
+            $user->isDeleted,
             $user->createdAt,
             $user->updatedAt,
         );
@@ -107,6 +108,7 @@ class EloquentUserRepository implements UserRespository
             $user->contactnumber,
             $user->image,
             $user->email,
+            $user->isDeleted,
             $user->created_at,
             $user->updated_at,
         );
@@ -124,12 +126,40 @@ class EloquentUserRepository implements UserRespository
             firstname: $user->firstname,
             lastname: $user->lastname,
             address: $user->address,
-            contactNumber: $user->contactNumber,
+            contactNumber: $user->contactnumber,
             image: $user->image,
             email: $user->email,
-            createdAt: $user->createdAt,
-            updatedAt: $user->updatedAt,
+            createdAt: $user->created_at,
+            updatedAt: $user->updated_at,
+            isDeleted: $user->isDeleted,
         ))->toArray();
+    }
+
+    /**
+     * Function to get paginated data from the table user.
+     * **/
+    public function findAllPaginated(int $perPage)
+    {
+        $users = UserModel::where('isDeleted', false)->paginate($perPage);
+
+        $users->getCollection()->transform(function ($user) {
+            return new User(
+                id: $user->id,
+                userID: $user->userID,
+                isAdmin: $user->isAdmin,
+                firstname: $user->firstname,
+                lastname: $user->lastname,
+                address: $user->address,
+                contactNumber: $user->contactnumber,
+                image: $user->image,
+                email: $user->email,
+                createdAt: $user->created_at,
+                updatedAt: $user->updated_at,
+                isDeleted: $user->isDeleted,
+            );
+        });
+
+        return $users;
     }
 
     /**
@@ -155,7 +185,8 @@ class EloquentUserRepository implements UserRespository
                 $user->image,
                 $user->email,
                 $user->created_at,
-                $user->updated_at
+                $user->updated_at,
+                $user->isDeleted,
             );
         }
 
@@ -188,5 +219,54 @@ class EloquentUserRepository implements UserRespository
             'totalUsers' => $totalUsers,
             'percentage' => $formattedPercentage,
         ];
+    }
+
+    public function getTotalUsers(): int
+    {
+        return UserModel::count();
+    }
+
+    public function getTotalAdmins(): int
+    {
+        return UserModel::where('isAdmin', true)->count();
+    }
+
+    public function getTotalNewThisMonth(): int
+    {
+        return UserModel::where('created_at', '>=', Carbon::now()->startOfMonth()->toDateTimeString())->count();
+    }
+
+    /**
+     * Function to search users by name or email
+     * **/
+    public function searchUsers(string $query, int $perPage)
+    {
+        $users = UserModel::where('isDeleted', false)
+            ->where(function ($q) use ($query) {
+                $q->where('firstname', 'LIKE', "%{$query}%")
+                    ->orWhere('lastname', 'LIKE', "%{$query}%")
+                    ->orWhere('email', 'LIKE', "%{$query}%")
+                    ->orWhere('userID', 'LIKE', "%{$query}%");
+            })
+            ->paginate($perPage);
+
+        $users->getCollection()->transform(function ($user) {
+            return new User(
+                id: $user->id,
+                userID: $user->userID,
+                isAdmin: $user->isAdmin,
+                firstname: $user->firstname,
+                lastname: $user->lastname,
+                address: $user->address,
+                contactNumber: $user->contactnumber,
+                image: $user->image,
+                email: $user->email,
+                createdAt: $user->created_at,
+                updatedAt: $user->updated_at,
+                isDeleted: $user->isDeleted,
+            );
+        });
+
+        return $users;
     }
 }

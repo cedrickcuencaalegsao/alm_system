@@ -13,6 +13,7 @@ class User
     private ?int $contactNumber;
     private ?string $image;
     private ?string $email;
+    private ?bool $isDeleted;
     private ?string $createdAt;
     private ?string $updatedAt;
 
@@ -27,6 +28,7 @@ class User
         ?string $image = null,
         ?string $email = null,
         ?string $password = null,
+        ?bool $isDeleted = null,
         ?string $createdAt = null,
         ?string $updatedAt = null,
     ) {
@@ -40,6 +42,7 @@ class User
         $this->image = $image;
         $this->email = $email;
         $this->password = $password;
+        $this->isDeleted = $isDeleted;
         $this->createdAt = $createdAt;
         $this->updatedAt = $updatedAt;
     }
@@ -100,6 +103,10 @@ class User
     public function getPassword(): string|null
     {
         return $this->password;
+    }
+    public function getIsDeleted(): bool|null
+    {
+        return $this->isDeleted;
     }
     public function createdAt(): string|null
     {

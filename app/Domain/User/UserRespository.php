@@ -18,7 +18,17 @@ interface UserRespository
 
     public function findAll(): array;
 
+    public function findAllPaginated(int $perPage);
+
     public function updateUserPassword(string $userID, string $password): void;
 
     public function getUserActivity(): array;
+
+    public function getTotalUsers(): int;
+
+    public function getTotalAdmins(): int;
+
+    public function getTotalNewThisMonth(): int;
+
+    public function searchUsers(string $query, int $perPage);
 }

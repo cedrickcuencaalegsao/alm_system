@@ -79,8 +79,33 @@ class RegisterUser
         return $this->userRespository->findAll();
     }
 
+    public function findAllPaginated(int $perPage)
+    {
+        return $this->userRespository->findAllPaginated($perPage);
+    }
+
     public function getUserActivity(): array
     {
         return $this->userRespository->getUserActivity();
+    }
+
+    public function getTotalUsers(): int
+    {
+        return $this->userRespository->getTotalUsers();
+    }
+
+    public function getTotalAdmins(): int
+    {
+        return $this->userRespository->getTotalAdmins();
+    }
+
+    public function getTotalNewThisMonth(): int
+    {
+        return $this->userRespository->getTotalNewThisMonth();
+    }
+
+    public function searchUsers(string $query, int $perPage)
+    {
+        return $this->userRespository->searchUsers($query, $perPage);
     }
 }
