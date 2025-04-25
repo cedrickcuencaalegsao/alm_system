@@ -116,6 +116,68 @@ class ManageUserWEBController extends Controller
         return $userId;
     }
 
+    public function deleteUser(string $userID)
+    {
+        $this->registerUser->deleteUser(decrypt($userID));
+
+        return redirect()->route('view.manage.user')->with('success', 'User deleted successfully');
+    }
+
+    public function saveEditUser(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($request->all(), [
+            'firstname' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'address' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'password' => 'nullable|min:8',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withErrors($validator)
+                ->withInput($request->except('password'));
+        }
+
+        if ($data['role'] == 'Admin') {
+            $data['isAdmin'] = true;
+        } else {
+            $data['isAdmin'] = false;
+        }
+
+        $data['image'] = null;
+
+        if ($data['password'] !== null) {
+            if ($data['password'] !== $data['password_confirmation']) {
+                return redirect()->back()->withErrors(['password' => 'Passwords do not match'])->withInput($request->except('password'));
+            }
+            $this->registerUser->updateUserPassword($data['user_id'], $data['password']);
+        }
+        $updateUser = [
+            'userID' => $data['user_id'],
+            'firstname' => $data['firstname'],
+            'lastname' => $data['lastname'],
+            'address' => $data['address'],
+            'contactNumber' => $data['contactnumber'],
+            'email' => $data['email'],
+            'image' => $data['image'],
+            'isAdmin' => $data['isAdmin'],
+        ];
+        $this->registerUser->update($updateUser);
+
+        return redirect()->route('view.manage.user')->with('success', 'User updated successfully');
+    }
+
+    public function adminEditUser(string $userID)
+    {
+        $user = $this->registerUser->findByUserID($userID);
+
+        return view('Page.AdminEditUser.adminedituser', compact('user'));
+    }
+
     public function adminCreateUser()
     {
         return view('Page.AdminCreateUser.admincreateuser');

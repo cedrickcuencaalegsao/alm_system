@@ -102,11 +102,6 @@
                         <table class="table table-hover align-middle">
                             <thead class="table-light">
                                 <tr>
-                                    <th scope="col" class="px-4 py-3" style="width: 60px;">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="selectAll">
-                                        </div>
-                                    </th>
                                     <th scope="col" class="px-4 py-3">User</th>
                                     <th scope="col" class="px-4 py-3">Role</th>
                                     <th scope="col" class="px-4 py-3">Email</th>
@@ -118,11 +113,6 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <td class="px-4 py-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-3">
                                             <div class="d-flex align-items-center">
                                                 <div
                                                     class="avatar-circle {{ $user->getIsAdmin() ? 'bg-primary' : 'bg-warning' }} text-white me-3">
@@ -131,11 +121,13 @@
                                                 <div>
                                                     <h6 class="mb-0">{{ $user->getFirstName() }}
                                                         {{ $user->getLastName() }}</h6>
-                                                    <small
-                                                        class="text-muted">{{ \Carbon\Carbon::parse($user->createdAt())->format('M d, Y') }}</small>
+                                                    <small class="text-muted">Joined:
+                                                        {{ \Carbon\Carbon::parse($user->createdAt())->format('M d, Y h:i A') }}</small>
+
                                                 </div>
                                             </div>
                                         </td>
+
                                         <td class="px-4 py-3"><span
                                                 class="badge {{ $user->getIsAdmin() ? 'bg-info' : 'bg-warning' }} text-white">
                                                 {{ $user->getIsAdmin() ? 'Admin' : 'Customer' }}
@@ -150,25 +142,28 @@
                                         </td>
                                         <td class="px-4 py-3">
                                             <div class="btn-group" role="group" aria-label="User actions">
-                                                <a href="#" class="btn btn-sm btn-outline-secondary"
+                                                {{-- <a href="#" class="btn btn-sm btn-outline-secondary"
                                                     data-bs-toggle="tooltip" title="View Profile">
                                                     <i class="bi bi-eye"></i>
-                                                </a>
-                                                <a href="#" class="btn btn-sm btn-outline-secondary"
-                                                    data-bs-toggle="tooltip" title="Edit User">
+                                                </a> --}}
+                                                <a href="{{ route('admin.edit.user', encrypt($user->getUserID())) }}"
+                                                    class="btn btn-sm btn-outline-secondary" data-bs-toggle="tooltip"
+                                                    title="Edit User">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
 
                                                 @if (!$user->getIsAdmin())
-                                                    <a href="#" class="btn btn-sm btn-outline-danger"
-                                                        data-bs-toggle="tooltip" title="Delete User"
-                                                        onclick="return confirm('Are you sure you want to delete this user?')">
-                                                        <i class="bi bi-trash"></i>
-                                                    </a>
+                                                    <form action="{{ route('delete.user', encrypt($user->getUserID())) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                            data-bs-toggle="tooltip" title="Delete this Account.">
+                                                            <i class="bi bi-trash"></i>
+                                                        </button>
+                                                    </form>
                                                 @else
-                                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                                        disabled data-bs-toggle="tooltip"
-                                                        title="Admin accounts cannot be deleted">
+                                                    <button type="button" class="btn btn-sm btn-outline-secondary" disabled
+                                                        data-bs-toggle="tooltip" title="Admin accounts cannot be deleted">
                                                         <i class="bi bi-trash"></i>
                                                     </button>
                                                 @endif

@@ -31,4 +31,6 @@ interface UserRespository
     public function getTotalNewThisMonth(): int;
 
     public function searchUsers(string $query, int $perPage);
+
+    public function deleteUser(string $userID): void;
 }

@@ -108,4 +108,9 @@ class RegisterUser
     {
         return $this->userRespository->searchUsers($query, $perPage);
     }
+
+    public function deleteUser(string $userID): void
+    {
+        $this->userRespository->deleteUser($userID);
+    }
 }

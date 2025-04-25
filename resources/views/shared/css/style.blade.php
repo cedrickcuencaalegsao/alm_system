@@ -190,4 +190,25 @@
         justify-content: center;
         font-weight: bold;
     }
+
+    .sidebar-link.text-danger {
+        transition: all 0.3s ease;
+    }
+
+    .sidebar-link.text-danger:hover {
+        background-color: transparent;
+        color: transparent;
+        transform: translateX(5px);
+        box-shadow: none;
+        border-radius: 4px;
+    }
+
+    /* Icon transition */
+    .sidebar-link.text-danger i {
+        transition: transform 0.3s ease;
+    }
+
+    .sidebar-link.text-danger:hover i {
+        transform: translateX(2px);
+    }
 </style>

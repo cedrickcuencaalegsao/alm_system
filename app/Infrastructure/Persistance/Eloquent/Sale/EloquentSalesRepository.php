@@ -269,7 +269,7 @@ class EloquentSalesRepository implements SaleRepository
 
     public function getLatestSales(): array
     {
-        return SaleModel::orderBy('createdAt', 'desc')->take(5)->get()->map(fn ($sale) => new Sale(
+        return SaleModel::orderBy('createdAt', 'desc')->take(8)->get()->map(fn ($sale) => new Sale(
             $sale->id,
             $sale->salesID,
             $sale->bookID,

@@ -5,16 +5,29 @@ namespace App\Domain\User;
 class User
 {
     private ?int $id;
+
     private ?string $userID;
+
     private ?bool $isAdmin;
+
     private ?string $firstname;
+
     private ?string $lastname;
+
     private ?string $address;
+
     private ?int $contactNumber;
+
     private ?string $image;
+
     private ?string $email;
+
+    private ?string $password;
+
     private ?bool $isDeleted;
+
     private ?string $createdAt;
+
     private ?string $updatedAt;
 
     public function __construct(
@@ -64,55 +77,68 @@ class User
             'updatedAt' => $this->updatedAt,
         ];
     }
-    public function getId(): int|null
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-    public function getUserID(): string|null
+
+    public function getUserID(): ?string
     {
         return $this->userID;
     }
-    public function getIsAdmin(): bool|null
+
+    public function getIsAdmin(): ?bool
     {
         return $this->isAdmin;
     }
-    public function getFirstName(): string|null
+
+    public function getFirstName(): ?string
     {
         return $this->firstname;
     }
-    public function getLastName(): string|null
+
+    public function getLastName(): ?string
     {
         return $this->lastname;
     }
-    public function getAddress(): string|null
+
+    public function getAddress(): ?string
     {
         return $this->address;
     }
-    public function getContactNumber(): int|nUll
+
+    public function getContactNumber(): ?int
     {
         return $this->contactNumber;
     }
-    public function getImage(): string|null
+
+    public function getImage(): ?string
     {
         return $this->image;
     }
-    public function getEmail(): string|null
+
+    public function getEmail(): ?string
     {
         return $this->email;
     }
-    public function getPassword(): string|null
+
+    public function getPassword(): ?string
     {
         return $this->password;
     }
-    public function getIsDeleted(): bool|null
+
+    public function getIsDeleted(): ?bool
     {
         return $this->isDeleted;
     }
-    public function createdAt(): string|null
+
+    public function createdAt(): ?string
     {
         return $this->createdAt;
     }
-    public function updatedAt(): string|null
+
+    public function updatedAt(): ?string
     {
         return $this->updatedAt;
     }

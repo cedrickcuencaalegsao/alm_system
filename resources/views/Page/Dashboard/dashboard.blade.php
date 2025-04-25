@@ -231,10 +231,10 @@
                             <tbody>
                                 @foreach ($data['latestSales'] as $sale)
                                     <tr>
-                                        <td class="px-4 py-3">{{ $sale->getSalesID() }}</td>
+                                        <td class="px-4 py-3">{{ $sale->getRefID() }}</td>
                                         <td class="px-4 py-3">{{ $sale->getUserID() }}</td>
                                         <td class="px-4 py-3">{{ $sale->getQuantity() }}</td>
-                                        <td class="px-4 py-3">{{ $sale->getTotalSales() }}</td>
+                                        <td class="px-4 py-3">${{ number_format($sale->getTotalSales(), 2) }}</td>
                                         <td class="px-4 py-3"><span
                                                 class="badge
                                             @if ($sale->getStatus() == 'pending') bg-warning
@@ -298,7 +298,7 @@
                             <thead class="table-light">
                                 <tr>
                                     <th class="px-4 py-3">Book Title</th>
-                                    <th class="px-4 py-3">ISBN</th>
+                                    <th class="px-4 py-3">Book ID</th>
                                     <th class="px-4 py-3">Author</th>
                                     <th class="px-4 py-3">Category</th>
                                     <th class="px-4 py-3">Current Stock</th>

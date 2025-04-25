@@ -58,6 +58,7 @@ class EloquentUserRepository implements UserRespository
     {
         $user = UserModel::where('userID', $userID)->first();
         $user->password = Hash::make($password);
+        $user->updated_at = Carbon::now()->toDateTimeString();
         $user->save();
     }
 
@@ -81,6 +82,7 @@ class EloquentUserRepository implements UserRespository
             $user->contactNumber,
             $user->image,
             $user->email,
+            $user->password,
             $user->isDeleted,
             $user->createdAt,
             $user->updatedAt,
@@ -108,6 +110,7 @@ class EloquentUserRepository implements UserRespository
             $user->contactnumber,
             $user->image,
             $user->email,
+            $user->password,
             $user->isDeleted,
             $user->created_at,
             $user->updated_at,
@@ -129,9 +132,10 @@ class EloquentUserRepository implements UserRespository
             contactNumber: $user->contactnumber,
             image: $user->image,
             email: $user->email,
+            password: $user->password,
+            isDeleted: $user->isDeleted,
             createdAt: $user->created_at,
             updatedAt: $user->updated_at,
-            isDeleted: $user->isDeleted,
         ))->toArray();
     }
 
@@ -174,6 +178,7 @@ class EloquentUserRepository implements UserRespository
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
+            // dd($user);
             return new User(
                 $user->id,
                 $user->userID,
@@ -184,9 +189,10 @@ class EloquentUserRepository implements UserRespository
                 $user->contactnumber,
                 $user->image,
                 $user->email,
+                $user->password,
+                $user->isDeleted,
                 $user->created_at,
                 $user->updated_at,
-                $user->isDeleted,
             );
         }
 
@@ -268,5 +274,13 @@ class EloquentUserRepository implements UserRespository
         });
 
         return $users;
+    }
+
+    public function deleteUser(string $userID): void
+    {
+        $user = UserModel::where('userID', $userID)->first();
+        $user->isDeleted = true;
+        $user->updated_at = Carbon::now()->toDateTimeString();
+        $user->save();
     }
 }

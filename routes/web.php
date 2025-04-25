@@ -86,4 +86,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/manage-books/restock', [ManageBooksWEBController::class, 'restockBook'])->name('restock.book');
     Route::get('/admin-create-user', [ManageUserWEBController::class, 'adminCreateUser'])->name('view.admin.create.user');
     Route::post('/admin-create-user', [ManageUserWEBController::class, 'createUser'])->name('admin.create.user');
+    Route::get('/admin-edit-user/{userid}', [ManageUserWEBController::class, 'adminEditUser'])->name('admin.edit.user');
+    Route::post('/admin-save-edit-user', [ManageUserWEBController::class, 'saveEditUser'])->name('save.edit.user');
+    Route::post('/admin-delete-user/{userid}', [ManageUserWEBController::class, 'deleteUser'])->name('delete.user');
 });
