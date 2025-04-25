@@ -650,14 +650,14 @@
                     <div class="col-md-3">
                         <div class="card book-card h-100">
                             <div class="position-relative overflow-hidden">
-                                <img src="{{ $book->image ? asset('storage/' . $book->image) : route('default.image') }}"
-                                    class="card-img-top" alt="{{ $book->bookname }}" loading="lazy"
+                                <img src="{{ $book->image ? asset('storage/' . $book->getBookImage()) : route('default.image') }}"
+                                    class="card-img-top" alt="{{ $book['bookname'] }}" loading="lazy"
                                     onerror="this.classList.add('book-img-skeleton'); this.onerror=null;">
                             </div>
                             <div class="card-body">
-                                <h5 class="card-title">{{ $book->bookname }}</h5>
-                                <p class="card-text text-muted">{{ $book->author }}</p>
-                                <span class="price-badge">${{ number_format($book->bookprice, 2) }}</span>
+                                <h5 class="card-title">{{ $book['bookname'] }}</h5>
+                                <p class="card-text text-muted">{{ $book['author'] }}</p>
+                                <span class="price-badge">${{ number_format($book['bookprice'], 2) }}</span>
                             </div>
                         </div>
                     </div>

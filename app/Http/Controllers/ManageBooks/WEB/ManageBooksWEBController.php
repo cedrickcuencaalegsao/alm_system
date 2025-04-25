@@ -100,8 +100,17 @@ class ManageBooksWEBController extends Controller
         return view('Page.NewBook.newbook');
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('Page.ManageBooks.managebooks');
+        $search = $request->input('query');
+        if ($search) {
+            $books['allBooks'] = $this->registerBook->search($search);
+            return view('Page.ManageBooks.managebooks', compact('books', 'search'));
+        } else {
+            $books = $this->registerBook->findAll();
+
+            return view('Page.ManageBooks.managebooks', compact('books', 'search'));
+        }
+
     }
 }
