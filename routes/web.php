@@ -89,4 +89,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin-edit-user/{userid}', [ManageUserWEBController::class, 'adminEditUser'])->name('admin.edit.user');
     Route::post('/admin-save-edit-user', [ManageUserWEBController::class, 'saveEditUser'])->name('save.edit.user');
     Route::post('/admin-delete-user/{userid}', [ManageUserWEBController::class, 'deleteUser'])->name('delete.user');
+    Route::get('/admin-edit-book/{bookID}', [ManageBooksWEBController::class, 'editBook'])->name('admin.edit.book');
 });

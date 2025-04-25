@@ -89,7 +89,7 @@
 
                                             <div class="card-footer bg-transparent border-top-0">
                                                 <div class="d-flex justify-content-between">
-                                                    <a class="btn btn-outline-primary btn-sm" href="#">
+                                                    <a class="btn btn-outline-primary btn-sm" href="{{ route('admin.edit.book', encrypt($book->getBookID())) }}">
                                                         <i class="bi bi-pencil me-1"></i>Edit
                                                     </a>
                                                 </div>

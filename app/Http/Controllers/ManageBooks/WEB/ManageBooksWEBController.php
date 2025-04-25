@@ -111,6 +111,12 @@ class ManageBooksWEBController extends Controller
 
             return view('Page.ManageBooks.managebooks', compact('books', 'search'));
         }
+    }
 
+    public function editBook(string $bookID)
+    {
+        $book = $this->registerBook->findByBookID(decrypt($bookID));
+
+        return view('Page.AdminEditBook.admineditbook', compact('book'));
     }
 }
