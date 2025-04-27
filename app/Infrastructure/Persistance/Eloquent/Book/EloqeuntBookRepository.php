@@ -96,7 +96,6 @@ class EloqeuntBookRepository implements BookRepository
         $newBookData->datepublish = $book->getDatePublish();
         $newBookData->image = $book->getImage();
         $newBookData->price = $book->getPrice();
-        $newBookData->createdAt = $book->createdAt();
         $newBookData->updatedAt = $book->updatedAt();
         $newBookData->save();
     }

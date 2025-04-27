@@ -211,4 +211,38 @@
     .sidebar-link.text-danger:hover i {
         transform: translateX(2px);
     }
+
+    Styling for the category tags .category-tag {
+        margin-bottom: 0.25rem;
+    }
+
+    .category-radio {
+        position: absolute;
+        opacity: 0;
+    }
+
+    .category-label {
+        cursor: pointer;
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+        transition: all 0.2s ease;
+    }
+
+    .category-radio:checked+.category-label {
+        background-color: #0d6efd;
+        color: white;
+        border-color: #0d6efd;
+    }
+
+    .category-radio:focus+.category-label {
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+    }
+
+    .category-label:hover {
+        background-color: #dde2e6;
+    }
+
+    .category-radio:checked+.category-label:hover {
+        background-color: #0b5ed7;
+    }
 </style>

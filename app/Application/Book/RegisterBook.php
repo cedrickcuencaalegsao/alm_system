@@ -36,6 +36,28 @@ class RegisterBook
         $this->bookRepository->create($newBook);
     }
 
+    public function update(array $data): void
+    {
+        $newBook = new Book(
+            null,
+            $data['bookID'],
+            $data['bookname'],
+            $data['bookdetails'],
+            $data['author'],
+            $data['stocks'],
+            $data['bookcategory'],
+            $data['datepublish'],
+            $data['image'],
+            $data['bookprice'],
+            false,
+            Carbon::now(),
+            Carbon::now(),
+            null,
+        );
+        dd($newBook);
+        $this->bookRepository->update($newBook);
+    }
+
     public function findAll(): array
     {
         return $this->bookRepository->findAll();

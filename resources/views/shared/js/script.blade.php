@@ -102,5 +102,12 @@
             });
         }
     });
-    
+
+    function adjustQuantity(change) {
+        const input = document.getElementById('quantityInput');
+        let newValue = parseInt(input.value) + change;
+        newValue = Math.max(newValue, 0);
+        input.value = newValue;
+    }
+   
 </script>

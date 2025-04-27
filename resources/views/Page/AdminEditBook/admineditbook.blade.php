@@ -24,11 +24,24 @@
                     </div>
 
                     <div class="card-body p-4">
-                        <form action="#" method="POST" id="bookEditForm">
+                        <form action="{{ route('save.edit.book') }}" method="POST" id="bookEditForm"
+                            enctype="multipart/form-data">
                             @csrf
-                            @method('PUT')
-
+                            <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
                             <div class="row g-4 mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" name="isbn" id="isbn"
+                                            class="form-control @error('isbn') is-invalid @enderror"
+                                            value="{{ old('isbn', $book->getBookID()) }}" placeholder="Enter Book ID"
+                                            disabled>
+                                        <label for="isbn"><i class="bi bi-upc-scan me-1"></i>Book ID</label>
+                                        @error('isbn')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                        <div class="form-text">Unique identifier for this book</div>
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
                                         <input type="text" name="title" id="title"
@@ -53,20 +66,19 @@
                                         @enderror
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" name="isbn" id="isbn"
-                                            class="form-control @error('isbn') is-invalid @enderror"
-                                            value="{{ old('isbn', $book->getBookID()) }}" placeholder="Enter Book ID"
-                                            disabled>
-                                        <label for="isbn"><i class="bi bi-upc-scan me-1"></i>Book ID</label>
-                                        @error('isbn')
+                                        <input type="text" name="price" id="price"
+                                            class="form-control @error('price') is-invalid @enderror"
+                                            value="{{ old('price', $book->getPrice()) }}" placeholder="Enter price">
+                                        <label for="price"><i class="bi bi-tag me-1"></i>Price</label>
+                                        @error('price')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
-                                        <div class="form-text">Unique identifier for this book</div>
                                     </div>
                                 </div>
+
+
 
                                 <div class="col-md-6">
                                     <label class="form-label mb-2"><i class="bi bi-boxes me-1"></i>Stocks</label>
@@ -89,6 +101,27 @@
                                     @enderror
                                     <div class="form-text">Current inventory count</div>
                                 </div>
+
+                                <div class="mb-4">
+                                    <label for="cover_image" class="form-label mb-2"><i class="bi bi-image me-1"></i>Book
+                                        Cover</label>
+
+                                    @if ($book->getImage())
+                                        <div class="mb-3">
+                                            <img src="{{ asset('storage/' . $book->getImage()) }}" alt="Current Cover"
+                                                class="img-thumbnail" style="max-height: 200px;">
+                                        </div>
+                                    @endif
+
+                                    <input class="form-control @error('cover_image') is-invalid @enderror" type="file"
+                                        id="cover_image" name="image" accept="image/*">
+                                    @error('cover_image')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                    <div class="form-text">Upload a new image to replace the current cover (JPG, PNG, max
+                                        2MB)</div>
+                                </div>
+
                             </div>
 
                             <div class="mb-4">
@@ -108,34 +141,38 @@
                                     @php
                                         // Hardcoded categories - replace or extend as needed for your library
                                         $allCategories = [
-                                            'fiction' => 'Fiction',
-                                            'non-fiction' => 'Non-Fiction',
-                                            'mystery' => 'Mystery',
-                                            'thriller' => 'Thriller',
-                                            'romance' => 'Romance',
-                                            'science-fiction' => 'Science Fiction',
-                                            'fantasy' => 'Fantasy',
-                                            'horror' => 'Horror',
-                                            'biography' => 'Biography',
-                                            'history' => 'History',
-                                            'self-help' => 'Self-Help',
-                                            'business' => 'Business',
-                                            'science' => 'Science',
-                                            'technology' => 'Technology',
-                                            'travel' => 'Travel',
-                                            'cooking' => 'Cooking',
-                                            'art' => 'Art',
-                                            'poetry' => 'Poetry',
-                                            'children' => 'Children',
-                                            'young-adult' => 'Young Adult',
-                                            'comics' => 'Comics & Graphic Novels',
-                                            'reference' => 'Reference',
-                                            'textbook' => 'Textbook',
-                                            'academic' => 'Academic',
+                                            'Fiction' => 'Fiction',
+                                            'Non-Fiction' => 'Non-Fiction',
+                                            'Mystery' => 'Mystery',
+                                            'Thriller' => 'Thriller',
+                                            'Romance' => 'Romance',
+                                            'Science Fiction' => 'Science Fiction',
+                                            'Fantasy' => 'Fantasy',
+                                            'Horror' => 'Horror',
+                                            'Biography' => 'Biography',
+                                            'History' => 'History',
+                                            'Self-Help' => 'Self-Help',
+                                            'Business' => 'Business',
+                                            'Science' => 'Science',
+                                            'Technology' => 'Technology',
+                                            'Travel' => 'Travel',
+                                            'Cooking' => 'Cooking',
+                                            'Art' => 'Art',
+                                            'Poetry' => 'Poetry',
+                                            'Children' => 'Children',
+                                            'Young Adult' => 'Young Adult',
+                                            'Comics & Graphic Novels' => 'Comics & Graphic Novels',
+                                            'Reference' => 'Reference',
+                                            'Textbook' => 'Textbook',
+                                            'Academic' => 'Academic',
                                         ];
 
-                                        // Get currently selected category from model or old input
-                                        $selectedCategory = old('category', $bookCategory ?? '');
+                                        // Make sure we get the book's category
+$bookCategory = $book->getCategory();
+
+// Get currently selected category from old input or the book's category
+                                        // Make sure we have a value, even if both are null
+                                        $selectedCategory = old('category') ?? ($bookCategory ?? '');
                                     @endphp
 
                                     <div class="row g-2">
@@ -146,7 +183,8 @@
                                                         id="category-{{ $value }}" name="category"
                                                         value="{{ $value }}"
                                                         {{ $selectedCategory == $value ? 'checked' : '' }}>
-                                                    <label class="form-check-label category-label px-2 py-1 rounded-pill"
+                                                    <label
+                                                        class="form-check-label category-label px-2 py-1 rounded-pill {{ $selectedCategory == $value ? 'bg-primary text-white' : '' }}"
                                                         for="category-{{ $value }}">
                                                         {{ $name }}
                                                     </label>
@@ -207,74 +245,45 @@
             </div>
         </div>
     </div>
-    <style>
-        /* Styling for the category tags */
-        .category-tag {
-            margin-bottom: 0.25rem;
-        }
-
-        .category-radio {
-            position: absolute;
-            opacity: 0;
-        }
-
-        .category-label {
-            cursor: pointer;
-            background-color: #e9ecef;
-            border: 1px solid #ced4da;
-            transition: all 0.2s ease;
-        }
-
-        .category-radio:checked+.category-label {
-            background-color: #0d6efd;
-            color: white;
-            border-color: #0d6efd;
-        }
-
-        .category-radio:focus+.category-label {
-            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
-        }
-
-        .category-label:hover {
-            background-color: #dde2e6;
-        }
-
-        .category-radio:checked+.category-label:hover {
-            background-color: #0b5ed7;
-        }
-    </style>
     <script>
-        function adjustQuantity(change) {
-            const input = document.getElementById('quantityInput');
-            let newValue = parseInt(input.value) + change;
-            newValue = Math.max(newValue, 0);
-            input.value = newValue;
-        }
         // Optional: Add filtering capability for many categories
-    document.addEventListener('DOMContentLoaded', function() {
-        const categoryContainer = document.querySelector('.category-tags');
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryContainer = document.querySelector('.category-tags');
 
-        // Add a search box before the categories if there are many
-        if (Object.keys({!! json_encode($allCategories) !!}).length > 10) {
-            const searchBox = document.createElement('div');
-            searchBox.className = 'mb-2';
-            searchBox.innerHTML = `
-                <div class="input-group input-group-sm mb-3">
-                    <span class="input-group-text"><i class="bi bi-search"></i></span>
-                    <input type="text" class="form-control" id="categorySearch" placeholder="Filter categories...">
-                </div>
-            `;
-            categoryContainer.prepend(searchBox);
+            // Add a search box before the categories if there are many
+            if (Object.keys({!! json_encode($allCategories) !!}).length > 10) {
+                const searchBox = document.createElement('div');
+                searchBox.className = 'mb-2';
+                searchBox.innerHTML = `
+            <div class="input-group input-group-sm mb-3">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" id="categorySearch" placeholder="Filter categories...">
+            </div>
+        `;
+                categoryContainer.prepend(searchBox);
 
-            // Add filter functionality
-            document.getElementById('categorySearch').addEventListener('input', function(e) {
-                const filter = e.target.value.toLowerCase();
-                document.querySelectorAll('.category-tag').forEach(tag => {
-                    const text = tag.textContent.toLowerCase();
-                    tag.closest('.col-auto').style.display = text.includes(filter) ? '' : 'none';
+                // Add filter functionality
+                document.getElementById('categorySearch').addEventListener('input', function(e) {
+                    const filter = e.target.value.toLowerCase();
+                    document.querySelectorAll('.category-tag').forEach(tag => {
+                        const text = tag.textContent.toLowerCase();
+                        tag.closest('.col-auto').style.display = text.includes(filter) ? '' :
+                            'none';
+                    });
                 });
-            });
-        }
-    });
+            }
+
+            // Add JavaScript to ensure the saved category is selected (as a backup)
+            const bookCategory = "{{ $bookCategory ?? '' }}";
+            if (bookCategory) {
+                const categoryRadio = document.getElementById('category-' + bookCategory);
+                if (categoryRadio) {
+                    categoryRadio.checked = true;
+                    // Also highlight the label
+                    categoryRadio.closest('.category-tag').querySelector('.category-label').classList.add(
+                        'bg-primary', 'text-white');
+                }
+            }
+        });
     </script>
 @endsection

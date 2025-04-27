@@ -105,12 +105,34 @@ class ManageBooksWEBController extends Controller
         $search = $request->input('query');
         if ($search) {
             $books['allBooks'] = $this->registerBook->search($search);
+
             return view('Page.ManageBooks.managebooks', compact('books', 'search'));
         } else {
             $books = $this->registerBook->findAll();
 
             return view('Page.ManageBooks.managebooks', compact('books', 'search'));
         }
+    }
+
+    public function saveEditedBook(Request $request)
+    {
+        $data = $request->all();
+        if ($request->hasFile('image')) {
+            $data['image'] = $this->updateImage($request->image);
+        }
+        dd($data);
+        // $this->registerBook->update($data);
+        // return redirect()->route('managebooks.index')->with('success', 'Book has been successfully edited!');
+    }
+
+    public function updateImage($image)
+    {
+        // $destinationPath = 'assets/images/books';
+        $imageName = date('YmdHis').'.'.$image->getClientOriginalExtension();
+
+        // $image->move(public_path($destinationPath), $imageName);
+
+        return $imageName;
     }
 
     public function editBook(string $bookID)
