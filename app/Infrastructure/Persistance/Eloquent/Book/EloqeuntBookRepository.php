@@ -86,16 +86,16 @@ class EloqeuntBookRepository implements BookRepository
      * **/
     public function update(Book $book): void
     {
-        $newBookData = BookModel::find($book->getId()) ?? new BookModel;
+        $newBookData = BookModel::where('bookID', $book->getBookID())->first() ?? new BookModel;
         $newBookData->bookID = $book->getBookID();
         $newBookData->bookname = $book->getBookName();
         $newBookData->bookdetails = $book->getBookDetails();
         $newBookData->author = $book->getAuthor();
-        $newBookData->stock = $book->getStock();
-        $newBookData->category = $book->getCategory();
+        $newBookData->stocks = $book->getStock();
+        $newBookData->bookcategory = $book->getCategory();
         $newBookData->datepublish = $book->getDatePublish();
         $newBookData->image = $book->getImage();
-        $newBookData->price = $book->getPrice();
+        $newBookData->bookprice = $book->getPrice();
         $newBookData->updatedAt = $book->updatedAt();
         $newBookData->save();
     }
@@ -371,10 +371,16 @@ class EloqeuntBookRepository implements BookRepository
 
     public function restockBook(array $data): void
     {
-        // dd($data);
         $bookData = BookModel::where('bookID', $data['bookID'])->first();
         $bookData->stocks = $bookData->stocks + $data['quantity'];
         $bookData->updatedAt = $data['updatedAt'];
+        $bookData->save();
+    }
+
+    public function deleteBook(array $book){
+        $bookData = BookModel::where('bookID', $book['bookID'])->first();
+        $bookData->isDeleted = $book['isDeleted'];
+        $bookData->updatedAt = $book['updatedAt'];
         $bookData->save();
     }
 }

@@ -27,7 +27,7 @@
                         <form action="{{ route('save.edit.book') }}" method="POST" id="bookEditForm"
                             enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="book_id" value="{{ $book->getBookID() }}">
+                            <input type="hidden" name="bookID" value="{{ $book->getBookID() }}">
                             <div class="row g-4 mb-4">
                                 <div class="col-md-6">
                                     <div class="form-floating">
@@ -44,7 +44,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" name="title" id="title"
+                                        <input type="text" name="bookname" id="title"
                                             class="form-control @error('title') is-invalid @enderror"
                                             value="{{ old('title', $book->getBookName()) }}" placeholder="Enter book title"
                                             autofocus>
@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" name="price" id="price"
+                                        <input type="text" name="bookprice" id="price"
                                             class="form-control @error('price') is-invalid @enderror"
                                             value="{{ old('price', $book->getPrice()) }}" placeholder="Enter price">
                                         <label for="price"><i class="bi bi-tag me-1"></i>Price</label>
@@ -77,9 +77,17 @@
                                         @enderror
                                     </div>
                                 </div>
-
-
-
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" name="datepublish" id="datepublish"
+                                            class="form-control @error('datepublish') is-invalid @enderror"
+                                            value="{{ old('datepublish', $book->getDatePublish()) }}" placeholder="Enter datepublish">
+                                        <label for="datepublish"><i class="bi bi-calendar me-1"></i>datepublish</label>
+                                        @error('datepublish')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
                                 <div class="col-md-6">
                                     <label class="form-label mb-2"><i class="bi bi-boxes me-1"></i>Stocks</label>
                                     <div class="input-group">
@@ -87,7 +95,7 @@
                                             aria-label="Decrease quantity">
                                             <i class="bi bi-dash-lg"></i>
                                         </button>
-                                        <input type="number" name="quantity" id="quantityInput"
+                                        <input type="number" name="stocks" id="quantityInput"
                                             class="form-control text-center @error('quantity') is-invalid @enderror"
                                             value="{{ old('quantity', $book->getStock()) }}" min="0"
                                             aria-label="Book quantity">
@@ -126,7 +134,7 @@
 
                             <div class="mb-4">
                                 <label class="form-label mb-2"><i class="bi bi-card-text me-1"></i>Description</label>
-                                <textarea name="description" id="description" class="form-control @error('description') is-invalid @enderror"
+                                <textarea name="bookdetails" id="description" class="form-control @error('description') is-invalid @enderror"
                                     rows="5" placeholder="Enter book description">{{ old('description', $book->getBookDetails()) }}</textarea>
                                 @error('description')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -236,9 +244,9 @@ $bookCategory = $book->getCategory();
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <form action="#" method="POST" class="d-inline">
+                    <form action="{{route('delete.book')}}" method="POST" class="d-inline">
                         @csrf
-                        @method('DELETE')
+                        <input type="hidden" name="bookID" value="{{$book->getBookID()}}">
                         <button type="submit" class="btn btn-danger">Delete Book</button>
                     </form>
                 </div>

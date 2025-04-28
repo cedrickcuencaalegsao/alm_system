@@ -38,6 +38,7 @@ class RegisterBook
 
     public function update(array $data): void
     {
+
         $newBook = new Book(
             null,
             $data['bookID'],
@@ -54,7 +55,6 @@ class RegisterBook
             Carbon::now(),
             null,
         );
-        dd($newBook);
         $this->bookRepository->update($newBook);
     }
 
@@ -106,5 +106,13 @@ class RegisterBook
             'updatedAt' => Carbon::now(),
         ];
         $this->bookRepository->restockBook($newStocks);
+    }
+    public function deleteBook(string $bookID){
+        $book = [
+            'bookID'=>$bookID,
+            'isDeleted' => true,
+            'updatedAt'=>Carbon::now(),
+        ];
+        $this->bookRepository->deleteBook($book);
     }
 }

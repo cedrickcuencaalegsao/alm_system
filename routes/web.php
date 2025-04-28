@@ -72,6 +72,16 @@ Route::middleware('auth')->group(function () {
 
         return response()->file($path);
     })->name('user.image');
+
+    Route::get('/images/books/{filename}',function($filename){
+        $path = public_path('assets/images/books/'.$filename);
+
+        if (! file_exists($path)) {
+            return response()->file(public_path('assets/images/default/default.jpg'));
+        }
+        return response()->file($path, ['Content-Type' => 'image/jpeg']);
+
+    })->name('book.image');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -91,4 +101,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin-delete-user/{userid}', [ManageUserWEBController::class, 'deleteUser'])->name('delete.user');
     Route::get('/admin-edit-book/{bookID}', [ManageBooksWEBController::class, 'editBook'])->name('admin.edit.book');
     Route::post('/admin-save-edit-book', [ManageBooksWEBController::class, 'saveEditedBook'])->name('save.edit.book');
+    Route::post('/admin-deelete-book',[ManageBooksWEBController::class,'deleteBook'] )->name('delete.book');
 });

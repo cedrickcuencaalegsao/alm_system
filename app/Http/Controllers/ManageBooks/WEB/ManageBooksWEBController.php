@@ -117,20 +117,23 @@ class ManageBooksWEBController extends Controller
     public function saveEditedBook(Request $request)
     {
         $data = $request->all();
+
+        $data['image'] = null;
+        $data['bookcategory']= $data['category'];
+
         if ($request->hasFile('image')) {
             $data['image'] = $this->updateImage($request->image);
         }
-        dd($data);
-        // $this->registerBook->update($data);
-        // return redirect()->route('managebooks.index')->with('success', 'Book has been successfully edited!');
+
+        $this->registerBook->update($data);
+        return redirect()->back()->with('success', 'Book has been successfully updated!');
     }
 
     public function updateImage($image)
     {
-        // $destinationPath = 'assets/images/books';
+        $destinationPath = 'assets/images/books';
         $imageName = date('YmdHis').'.'.$image->getClientOriginalExtension();
-
-        // $image->move(public_path($destinationPath), $imageName);
+        $image->move(public_path($destinationPath), $imageName);
 
         return $imageName;
     }
@@ -140,5 +143,10 @@ class ManageBooksWEBController extends Controller
         $book = $this->registerBook->findByBookID(decrypt($bookID));
 
         return view('Page.AdminEditBook.admineditbook', compact('book'));
+    }
+    public function deleteBook(Request $request){
+        $data = $request->all();
+        $this->registerBook->deleteBook($data['bookID']);
+        return redirect()->back()->with('success', 'Book has been successfull deleted!');
     }
 }

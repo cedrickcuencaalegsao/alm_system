@@ -31,4 +31,6 @@ interface BookRepository
     public function get5LowStockBooks(): array;
 
     public function restockBook(array $data): void;
+
+    public function deleteBook(array $book);
 }

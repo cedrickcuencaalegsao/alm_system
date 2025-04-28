@@ -178,19 +178,6 @@
                         </ul>
                     </div>
                 </div>
-
-                <!-- Batch Import Card -->
-                <div class="card shadow-sm border-start border-success border-4">
-                    <div class="card-body">
-                        <h6 class="fw-bold text-success"><i class="bi bi-file-earmark-spreadsheet me-2"></i>Bulk Import
-                        </h6>
-                        <p class="small">Need to add multiple books at once? Use our bulk import feature.</p>
-                        <a href="#" class="btn btn-outline-success btn-sm w-100" data-bs-toggle="modal"
-                            data-bs-target="#importBooksModal">
-                            <i class="bi bi-upload me-1"></i> Import Books
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

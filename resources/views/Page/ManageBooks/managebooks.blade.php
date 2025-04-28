@@ -59,7 +59,7 @@
                                     <div class="col-md-5 mb-4">
                                         <div class="card h-100 shadow-sm rounded-4 overflow-hidden">
                                             <div class="position-relative">
-                                                <img src="{{ $book->getImage() ? asset('storage/' . $book->getBookImage()) : route('default.image') }}"
+                                                <img src="{{route('book.image', $book->getImage() ?? 'default.jpg')}}"
                                                     class="card-img-top book-cover object-fit-cover" alt="Book Cover"
                                                     style="height: 180px; width: 100%;">
                                                 <span
@@ -89,7 +89,8 @@
 
                                             <div class="card-footer bg-transparent border-top-0">
                                                 <div class="d-flex justify-content-between">
-                                                    <a class="btn btn-outline-primary btn-sm" href="{{ route('admin.edit.book', encrypt($book->getBookID())) }}">
+                                                    <a class="btn btn-outline-primary btn-sm"
+                                                        href="{{ route('admin.edit.book', encrypt($book->getBookID())) }}">
                                                         <i class="bi bi-pencil me-1"></i>Edit
                                                     </a>
                                                 </div>
