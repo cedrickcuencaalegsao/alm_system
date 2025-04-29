@@ -17,12 +17,10 @@
                 <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 fw-bold text-primary">Orders Overview</h6>
                     <div>
-                        <button class="btn btn-outline-primary me-2" id="exportOrdersBtn">
-                            <i class="bi bi-file-earmark-excel me-1"></i> Export
-                        </button>
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderReportModal">
-                            <i class="bi bi-graph-up me-1"></i> Generate Report
-                        </button>
+                        <a href="{{ route('view.manage.reports') }}" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#orderReportModal">
+                            <i class="bi bi-graph-up me-1"></i>Report
+                        </a>
                     </div>
                 </div>
                 <div class="card-body">
@@ -35,8 +33,9 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending Orders</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                                                Pending</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['pending'] }} out
+                                                of {{ $data['totalSales'] }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="bi bi-clock-history fa-2x text-warning"></i>
@@ -53,8 +52,9 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                Processing Orders</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                                                Processing</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['processing'] }}
+                                                out of {{ $data['totalSales'] }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="bi bi-gear-fill fa-2x text-info"></i>
@@ -71,8 +71,9 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Delivering Orders</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">5</div>
+                                                Delivering</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['delivering'] }}
+                                                out of {{ $data['totalSales'] }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="bi bi-truck fa-2x text-primary"></i>
@@ -89,8 +90,9 @@
                                     <div class="row no-gutters align-items-center">
                                         <div class="col mr-2">
                                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Completed Orders</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">25</div>
+                                                Completed</div>
+                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['completed'] }} out
+                                                of {{ $data['totalSales'] }}</div>
                                         </div>
                                         <div class="col-auto">
                                             <i class="bi bi-check-circle fa-2x text-success"></i>
@@ -105,7 +107,8 @@
                     <div class="row mb-4">
                         <div class="col-md-5">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search orders by ID, customer, or product..." id="orderSearchInput">
+                                <input type="text" class="form-control"
+                                    placeholder="Search orders by ID, customer, or product..." id="orderSearchInput">
                                 <button class="btn btn-outline-secondary" type="button" id="orderSearchBtn">
                                     <i class="bi bi-search"></i>
                                 </button>
@@ -159,204 +162,59 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Order 1 -->
-                                <tr>
-                                    <td class="px-4 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input order-checkbox" type="checkbox" value="order1">
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3"><a href="#" class="fw-bold text-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal">SLS5f3a9c2b8e</a></td>
-                                    <td class="px-4 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar avatar-sm me-2">
-                                                <div class="avatar-initial bg-primary rounded">JD</div>
+                                @foreach ($data['sales'] as $sale)
+                                    {{-- {{ dd($sales) }} --}}
+                                    <tr>
+                                        <td class="px-4 py-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input order-checkbox" type="checkbox"
+                                                    value="order1">
                                             </div>
-                                            <div>
-                                                <div class="fw-semibold">John Doe</div>
-                                                <div class="small text-muted">john.doe@example.com</div>
+                                        </td>
+                                        <td class="px-4 py-3"><a href="#" class="fw-bold text-primary"
+                                                data-bs-toggle="modal"
+                                                data-bs-target="#orderDetailsModal">{{$sale->getSalesID()}}</a></td>
+                                        <td class="px-4 py-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="avatar avatar-sm me-2">
+                                                    <div class="avatar-initial bg-primary rounded">JD</div>
+                                                </div>
+                                                <div>
+                                                    <div class="fw-semibold">John Doe</div>
+                                                    <div class="small text-muted">john.doe@example.com</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3">3 items</td>
-                                    <td class="px-4 py-3">Apr 15, 2023</td>
-                                    <td class="px-4 py-3 fw-bold">$129.95</td>
-                                    <td class="px-4 py-3">
-                                        <span class="badge bg-warning text-dark">Pending</span>
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                                Actions
-                                            </button>
-                                            <ul class="dropdown-menu shadow">
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye me-2"></i>View Details</a></li>
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateStatusModal"><i class="bi bi-arrow-repeat me-2"></i>Update Status</a></li>
-                                                <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-x-circle me-2"></i>Cancel Order</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                        <td class="px-4 py-3">3 items</td>
+                                        <td class="px-4 py-3">Apr 15, 2023</td>
+                                        <td class="px-4 py-3 fw-bold">$129.95</td>
+                                        <td class="px-4 py-3">
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        </td>
+                                        <td class="px-4 py-3">
+                                            <div class="dropdown">
+                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
+                                                    type="button" data-bs-toggle="dropdown">
+                                                    Actions
+                                                </button>
+                                                <ul class="dropdown-menu shadow">
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#orderDetailsModal"><i
+                                                                class="bi bi-eye me-2"></i>View Details</a></li>
+                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                                                            data-bs-target="#updateStatusModal"><i
+                                                                class="bi bi-arrow-repeat me-2"></i>Update Status</a></li>
+                                                    <li>
+                                                        <hr class="dropdown-divider">
+                                                    </li>
+                                                    <li><a class="dropdown-item text-danger" href="#"><i
+                                                                class="bi bi-x-circle me-2"></i>Cancel Order</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
-                                <!-- Order 2 -->
-                                <tr>
-                                    <td class="px-4 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input order-checkbox" type="checkbox" value="order2">
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3"><a href="#" class="fw-bold text-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal">SLS6b2c7d4e1f</a></td>
-                                    <td class="px-4 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar avatar-sm me-2">
-                                                <div class="avatar-initial bg-success rounded">JS</div>
-                                            </div>
-                                            <div>
-                                                <div class="fw-semibold">Jane Smith</div>
-                                                <div class="small text-muted">jane.smith@example.com</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3">1 item</td>
-                                    <td class="px-4 py-3">Apr 14, 2023</td>
-                                    <td class="px-4 py-3 fw-bold">$45.50</td>
-                                    <td class="px-4 py-3">
-                                        <span class="badge bg-info text-dark">Processing</span>
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                                Actions
-                                            </button>
-                                            <ul class="dropdown-menu shadow">
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye me-2"></i>View Details</a></li>
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateStatusModal"><i class="bi bi-arrow-repeat me-2"></i>Update Status</a></li>
-                                                <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-x-circle me-2"></i>Cancel Order</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- Order 3 -->
-                                <tr>
-                                    <td class="px-4 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input order-checkbox" type="checkbox" value="order3">
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3"><a href="#" class="fw-bold text-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal">SLS8e7f9a2b3c</a></td>
-                                    <td class="px-4 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar avatar-sm me-2">
-                                                <div class="avatar-initial bg-danger rounded">RJ</div>
-                                            </div>
-                                            <div>
-                                                <div class="fw-semibold">Robert Johnson</div>
-                                                <div class="small text-muted">robert@example.com</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3">2 items</td>
-                                    <td class="px-4 py-3">Apr 12, 2023</td>
-                                    <td class="px-4 py-3 fw-bold">$89.99</td>
-                                    <td class="px-4 py-3">
-                                        <span class="badge bg-primary">Delivering</span>
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                                Actions
-                                            </button>
-                                            <ul class="dropdown-menu shadow">
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye me-2"></i>View Details</a></li>
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#updateStatusModal"><i class="bi bi-arrow-repeat me-2"></i>Update Status</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="bi bi-truck me-2"></i>Track Shipment</a></li>
-                                                <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-x-circle me-2"></i>Cancel Order</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- Order 4 -->
-                                <tr>
-                                    <td class="px-4 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input order-checkbox" type="checkbox" value="order4">
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3"><a href="#" class="fw-bold text-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal">SLS1d2e3f4g5h</a></td>
-                                    <td class="px-4 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar avatar-sm me-2">
-                                                <div class="avatar-initial bg-info rounded">MW</div>
-                                            </div>
-                                            <div>
-                                                <div class="fw-semibold">Mary Williams</div>
-                                                <div class="small text-muted">mary@example.com</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3">5 items</td>
-                                    <td class="px-4 py-3">Apr 10, 2023</td>
-                                    <td class="px-4 py-3 fw-bold">$235.75</td>
-                                    <td class="px-4 py-3">
-                                        <span class="badge bg-success">Delivered</span>
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                                Actions
-                                            </button>
-                                            <ul class="dropdown-menu shadow">
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye me-2"></i>View Details</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="bi bi-printer me-2"></i>Print Invoice</a></li>
-                                                <li><hr class="dropdown-divider"></li>
-                                                <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-return-left me-2"></i>Process Return</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                                <!-- Order 5 -->
-                                <tr>
-                                    <td class="px-4 py-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input order-checkbox" type="checkbox" value="order5">
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3"><a href="#" class="fw-bold text-primary" data-bs-toggle="modal" data-bs-target="#orderDetailsModal">SLS6i7j8k9l0m</a></td>
-                                    <td class="px-4 py-3">
-                                        <div class="d-flex align-items-center">
-                                            <div class="avatar avatar-sm me-2">
-                                                <div class="avatar-initial bg-warning rounded">DT</div>
-                                            </div>
-                                            <div>
-                                                <div class="fw-semibold">David Thompson</div>
-                                                <div class="small text-muted">david@example.com</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-3">1 item</td>
-                                    <td class="px-4 py-3">Apr 08, 2023</td>
-                                    <td class="px-4 py-3 fw-bold">$32.50</td>
-                                    <td class="px-4 py-3">
-                                        <span class="badge bg-danger">Cancelled</span>
-                                    </td>
-                                    <td class="px-4 py-3">
-                                        <div class="dropdown">
-                                            <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                                Actions
-                                            </button>
-                                            <ul class="dropdown-menu shadow">
-                                                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#orderDetailsModal"><i class="bi bi-eye me-2"></i>View Details</a></li>
-                                                <li><a class="dropdown-item" href="#"><i class="bi bi-arrow-return-left me-2"></i>Restore Order</a></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -368,14 +226,21 @@
                                 <button type="button" class="btn btn-outline-primary" id="bulkActionBtn" disabled>
                                     Bulk Actions
                                 </button>
-                                <button type="button" class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <button type="button"
+                                    class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
+                                    data-bs-toggle="dropdown" aria-expanded="false">
                                     <span class="visually-hidden">Toggle Dropdown</span>
                                 </button>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-truck me-2"></i>Mark as Processing</a></li>
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-check-circle me-2"></i>Mark as Delivered</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-x-circle me-2"></i>Cancel Orders</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-truck me-2"></i>Mark as
+                                            Processing</a></li>
+                                    <li><a class="dropdown-item" href="#"><i
+                                                class="bi bi-check-circle me-2"></i>Mark as Delivered</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item text-danger" href="#"><i
+                                                class="bi bi-x-circle me-2"></i>Cancel Orders</a></li>
                                 </ul>
                             </div>
                         </div>

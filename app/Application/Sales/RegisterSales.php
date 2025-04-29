@@ -15,6 +15,14 @@ class RegisterSales
         $this->salesRepository = $salesRepository;
     }
 
+    public function findall(){
+        return $this->salesRepository->findAll();
+    }
+
+    public function findAllPaginated(int $paginate){
+        return $this->salesRepository->findAllPaginated($paginate);
+    }
+
     public function createSales(array $data)
     {
         $sales = new Sale(
@@ -79,5 +87,20 @@ class RegisterSales
     public function getLatestSales()
     {
         return $this->salesRepository->getLatestSales();
+    }
+    public function countAll(){
+        return $this->salesRepository->countAll();
+    }
+    public function countPending(){
+        return $this->salesRepository->countPending();
+    }
+    public function countProcessing(){
+        return $this->salesRepository->countProcessing();
+    }
+    public function countDelivering(){
+        return $this->salesRepository->countDelivering();
+    }
+    public function countCompleted(){
+        return $this->salesRepository->countCompleted();
     }
 }

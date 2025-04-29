@@ -650,7 +650,7 @@
                     <div class="col-md-3">
                         <div class="card book-card h-100">
                             <div class="position-relative overflow-hidden">
-                                <img src="{{ $book->image ? asset('storage/' . $book->getBookImage()) : route('default.image') }}"
+                                <img src=" {{route('default.image') }}"
                                     class="card-img-top" alt="{{ $book['bookname'] }}" loading="lazy"
                                     onerror="this.classList.add('book-img-skeleton'); this.onerror=null;">
                             </div>

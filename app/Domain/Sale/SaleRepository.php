@@ -24,11 +24,23 @@ interface SaleRepository
 
     public function thisMonthSales(): ?float;
 
-    public function thisMonthSalesPercentage(): array;
+    public function thisMonthSalesPercentage(): ?array;
 
     public function thisMonthOrders(): ?int;
 
-    public function thisMonthOrdersPercentage(): array;
+    public function thisMonthOrdersPercentage(): ?array;
 
-    public function getLatestSales(): array;
+    public function getLatestSales(): ?array;
+
+    public function findAllPaginated(int $perPage);
+
+    public function countAll():?int;
+
+    public function countPending(): ?int;
+
+    public function countProcessing(): ?int;
+
+    public function countDelivering(): ?int;
+
+    public function countCompleted(): ?int;
 }

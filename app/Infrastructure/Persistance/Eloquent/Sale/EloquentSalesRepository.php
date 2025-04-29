@@ -162,7 +162,43 @@ class EloquentSalesRepository implements SaleRepository
             $sale->tax,
             $sale->createdAt,
             $sale->updatedAt,
+            $sale->book->bookname,
+            $sale->book->bookprice,
+            $sale->book->image,
+            $sale->book->author,
+            $sale->book->bookcategory,
         ))->toArray();
+    }
+
+    /**
+     * Function to get paginated data from the table user.
+     * **/
+    public function findAllPaginated(int $perPage)
+    {
+        $users = SaleModel::where('isDeleted', false)->paginate($perPage);
+
+        $users->getCollection()->transform(function ($sale) {
+            return new Sale(
+                id:$sale->id,
+                salesID:$sale->salesID,
+                bookID:$sale->bookID,
+                userID:$sale->userID,
+                refID:$sale->refID,
+                quantity:$sale->quantity,
+                status:$sale->status,
+                totalsales:$sale->totalsales,
+                tax:$sale->tax,
+                createdAt:$sale->createdAt,
+                updatedAt:$sale->updatedAt,
+                bookname:$sale->book->bookname,
+                bookprice:$sale->book->bookprice,
+                image:$sale->book->image,
+                author:$sale->book->author,
+                bookcategory:$sale->book->bookcategory,
+            );
+        });
+
+        return $users;
     }
 
     /**
@@ -287,5 +323,38 @@ class EloquentSalesRepository implements SaleRepository
             $sale->book->author,
             $sale->book->bookcategory,
         ))->toArray();
+    }
+    /**
+     * Function to count all sales.
+     * **/
+    public function countAll():?int{
+        return count(SaleModel::where('status', '!=','cancelled')->get());
+    }
+    /**
+     * Function to count pending orders.
+     * **/
+    public function countPending(): ?int{
+        return count(SaleModel::where('status','pending')->get());
+    }
+
+    /**
+     * Function to count processing orders.
+     * **/
+    public function countProcessing(): ?int{
+        return count(SaleModel::where('status', 'processing')->get());
+    }
+
+    /**
+     * Function to count delivering orders.
+     * **/
+    public function countDelivering():?int{
+        return count(SaleModel::where('status', 'delivering')->get());
+    }
+
+    /**
+     * Function to count completed orders.
+     * **/
+    public function countCompleted():?int{
+        return count(SaleModel::where('status', 'delivered')->get());
     }
 }
