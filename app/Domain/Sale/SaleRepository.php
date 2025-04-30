@@ -8,6 +8,8 @@ interface SaleRepository
 
     public function update(Sale $sale);
 
+    public function updateStatus(array $data): void;
+
     public function delete(string $saleID);
 
     public function findByID(int $id): ?Sale;
@@ -18,9 +20,9 @@ interface SaleRepository
 
     public function findByRefID(string $refID): ?Sale;
 
-    public function findAll(): array;
+    public function findAll(): ?array;
 
-    public function findAllUserOrders(string $userID): array;
+    public function findAllUserOrders(string $userID): ?array;
 
     public function thisMonthSales(): ?float;
 
@@ -34,7 +36,7 @@ interface SaleRepository
 
     public function findAllPaginated(int $perPage);
 
-    public function countAll():?int;
+    public function countAll(): ?int;
 
     public function countPending(): ?int;
 
@@ -43,4 +45,6 @@ interface SaleRepository
     public function countDelivering(): ?int;
 
     public function countCompleted(): ?int;
+
+    public function searchSales(string $search, int $perPage);
 }

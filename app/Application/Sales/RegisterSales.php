@@ -15,11 +15,13 @@ class RegisterSales
         $this->salesRepository = $salesRepository;
     }
 
-    public function findall(){
+    public function findall()
+    {
         return $this->salesRepository->findAll();
     }
 
-    public function findAllPaginated(int $paginate){
+    public function findAllPaginated(int $paginate)
+    {
         return $this->salesRepository->findAllPaginated($paginate);
     }
 
@@ -88,19 +90,44 @@ class RegisterSales
     {
         return $this->salesRepository->getLatestSales();
     }
-    public function countAll(){
+
+    public function countAll()
+    {
         return $this->salesRepository->countAll();
     }
-    public function countPending(){
+
+    public function countPending()
+    {
         return $this->salesRepository->countPending();
     }
-    public function countProcessing(){
+
+    public function countProcessing()
+    {
         return $this->salesRepository->countProcessing();
     }
-    public function countDelivering(){
+
+    public function countDelivering()
+    {
         return $this->salesRepository->countDelivering();
     }
-    public function countCompleted(){
+
+    public function countCompleted()
+    {
         return $this->salesRepository->countCompleted();
+    }
+
+    public function searchSales(string $search, int $perPage)
+    {
+        return $this->salesRepository->searchSales($search, $perPage);
+    }
+
+    public function updateStatus(string $saleID, string $status): void
+    {
+        $data = [
+            'saleID' => $saleID,
+            'status' => $status,
+            'updatedAt' => Carbon::now(),
+        ];
+        $this->salesRepository->updateStatus($data);
     }
 }

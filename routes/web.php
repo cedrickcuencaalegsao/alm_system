@@ -102,4 +102,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin-edit-book/{bookID}', [ManageBooksWEBController::class, 'editBook'])->name('admin.edit.book');
     Route::post('/admin-save-edit-book', [ManageBooksWEBController::class, 'saveEditedBook'])->name('save.edit.book');
     Route::post('/admin-deelete-book',[ManageBooksWEBController::class,'deleteBook'] )->name('delete.book');
+    Route::post('/manage-orders/update-status', [ManageOrdersWEBController::class, 'updateStatus'])->name('update.order.status');
 });

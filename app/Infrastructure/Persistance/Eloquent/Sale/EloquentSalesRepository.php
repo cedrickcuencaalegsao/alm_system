@@ -46,6 +46,20 @@ class EloquentSalesRepository implements SaleRepository
     }
 
     /**
+     * Function to update sales status.
+     * **/
+    public function updateStatus(array $data): void
+    {
+        $saleData = SaleModel::where('salesID', $data['saleID'])->first();
+        if (! $saleData) {
+            return;
+        }
+        $saleData->status = $data['status'];
+        $saleData->updatedAt = $data['updatedAt'];
+        $saleData->save();
+    }
+
+    /**
      * Function to get sales data by id.
      * **/
     public function findByID(int $id): ?Sale
@@ -67,6 +81,11 @@ class EloquentSalesRepository implements SaleRepository
             $saleData->tax,
             $saleData->createdAt,
             $saleData->updatedAt,
+            $saleData->book->bookname,
+            $saleData->book->bookprice,
+            $saleData->book->image,
+            $saleData->book->author,
+            $saleData->book->bookcategory,
         );
     }
 
@@ -92,6 +111,11 @@ class EloquentSalesRepository implements SaleRepository
             $saleData->tax,
             $saleData->createdAt,
             $saleData->updatedAt,
+            $saleData->book->bookname,
+            $saleData->book->bookprice,
+            $saleData->book->image,
+            $saleData->book->author,
+            $saleData->book->bookcategory,
         );
     }
 
@@ -117,6 +141,11 @@ class EloquentSalesRepository implements SaleRepository
             $saleData->tax,
             $saleData->createdAt,
             $saleData->updatedAt,
+            $saleData->book->bookname,
+            $saleData->book->bookprice,
+            $saleData->book->image,
+            $saleData->book->author,
+            $saleData->book->bookcategory,
         );
     }
 
@@ -142,13 +171,18 @@ class EloquentSalesRepository implements SaleRepository
             $saleData->tax,
             $saleData->createdAt,
             $saleData->updatedAt,
+            $saleData->book->bookname,
+            $saleData->book->bookprice,
+            $saleData->book->image,
+            $saleData->book->author,
+            $saleData->book->bookcategory,
         );
     }
 
     /**
      * Function to get all sales data.
      * **/
-    public function findAll(): array
+    public function findAll(): ?array
     {
         return SaleModel::all()->map(fn ($sale) => new Sale(
             $sale->id,
@@ -175,47 +209,85 @@ class EloquentSalesRepository implements SaleRepository
      * **/
     public function findAllPaginated(int $perPage)
     {
-        $users = SaleModel::where('isDeleted', false)->paginate($perPage);
+        $sales = SaleModel::where('isDeleted', false)->orderBy('createdAt', 'asc')->paginate($perPage);
 
-        $users->getCollection()->transform(function ($sale) {
+        $sales->getCollection()->transform(function ($sale) {
             return new Sale(
-                id:$sale->id,
-                salesID:$sale->salesID,
-                bookID:$sale->bookID,
-                userID:$sale->userID,
-                refID:$sale->refID,
-                quantity:$sale->quantity,
-                status:$sale->status,
-                totalsales:$sale->totalsales,
-                tax:$sale->tax,
-                createdAt:$sale->createdAt,
-                updatedAt:$sale->updatedAt,
-                bookname:$sale->book->bookname,
-                bookprice:$sale->book->bookprice,
-                image:$sale->book->image,
-                author:$sale->book->author,
-                bookcategory:$sale->book->bookcategory,
+                id: $sale->id,
+                salesID: $sale->salesID,
+                bookID: $sale->bookID,
+                userID: $sale->userID,
+                refID: $sale->refID,
+                quantity: $sale->quantity,
+                status: $sale->status,
+                totalsales: $sale->totalsales,
+                tax: $sale->tax,
+                createdAt: $sale->createdAt,
+                updatedAt: $sale->updatedAt,
+                bookname: $sale->book->bookname,
+                bookprice: $sale->book->bookprice,
+                image: $sale->book->image,
+                author: $sale->book->author,
+                bookcategory: $sale->book->bookcategory,
             );
         });
 
-        return $users;
+        return $sales;
+    }
+
+    /**
+     * Function to search sales data.
+     * **/
+    public function searchSales(string $search, int $perPage)
+    {
+        $sales = SaleModel::where('isDeleted', false)
+            ->where('salesID', 'like', "%{$search}%")
+            ->orWhere('bookID', 'like', "%{$search}%")
+            ->orWhere('userID', 'like', "%{$search}%")
+            ->orWhere('refID', 'like', "%{$search}%")
+            ->orWhere('status', 'like', "%{$search}%")
+            ->orderBy('createdAt', 'asc')
+            ->paginate($perPage);
+
+        $sales->getCollection()->transform(function ($sale) {
+            return new Sale(
+                id: $sale->id,
+                salesID: $sale->salesID,
+                bookID: $sale->bookID,
+                userID: $sale->userID,
+                refID: $sale->refID,
+                quantity: $sale->quantity,
+                status: $sale->status,
+                totalsales: $sale->totalsales,
+                tax: $sale->tax,
+                createdAt: $sale->createdAt,
+                updatedAt: $sale->updatedAt,
+                bookname: $sale->book->bookname,
+                bookprice: $sale->book->bookprice,
+                image: $sale->book->image,
+                author: $sale->book->author,
+                bookcategory: $sale->book->bookcategory,
+            );
+        });
+
+        return $sales;
     }
 
     /**
      * Function to delete sales data.
      * **/
-    public function delete(string $saleID)
+    public function delete(string $saleID): void
     {
         $saleData = SaleModel::where('salesID', $saleID)->first();
         if (! $saleData) {
-            return null;
+            return;
         }
     }
 
     /**
      * Function to get all user orders.
      * **/
-    public function findAllUserOrders(string $userID): array
+    public function findAllUserOrders(string $userID): ?array
     {
         $saleData = SaleModel::where('userID', $userID)
             ->with('book')
@@ -253,7 +325,7 @@ class EloquentSalesRepository implements SaleRepository
             ->sum('totalsales');
     }
 
-    public function thisMonthSalesPercentage(): array
+    public function thisMonthSalesPercentage(): ?array
     {
         $lastMonthSales = SaleModel::where('createdAt', '>=', now()->subMonth()->startOfMonth())
             ->where('createdAt', '<=', now()->subMonth()->endOfMonth())
@@ -282,7 +354,7 @@ class EloquentSalesRepository implements SaleRepository
             ->count();
     }
 
-    public function thisMonthOrdersPercentage(): array
+    public function thisMonthOrdersPercentage(): ?array
     {
         $lastMonthOrders = SaleModel::where('createdAt', '>=', now()->subMonth()->startOfMonth())
             ->where('createdAt', '<=', now()->subMonth()->endOfMonth())
@@ -324,37 +396,44 @@ class EloquentSalesRepository implements SaleRepository
             $sale->book->bookcategory,
         ))->toArray();
     }
+
     /**
      * Function to count all sales.
      * **/
-    public function countAll():?int{
-        return count(SaleModel::where('status', '!=','cancelled')->get());
+    public function countAll(): ?int
+    {
+        return count(SaleModel::where('status', '!=', 'cancelled')->get());
     }
+
     /**
      * Function to count pending orders.
      * **/
-    public function countPending(): ?int{
-        return count(SaleModel::where('status','pending')->get());
+    public function countPending(): ?int
+    {
+        return count(SaleModel::where('status', 'pending')->get());
     }
 
     /**
      * Function to count processing orders.
      * **/
-    public function countProcessing(): ?int{
+    public function countProcessing(): ?int
+    {
         return count(SaleModel::where('status', 'processing')->get());
     }
 
     /**
      * Function to count delivering orders.
      * **/
-    public function countDelivering():?int{
+    public function countDelivering(): ?int
+    {
         return count(SaleModel::where('status', 'delivering')->get());
     }
 
     /**
      * Function to count completed orders.
      * **/
-    public function countCompleted():?int{
+    public function countCompleted(): ?int
+    {
         return count(SaleModel::where('status', 'delivered')->get());
     }
 }

@@ -13,259 +13,373 @@
     <!-- Order Management Interface -->
     <div class="row mb-4">
         <div class="col-12">
-            <div class="card shadow">
+            <div class="card shadow-sm border-0 rounded-lg">
                 <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 fw-bold text-primary">Orders Overview</h6>
+                    <h5 class="m-0 fw-bold text-primary">Orders Overview</h5>
                     <div>
-                        <a href="{{ route('view.manage.reports') }}" class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#orderReportModal">
-                            <i class="bi bi-graph-up me-1"></i>Report
+                        <a href="{{ route('view.manage.reports') }}" class="btn btn-primary btn-sm rounded-pill">
+                            <i class="bi bi-graph-up me-1"></i>Reports
                         </a>
                     </div>
                 </div>
                 <div class="card-body">
                     <!-- Order statistics cards -->
-                    <div class="row mb-4">
+                    <div class="row g-3 mb-4">
                         <!-- Pending Orders -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-warning shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                                Pending</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['pending'] }} out
-                                                of {{ $data['totalSales'] }}</div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card h-100 border-0 shadow-sm rounded-lg overflow-hidden">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 p-3 rounded-circle me-3 bg-warning bg-opacity-10">
+                                            <i class="bi bi-clock-history text-warning fs-3"></i>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="bi bi-clock-history fa-2x text-warning"></i>
+                                        <div>
+                                            <h6 class="text-uppercase fw-semibold text-muted small mb-1">Pending Orders</h6>
+                                            <h4 class="fw-bold mb-0">{{ $data['pending'] }}
+                                                <small class="text-muted fs-6">of {{ $data['totalSales'] }}</small>
+                                            </h4>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="card-footer bg-warning bg-opacity-10 py-2 text-center">
+                                    <a href="{{ route('view.manage.orders') }}?search=pending" class="text-warning text-decoration-none small stretched-link">View
+                                        Pending</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Processing Orders -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-info shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
-                                                Processing</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['processing'] }}
-                                                out of {{ $data['totalSales'] }}</div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card h-100 border-0 shadow-sm rounded-lg overflow-hidden">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 p-3 rounded-circle me-3 bg-info bg-opacity-10">
+                                            <i class="bi bi-gear-fill text-info fs-3"></i>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="bi bi-gear-fill fa-2x text-info"></i>
+                                        <div>
+                                            <h6 class="text-uppercase fw-semibold text-muted small mb-1">Processing</h6>
+                                            <h4 class="fw-bold mb-0">{{ $data['processing'] }}
+                                                <small class="text-muted fs-6">of {{ $data['totalSales'] }}</small>
+                                            </h4>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="card-footer bg-info bg-opacity-10 py-2 text-center">
+                                    <a href="{{ route('view.manage.orders') }}?search=processing" class="text-info text-decoration-none small stretched-link">View
+                                        Processing</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Delivering Orders -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-primary shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                                Delivering</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['delivering'] }}
-                                                out of {{ $data['totalSales'] }}</div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card h-100 border-0 shadow-sm rounded-lg overflow-hidden">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 p-3 rounded-circle me-3 bg-primary bg-opacity-10">
+                                            <i class="bi bi-truck text-primary fs-3"></i>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="bi bi-truck fa-2x text-primary"></i>
+                                        <div>
+                                            <h6 class="text-uppercase fw-semibold text-muted small mb-1">Delivering</h6>
+                                            <h4 class="fw-bold mb-0">{{ $data['delivering'] ?? 0 }}
+                                                <small class="text-muted fs-6">of {{ $data['totalSales'] }}</small>
+                                            </h4>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="card-footer bg-primary bg-opacity-10 py-2 text-center">
+                                    <a href="{{ route('view.manage.orders') }}?search=delivering" class="text-primary text-decoration-none small stretched-link">View
+                                        Delivering</a>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Completed Orders -->
-                        <div class="col-xl-3 col-md-6 mb-4">
-                            <div class="card border-left-success shadow h-100 py-2">
-                                <div class="card-body">
-                                    <div class="row no-gutters align-items-center">
-                                        <div class="col mr-2">
-                                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                                Completed</div>
-                                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $data['completed'] }} out
-                                                of {{ $data['totalSales'] }}</div>
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card h-100 border-0 shadow-sm rounded-lg overflow-hidden">
+                                <div class="card-body p-3">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-shrink-0 p-3 rounded-circle me-3 bg-success bg-opacity-10">
+                                            <i class="bi bi-check-circle-fill text-success fs-3"></i>
                                         </div>
-                                        <div class="col-auto">
-                                            <i class="bi bi-check-circle fa-2x text-success"></i>
+                                        <div>
+                                            <h6 class="text-uppercase fw-semibold text-muted small mb-1">Completed</h6>
+                                            <h4 class="fw-bold mb-0">{{ $data['completed'] }}
+                                                <small class="text-muted fs-6">of {{ $data['totalSales'] }}</small>
+                                            </h4>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="card-footer bg-success bg-opacity-10 py-2 text-center">
+                                    <a href="{{ route('view.manage.orders') }}?search=completed" class="text-success text-decoration-none small stretched-link">View
+                                        Completed</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Search and Filter -->
-                    <div class="row mb-4">
-                        <div class="col-md-5">
-                            <div class="input-group">
-                                <input type="text" class="form-control"
-                                    placeholder="Search orders by ID, customer, or product..." id="orderSearchInput">
-                                <button class="btn btn-outline-secondary" type="button" id="orderSearchBtn">
-                                    <i class="bi bi-search"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-md-7 d-flex justify-content-md-end mt-3 mt-md-0 gap-2">
-                            <select class="form-select w-auto" id="orderStatusFilter">
-                                <option selected value="all">All Statuses</option>
-                                <option value="pending">Pending</option>
-                                <option value="processing">Processing</option>
-                                <option value="delivering">Delivering</option>
-                                <option value="delivered">Delivered</option>
-                                <option value="cancelled">Cancelled</option>
-                            </select>
-                            <select class="form-select w-auto" id="dateRangeFilter">
-                                <option selected value="all">All Time</option>
-                                <option value="today">Today</option>
-                                <option value="yesterday">Yesterday</option>
-                                <option value="this_week">This Week</option>
-                                <option value="last_week">Last Week</option>
-                                <option value="this_month">This Month</option>
-                                <option value="last_month">Last Month</option>
-                                <option value="custom">Custom Range</option>
-                            </select>
-                            <select class="form-select w-auto" id="orderSortBy">
-                                <option selected value="newest">Newest First</option>
-                                <option value="oldest">Oldest First</option>
-                                <option value="total_high">Total (High-Low)</option>
-                                <option value="total_low">Total (Low-High)</option>
-                            </select>
-                        </div>
-                    </div>
+                    <div class="card mb-4 border-0 shadow-sm rounded-lg">
+                        <div class="card-body p-3">
+                            <div class="row g-3">
+                                <div class="col-md-12 mb-3">
+                                    <h6 class="fw-semibold text-muted mb-0">Search</h6>
+                                </div>
 
-                    <!-- Orders Table -->
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle">
-                            <thead class="table-light">
-                                <tr>
-                                    <th scope="col" class="px-4 py-3" style="width: 60px;">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" id="selectAllOrders">
-                                        </div>
-                                    </th>
-                                    <th scope="col" class="px-4 py-3">Order ID</th>
-                                    <th scope="col" class="px-4 py-3">Customer</th>
-                                    <th scope="col" class="px-4 py-3">Items</th>
-                                    <th scope="col" class="px-4 py-3">Date</th>
-                                    <th scope="col" class="px-4 py-3">Total</th>
-                                    <th scope="col" class="px-4 py-3">Status</th>
-                                    <th scope="col" class="px-4 py-3">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($data['sales'] as $sale)
-                                    {{-- {{ dd($sales) }} --}}
-                                    <tr>
-                                        <td class="px-4 py-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input order-checkbox" type="checkbox"
-                                                    value="order1">
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-3"><a href="#" class="fw-bold text-primary"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#orderDetailsModal">{{$sale->getSalesID()}}</a></td>
-                                        <td class="px-4 py-3">
-                                            <div class="d-flex align-items-center">
-                                                <div class="avatar avatar-sm me-2">
-                                                    <div class="avatar-initial bg-primary rounded">JD</div>
-                                                </div>
-                                                <div>
-                                                    <div class="fw-semibold">John Doe</div>
-                                                    <div class="small text-muted">john.doe@example.com</div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="px-4 py-3">3 items</td>
-                                        <td class="px-4 py-3">Apr 15, 2023</td>
-                                        <td class="px-4 py-3 fw-bold">$129.95</td>
-                                        <td class="px-4 py-3">
-                                            <span class="badge bg-warning text-dark">Pending</span>
-                                        </td>
-                                        <td class="px-4 py-3">
-                                            <div class="dropdown">
-                                                <button class="btn btn-sm btn-outline-secondary dropdown-toggle"
-                                                    type="button" data-bs-toggle="dropdown">
-                                                    Actions
+                                <!-- Search Bar (Full Width) -->
+                                <div class="col-md-12 mb-3">
+                                    <form action="{{ route('view.manage.orders') }}" method="GET" id="searchForm">
+                                        @csrf
+                                        <div class="input-group">
+                                            <span class="input-group-text bg-light border-end-0">
+                                                <i class="bi bi-search text-muted"></i>
+                                            </span>
+                                            <input type="text" class="form-control border-start-0"
+                                                placeholder="Search by ID, Customer ID, Reference ID, or Status..."
+                                                aria-label="Search orders" name="search" value="{{ $search ?? '' }}">
+                                            @if ($search)
+                                                <a href="{{ route('view.manage.orders') }}"
+                                                    class="btn btn-outline-danger border-start-0">
+                                                    <i class="bi bi-x-lg"></i>
+                                                </a>
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="bi bi-search me-1"></i>Search
                                                 </button>
-                                                <ul class="dropdown-menu shadow">
-                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#orderDetailsModal"><i
-                                                                class="bi bi-eye me-2"></i>View Details</a></li>
-                                                    <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                                                            data-bs-target="#updateStatusModal"><i
-                                                                class="bi bi-arrow-repeat me-2"></i>Update Status</a></li>
-                                                    <li>
-                                                        <hr class="dropdown-divider">
-                                                    </li>
-                                                    <li><a class="dropdown-item text-danger" href="#"><i
-                                                                class="bi bi-x-circle me-2"></i>Cancel Order</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Bulk Actions and Pagination -->
-                    <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap">
-                        <div class="bulk-actions mb-3 mb-md-0">
-                            <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-outline-primary" id="bulkActionBtn" disabled>
-                                    Bulk Actions
-                                </button>
-                                <button type="button"
-                                    class="btn btn-outline-primary dropdown-toggle dropdown-toggle-split"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    <span class="visually-hidden">Toggle Dropdown</span>
-                                </button>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#"><i class="bi bi-truck me-2"></i>Mark as
-                                            Processing</a></li>
-                                    <li><a class="dropdown-item" href="#"><i
-                                                class="bi bi-check-circle me-2"></i>Mark as Delivered</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item text-danger" href="#"><i
-                                                class="bi bi-x-circle me-2"></i>Cancel Orders</a></li>
-                                </ul>
+                                            @else
+                                                <button type="submit" class="btn btn-primary">
+                                                    <i class="bi bi-search me-1"></i>Search
+                                                </button>
+                                            @endif
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
-                        <nav aria-label="Orders pagination">
-                            <ul class="pagination mb-0">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                </li>
-                                <li class="page-item active" aria-current="page">
-                                    <a class="page-link" href="#">1</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">2</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">3</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Orders Table -->
+        <div class="card border-0 shadow-sm rounded-lg">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light text-secondary">
+                            <tr>
+                                <th class="px-4 py-3 fw-semibold border-0">Sales ID</th>
+                                <th class="px-4 py-3 fw-semibold border-0">Customer</th>
+                                <th class="px-4 py-3 fw-semibold border-0">Ref. ID</th>
+                                <th class="px-4 py-3 fw-semibold border-0">Book ID</th>
+                                <th class="px-4 py-3 fw-semibold text-center border-0">Quantity</th>
+                                <th class="px-4 py-3 fw-semibold border-0" style="min-width: 150px;">Date</th>
+                                <th class="px-4 py-3 fw-semibold border-0">Total</th>
+                                <th class="px-4 py-3 fw-semibold border-0">Status</th>
+                                <th class="px-4 py-3 fw-semibold text-end border-0"style="min-width: 500px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($sales as $sale)
+                                <tr class="border-top">
+                                    <td class="px-4 py-3 fw-medium text-primary">
+                                        {{ $sale->getSalesID() }}
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <div class="d-flex align-items-center">
+                                            <span>{{ $sale->getUserID() }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <span class="text-muted">{{ $sale->getRefID() }}</span>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <span class="text-muted">{{ $sale->getBookID() }}</span>
+                                    </td>
+                                    <td class="px-4 py-3 text-center">
+                                        <span class="badge rounded-pill bg-info bg-opacity-10 text-info px-3 py-2">
+                                            {{ $sale->getQuantity() }} items
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3" style="min-width: 120px;">
+                                        <div class="d-flex flex-column">
+                                            <span>
+                                                {{ \Carbon\Carbon::parse($sale->getCreatedAt())->format('M d, Y') }}
+                                            </span>
+                                            <small class="text-muted">
+                                                {{ \Carbon\Carbon::parse($sale->getCreatedAt())->format('h:i A') }}
+                                            </small>
+                                        </div>
+                                    </td>
+                                    <td class="px-4 py-3 fw-bold text-success">
+                                        ${{ number_format($sale->getTotalSales(), 2) }}
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        @php
+                                            $status = strtolower($sale->getStatus());
+                                            $statusClass = match ($status) {
+                                                'pending' => 'warning',
+                                                'processing' => 'info',
+                                                'delivering' => 'primary',
+                                                'completed' => 'success',
+                                                'cancelled' => 'danger',
+                                                default => 'secondary',
+                                            };
+                                            $statusIcon = match ($status) {
+                                                'pending' => 'clock-history',
+                                                'processing' => 'gear',
+                                                'delivering' => 'truck',
+                                                'completed' => 'check-circle',
+                                                'cancelled' => 'x-circle',
+                                                default => 'circle',
+                                            };
+                                        @endphp
+                                        <span
+                                            class="badge rounded-pill bg-{{ $statusClass }} bg-opacity-10 text-{{ $statusClass }} px-3 py-2">
+                                            <i class="bi bi-{{ $statusIcon }} me-1"></i>
+                                            {{ ucfirst($status) }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-end">
+                                        <div class="d-flex gap-2 justify-content-end">
+                                            <!-- Pending Button -->
+                                            <form action="{{ route('update.order.status') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="status" value="pending">
+                                                <input type="hidden" name="saleID" value="{{ $sale->getSalesID() }}">
+                                                <button type="submit"
+                                                    class="btn btn-sm rounded-pill
+                                                    {{ $sale->getStatus() === 'pending' ? 'btn-warning text-white' : 'btn-outline-warning' }}"
+                                                    data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                    data-status="pending">
+                                                    Pending
+                                                </button>
+                                            </form>
+
+                                            <!-- Processing Button -->
+                                            <form action="{{ route('update.order.status') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="status" value="processing">
+                                                <input type="hidden" name="saleID" value="{{ $sale->getSalesID() }}">
+                                                <button type="submit"
+                                                    class="btn btn-sm rounded-pill
+                                                    {{ $sale->getStatus() === 'processing' ? 'btn-info text-white' : 'btn-outline-info' }}"
+                                                    data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                    data-status="processing">
+                                                    Processing
+                                                </button>
+
+                                                <!-- Delivering Button -->
+                                                <form action="{{ route('update.order.status') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="delivering">
+                                                    <input type="hidden" name="saleID"
+                                                        value="{{ $sale->getSalesID() }}">
+                                                    <button type="submit"
+                                                        class="btn btn-sm rounded-pill
+                                                        {{ $sale->getStatus() === 'delivering' ? 'btn-primary text-white' : 'btn-outline-primary' }}"
+                                                        data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                        data-status="delivering">
+                                                        Delivering
+                                                    </button>
+                                                </form>
+
+                                                <!-- Delivered Button -->
+                                                <form action="{{ route('update.order.status') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="delivered">
+                                                    <input type="hidden" name="saleID"
+                                                        value="{{ $sale->getSalesID() }}">
+                                                    <button type="submit"
+                                                        class="btn btn-sm rounded-pill
+                                                        {{ $sale->getStatus() === 'delivered' ? 'btn-success text-white' : 'btn-outline-success' }}"
+                                                        data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                        data-status="delivered">
+                                                        Delivered
+                                                    </button>
+                                                </form>
+
+                                                <!-- Cancelled Button -->
+                                                <form action="{{ route('update.order.status') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="cancelled">
+                                                    <input type="hidden" name="saleID"
+                                                        value="{{ $sale->getSalesID() }}">
+                                                    <button type="submit"
+                                                        class="btn btn-sm rounded-pill
+                                                        {{ $sale->getStatus() === 'cancelled' ? 'btn-danger text-white' : 'btn-outline-danger' }}"
+                                                        data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                        data-status="cancelled">
+                                                        Cancelled
+                                                    </button>
+                                                </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <!-- Success Modal -->
+                @if (session('success'))
+                    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
+                        aria-hidden="true" data-bs-show="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-success text-white">
+                                    <h5 class="modal-title" id="successModalLabel">Success!</h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-check-circle fa-3x text-success me-3"></i>
+                                        <p class="mb-0">{{ session('success') }}</p>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+                <!-- Empty state (will only show when there are no orders) -->
+                @if (count($sales) === 0)
+                    <form action="{{ route('view.manage.orders') }}" method="GET">
+                        <div class="text-center py-5">
+                            <div class="mb-3">
+                                <i class="bi bi-inbox text-muted" style="font-size: 3rem;"></i>
+                            </div>
+                            <h5 class="fw-bold text-muted">No Orders Found</h5>
+                            <p class="text-muted">Try adjusting your search or filter to find what you're
+                                looking
+                                for.</p>
+                            <input type="hidden" name="search" value="">
+                            <button class="btn btn-outline-primary rounded-pill">Clear Filters</button>
+                        </div>
+                    </form>
+                @endif
+            </div>
+        </div>
+
+
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-between align-items-center mt-4">
+            <nav aria-label="Page navigation">
+                {{ $sales->appends(['search' => $search ?? ''])->links('pagination::bootstrap-4') }}
+            </nav>
+        </div>
     </div>
 @endsection
+@if (session('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show the success modal if it exists
+            const successModal = document.getElementById('successModal');
+            if (successModal) {
+                const modal = new bootstrap.Modal(successModal);
+                modal.show();
+            }
+        });
+    </script>
+@endif
