@@ -111,7 +111,7 @@
                                     </div>
                                 </div>
                                 <div class="card-footer bg-success bg-opacity-10 py-2 text-center">
-                                    <a href="{{ route('view.manage.orders') }}?search=completed" class="text-success text-decoration-none small stretched-link">View
+                                    <a href="{{ route('view.manage.orders') }}?search=delivered" class="text-success text-decoration-none small stretched-link">View
                                         Completed</a>
                                 </div>
                             </div>
