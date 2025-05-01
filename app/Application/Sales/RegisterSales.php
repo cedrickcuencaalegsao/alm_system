@@ -130,4 +130,24 @@ class RegisterSales
         ];
         $this->salesRepository->updateStatus($data);
     }
+
+    public function getTotalRevenue(): ?float
+    {
+        return $this->salesRepository->getTotalRevenue();
+    }
+
+    public function getTotalOrders(): ?int
+    {
+        return $this->salesRepository->getTotalOrders();
+    }
+
+    public function getConversionRate(): ?float
+    {
+        return $this->salesRepository->getConversionRate();
+    }
+
+    public function getAverageOrderValue(): ?float
+    {
+        return $this->salesRepository->getAverageOrderValue();
+    }
 }

@@ -436,4 +436,55 @@ class EloquentSalesRepository implements SaleRepository
     {
         return count(SaleModel::where('status', 'delivered')->get());
     }
+
+    /**
+     * Function to get total revenue.
+     * **/
+    public function getTotalRevenue(): ?float
+    {
+        return SaleModel::where('status', 'delivered')
+            ->where('isDeleted', false)
+            ->sum('totalsales');
+    }
+
+    /**
+     * Function to get total orders.
+     * **/
+    public function getTotalOrders(): ?int
+    {
+        return SaleModel::where('isDeleted', false)->count();
+    }
+
+    /**
+     * Function to get conversion rate.
+     * **/
+    public function getConversionRate(): ?float
+    {
+        $completedOrders = SaleModel::where('status', 'delivered')
+            ->where('isDeleted', false)
+            ->count();
+        $totalNonCancelledOrder = SaleModel::where('status', '!=', 'cancelled')
+            ->where('isDeleted', false)
+            ->count();
+
+        $conversionRate = $totalNonCancelledOrder > 0 ? ($completedOrders / $totalNonCancelledOrder) * 100 : 0;
+
+        return $conversionRate;
+    }
+
+    /**
+     * Function to get average order value.
+     * **/
+    public function getAverageOrderValue(): ?float
+    {
+        $completedOrders = SaleModel::where('status', 'delivered')
+            ->where('isDeleted', false)
+            ->count();
+            
+        $totalRevenue = $this->getTotalRevenue();
+
+        $avgOrderValue = $completedOrders > 0 ? $totalRevenue / $completedOrders : 0;
+
+        return $avgOrderValue;
+    }
 }

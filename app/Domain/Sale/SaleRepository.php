@@ -47,4 +47,12 @@ interface SaleRepository
     public function countCompleted(): ?int;
 
     public function searchSales(string $search, int $perPage);
+
+    public function getTotalRevenue(): ?float;
+
+    public function getTotalOrders(): ?int;
+
+    public function getConversionRate(): ?float;
+
+    public function getAverageOrderValue(): ?float;
 }
