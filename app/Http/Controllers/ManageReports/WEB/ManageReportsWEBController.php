@@ -29,7 +29,7 @@ class ManageReportsWEBController extends Controller
 
         $salesDistributionData = $this->registerSales->getSalesByCategory();
 
-        $productPerformanceData = $this->registerSales->topSellingBooks();
+        $bookPerformanceData = $this->registerSales->topSellingBooks();
 
         // Category Distribution Chart Data
         $categoryDistributionData = $this->registerSales->getSalesByCategory();
@@ -46,62 +46,15 @@ class ManageReportsWEBController extends Controller
             'data' => [25, 32, 18, 27, 35, 30],
         ];
 
-        $perPage = $request->input('per_page', 5);
-        $salesData = $this->registerSales->findAllPaginated($perPage);
+        $salesPerPage = $request->input('per_page', 5);
+        $salesData = $this->registerSales->findAllPaginated($salesPerPage);
 
-        $productData = [
-            [
-                'id' => 'P001',
-                'name' => 'Book Title 1',
-                'category' => 'Fiction',
-                'price' => 24.99,
-                'units_sold' => 45,
-                'revenue' => 1124.55,
-                'stock' => 23,
-                'status' => 'In Stock',
-            ],
-            [
-                'id' => 'P002',
-                'name' => 'Book Title 2',
-                'category' => 'Non-Fiction',
-                'price' => 19.99,
-                'units_sold' => 38,
-                'revenue' => 759.62,
-                'stock' => 15,
-                'status' => 'In Stock',
-            ],
-            [
-                'id' => 'P003',
-                'name' => 'Book Title 3',
-                'category' => 'Science',
-                'price' => 15.99,
-                'units_sold' => 52,
-                'revenue' => 831.48,
-                'stock' => 8,
-                'status' => 'Low Stock',
-            ],
-            [
-                'id' => 'P004',
-                'name' => 'Book Title 4',
-                'category' => 'Fiction',
-                'price' => 29.99,
-                'units_sold' => 29,
-                'revenue' => 869.71,
-                'stock' => 0,
-                'status' => 'Out of Stock',
-            ],
-            [
-                'id' => 'P005',
-                'name' => 'Book Title 5',
-                'category' => 'Biography',
-                'price' => 22.99,
-                'units_sold' => 33,
-                'revenue' => 758.67,
-                'stock' => 12,
-                'status' => 'In Stock',
-            ],
-        ];
+        $bookPerPage = $request->input('per_page', 5);
+        $bookData = $this->registerSales->findAllPaginated($bookPerPage);
 
+
+        // $customerPerPage = $request->input('per_page', 5);
+        // $customerData = $this->registerSales->findAllPaginated($customerPerPage);
         // Sample Customer Data
         $customerData = [
             [
@@ -160,7 +113,7 @@ class ManageReportsWEBController extends Controller
         $chartData = [
             'salesChart' => $salesChartData,
             'salesDistribution' => $salesDistributionData,
-            'productPerformance' => $productPerformanceData,
+            'bookPerformance' => $bookPerformanceData,
             'categoryDistribution' => $categoryDistributionData,
             'customerRetention' => $customerRetentionData,
             'customerAcquisition' => $customerAcquisitionData,
@@ -169,7 +122,7 @@ class ManageReportsWEBController extends Controller
         // Combine all table data
         $tableData = [
             'sales' => $salesData,
-            'products' => $productData,
+            'books' => $bookData,
             'customers' => $customerData,
         ];
 

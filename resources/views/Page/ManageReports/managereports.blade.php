@@ -10,6 +10,8 @@
 
 @section('content')
     <div class="container-fluid">
+        <!-- Hidden input to track active section -->
+        <input type="hidden" id="activeSection" value="{{ request()->input('section', 'salesReport') }}">
 
 
         <!-- Report Dashboard Cards -->
@@ -93,9 +95,9 @@
                     <div class="col-md-4">
                         <label for="reportType" class="form-label">Report Type</label>
                         <select class="form-select" id="reportType">
-                            <option value="sales">Sales Reports</option>
-                            <option value="products">Product Performance</option>
-                            <option value="customers">Customer Analytics</option>
+                            <option value="salesReport" {{ request()->input('section') == 'salesReport' || !request()->has('section') ? 'selected' : '' }}>Sales Reports</option>
+                            <option value="bookReport" {{ request()->input('section') == 'bookReport' ? 'selected' : '' }}>Book Performance</option>
+                            <option value="customerReport" {{ request()->input('section') == 'customerReport' ? 'selected' : '' }}>Customer Analytics</option>
                         </select>
                     </div>
                     <div class="col-md-4">
@@ -203,8 +205,8 @@
                             {{ $tableData['sales']->lastItem() ?? 0 }} of {{ $tableData['sales']->total() ?? 0 }} entries
                         </p>
                         <div class="d-flex align-items-center">
-                            <label for="per_page" class="me-2">Show:</label>
-                            <select id="per_page" class="form-select form-select-sm" style="width: 80px;">
+                            <label for="sales_per_page" class="me-2">Show:</label>
+                            <select id="sales_per_page" class="form-select form-select-sm" style="width: 80px;">
                                 <option value="5" {{ request()->input('per_page', 5) == 5 ? 'selected' : '' }}>5
                                 </option>
                                 <option value="10" {{ request()->input('per_page') == 10 ? 'selected' : '' }}>10
@@ -218,17 +220,17 @@
                             </select>
                         </div>
                     </div>
-                    {{ $tableData['sales']->appends(request()->query())->links('pagination::bootstrap-4') }}
+                    {{ $tableData['sales']->appends(request()->query())->appends(['section' => 'salesReport'])->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
 
-        <!-- Product Performance -->
-        <div class="card mb-4 report-section d-none" id="productReport">
+        <!-- Book Performance -->
+        <div class="card mb-4 report-section d-none" id="bookReport">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Product Performance</h5>
+                <h5 class="mb-0">Book Performance</h5>
                 <div>
-                    <button class="btn btn-sm btn-outline-primary refresh-section" data-section="productPerformance">
+                    <button class="btn btn-sm btn-outline-primary refresh-section" data-section="bookPerformance">
                         <i class="bi bi-arrow-repeat"></i> Refresh
                     </button>
                 </div>
@@ -237,7 +239,7 @@
                 <div class="row mb-4">
                     <div class="col-md-7">
                         <div class="chart-container" style="position: relative; height:300px;">
-                            <canvas id="productPerformanceChart"></canvas>
+                            <canvas id="bookPerformanceChart"></canvas>
                         </div>
                     </div>
                     <div class="col-md-5">
@@ -250,30 +252,39 @@
                     <table class="table table-bordered table-hover">
                         <thead class="table-light">
                             <tr>
-                                <th>Product ID</th>
-                                <th>Product Name</th>
+                                <th>Book ID</th>
+                                <th>Book Name</th>
                                 <th>Category</th>
                                 <th>Price</th>
                                 <th>Units Sold</th>
-                                <th>Revenue</th>
-                                <th>Stock</th>
+                                <th>Total Sales</th>
+                                <th>Date</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($tableData['products'] as $product)
+                            @foreach ($tableData['books'] as $book)
                                 <tr>
-                                    <td>{{ $product['id'] }}</td>
-                                    <td>{{ $product['name'] }}</td>
-                                    <td>{{ $product['category'] }}</td>
-                                    <td>${{ number_format($product['price'], 2) }}</td>
-                                    <td>{{ $product['units_sold'] }}</td>
-                                    <td>${{ number_format($product['revenue'], 2) }}</td>
-                                    <td>{{ $product['stock'] }}</td>
+                                    <td>{{ $book->getBookID() }}</td>
+                                    <td>{{ $book->getBookName() }}</td>
+                                    <td>{{ $book->getBookCategory() }}</td>
+                                    <td>${{ number_format($book->getBookPrice(), 2) }}</td>
+                                    <td>{{ $book->getQuantity() }}</td>
+                                    <td>${{ number_format($book->getTotalSales(), 2) }}</td>
+
+                                    <td>{{ $book->getCreatedAt() }}</td>
                                     <td>
                                         <span
-                                            class="badge bg-{{ $product['status'] == 'In Stock' ? 'success' : ($product['status'] == 'Low Stock' ? 'warning' : 'danger') }}">
-                                            {{ $product['status'] }}
+                                            class="badge bg-{{ $sale->getStatus() == 'delivered'
+                                                ? 'success'
+                                                : ($sale->getStatus() == 'processing'
+                                                    ? 'warning'
+                                                    : ($sale->getStatus() == 'delivering'
+                                                        ? 'info'
+                                                        : ($sale->getStatus() == 'cancelled'
+                                                            ? 'danger'
+                                                            : 'secondary'))) }}">
+                                            {{ $sale->getStatus() }}
                                         </span>
                                     </td>
                                 </tr>
@@ -282,18 +293,27 @@
                     </table>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div>
-                        <span class="text-muted">Showing 5 of 42 entries</span>
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 me-3">Showing {{ $tableData['books']->firstItem() ?? 0 }} to
+                            {{ $tableData['books']->lastItem() ?? 0 }} of {{ $tableData['books']->total() ?? 0 }} entries
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <label for="sales_per_page" class="me-2">Show:</label>
+                            <select id="sales_per_page" class="form-select form-select-sm" style="width: 80px;">
+                                <option value="5" {{ request()->input('per_page', 5) == 5 ? 'selected' : '' }}>5
+                                </option>
+                                <option value="10" {{ request()->input('per_page') == 10 ? 'selected' : '' }}>10
+                                </option>
+                                <option value="25" {{ request()->input('per_page') == 25 ? 'selected' : '' }}>25
+                                </option>
+                                <option value="50" {{ request()->input('per_page') == 50 ? 'selected' : '' }}>50
+                                </option>
+                                <option value="100" {{ request()->input('per_page') == 100 ? 'selected' : '' }}>100
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
+                    {{ $tableData['books']->appends(request()->query())->appends(['section' => 'bookReport'])->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
@@ -374,13 +394,108 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Handle per-page selector change
-        document.getElementById('per_page').addEventListener('change', function() {
-            const perPage = this.value;
+        // Handle per-page selector change for all per-page selectors
+        document.querySelectorAll('select[id$="per_page"]').forEach(function(selector) {
+            selector.addEventListener('change', function() {
+                const perPage = this.value;
+                const currentUrl = new URL(window.location.href);
+                currentUrl.searchParams.set('per_page', perPage);
+                window.location.href = currentUrl.toString();
+            });
+        });
+
+        // Handle report type filter change
+        document.getElementById('reportType').addEventListener('change', function() {
+            const reportType = this.value;
             const currentUrl = new URL(window.location.href);
-            currentUrl.searchParams.set('per_page', perPage);
+
+            // Set the section parameter to the selected report type
+            currentUrl.searchParams.set('section', reportType);
+
+            // Store the selected report type in localStorage for persistence
+            localStorage.setItem('activeSection', reportType);
+
+            // Navigate to the URL with the updated section parameter
             window.location.href = currentUrl.toString();
         });
+
+        // Initialize active section on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the active section from URL parameter or localStorage
+            const urlParams = new URLSearchParams(window.location.search);
+            const activeSection = urlParams.get('section') || localStorage.getItem('activeSection') ||
+            'salesReport';
+
+            // Show the active section
+            showSection(activeSection);
+
+            // Attach event listeners to pagination links with a slight delay to ensure they're loaded
+            setTimeout(attachPaginationListeners, 100);
+        });
+
+        // Function to attach event listeners to pagination links
+        function attachPaginationListeners() {
+            // Add click event listeners to all pagination links
+            document.querySelectorAll('.pagination .page-link').forEach(link => {
+                // Remove any existing listeners to prevent duplicates
+                const newLink = link.cloneNode(true);
+                link.parentNode.replaceChild(newLink, link);
+
+                newLink.addEventListener('click', function(e) {
+                    // Prevent the default action temporarily
+                    e.preventDefault();
+
+                    // Get the current active section
+                    const currentActiveSection = document.querySelector('.report-section:not(.d-none)')
+                        ?.id || 'salesReport';
+                    console.log('Current active section:', currentActiveSection);
+
+                    // Store the active section in localStorage
+                    localStorage.setItem('activeSection', currentActiveSection);
+
+                    // Modify the URL to include the section parameter
+                    let targetUrl = this.href;
+                    try {
+                        const url = new URL(targetUrl);
+                        url.searchParams.set('section', currentActiveSection);
+                        targetUrl = url.toString();
+                        console.log('Navigating to:', targetUrl);
+
+                        // Navigate to the modified URL
+                        window.location.href = targetUrl;
+                    } catch (error) {
+                        console.error('Error updating pagination URL:', error);
+                        // Fallback to original link if there's an error
+                        window.location.href = this.href;
+                    }
+                });
+            });
+
+            console.log('Pagination listeners attached to', document.querySelectorAll('.pagination .page-link').length,
+                'links');
+        }
+
+        // Function to show a specific section
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.report-section').forEach(section => {
+                section.classList.add('d-none');
+            });
+
+            // Show the selected section
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.remove('d-none');
+
+                // Update active tab
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('data-target') === sectionId) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        }
 
         document.addEventListener("DOMContentLoaded", function() {
             // Toggle date range inputs
@@ -403,7 +518,7 @@
                         document.getElementById('salesReport').classList.remove('d-none');
                         break;
                     case 'products':
-                        document.getElementById('productReport').classList.remove('d-none');
+                        document.getElementById('bookReport').classList.remove('d-none');
                         break;
                     case 'customers':
                         document.getElementById('customerReport').classList.remove('d-none');
@@ -456,15 +571,15 @@
                 }
             );
 
-            // Product Performance Chart
-            const productPerformanceChart = new Chart(
-                document.getElementById('productPerformanceChart'), {
+            // Book Performance Chart
+            const bookPerformanceChart = new Chart(
+                document.getElementById('bookPerformanceChart'), {
                     type: 'bar',
                     data: {
-                        labels: {!! json_encode($chartData['productPerformance']['labels']) !!},
+                        labels: {!! json_encode($chartData['bookPerformance']['labels']) !!},
                         datasets: [{
                             label: 'Units Sold',
-                            data: {!! json_encode($chartData['productPerformance']['unitsSold']) !!},
+                            data: {!! json_encode($chartData['bookPerformance']['unitsSold']) !!},
                             backgroundColor: 'rgba(54, 162, 235, 0.7)'
                         }]
                     },
