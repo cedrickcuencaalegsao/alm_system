@@ -150,4 +150,19 @@ class RegisterSales
     {
         return $this->salesRepository->getAverageOrderValue();
     }
+
+    public function getSalesByMonth(): ?array
+    {
+        return $this->salesRepository->getSalesByMonth();
+    }
+
+    public function getSalesByCategory(): ?array
+    {
+        return $this->salesRepository->getSalesByCategory();
+    }
+
+    public function topSellingBooks(): ?array
+    {
+        return $this->salesRepository->topSellingBooks();
+    }
 }

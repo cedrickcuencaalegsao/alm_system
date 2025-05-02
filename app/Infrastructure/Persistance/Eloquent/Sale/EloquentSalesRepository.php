@@ -480,11 +480,92 @@ class EloquentSalesRepository implements SaleRepository
         $completedOrders = SaleModel::where('status', 'delivered')
             ->where('isDeleted', false)
             ->count();
-            
+
         $totalRevenue = $this->getTotalRevenue();
 
         $avgOrderValue = $completedOrders > 0 ? $totalRevenue / $completedOrders : 0;
 
         return $avgOrderValue;
+    }
+
+    /**
+     * Function to get sales by month.
+     * **/
+    public function getSalesByMonth(): ?array
+    {
+        $sales = SaleModel::selectRaw('YEAR(createdAt) as year, MONTH(createdAt) as month, SUM(totalsales) as total_sales')
+            ->groupBy('year', 'month')
+            ->orderBy('year')
+            ->orderBy('month')
+            ->get();
+
+        $labels = [];
+        $data = [];
+
+        foreach ($sales as $sale) {
+            $monthName = date('M', mktime(0, 0, 0, $sale->month, 10)); // Jan, Feb, etc.
+            $labels[] = $monthName.' '.$sale->year;
+            $data[] = round($sale->total_sales, 2);
+        }
+
+        return [
+            'labels' => $labels,
+            'data' => $data,
+        ];
+    }
+
+    /**
+     * Function to get sales by category.
+     * **/
+    public function getSalesByCategory(): ?array
+    {
+        $sales = SaleModel::selectRaw('tbl_books.bookcategory as category, SUM(tbl_sales.totalsales) as total_sales')
+            ->join('tbl_books', 'tbl_sales.bookID', '=', 'tbl_books.bookID')
+            ->where('tbl_sales.isDeleted', false)
+            ->where('tbl_books.isDeleted', false)
+            ->groupBy('tbl_books.bookcategory')
+            ->orderByDesc('total_sales')
+            ->get();
+
+        $labels = [];
+        $data = [];
+
+        foreach ($sales as $sale) {
+            $labels[] = $sale->category ?? 'Unknown';
+            $data[] = round($sale->total_sales, 2);
+        }
+
+        return [
+            'labels' => $labels,
+            'data' => $data,
+        ];
+    }
+
+    /**
+     * Function to get top selling books.
+     * **/
+    public function topSellingBooks(): ?array
+    {
+        $sales = SaleModel::selectRaw('tbl_books.bookname as name, SUM(tbl_sales.quantity) as units_sold')
+            ->join('tbl_books', 'tbl_sales.bookID', '=', 'tbl_books.bookID')
+            ->where('tbl_sales.isDeleted', false)
+            ->where('tbl_books.isDeleted', false)
+            ->groupBy('tbl_books.bookname')
+            ->orderByDesc('units_sold')
+            ->limit(5)
+            ->get();
+
+        $labels = [];
+        $unitsSold = [];
+
+        foreach ($sales as $sale) {
+            $labels[] = $sale->name ?? 'Unknown';
+            $unitsSold[] = (int) $sale->units_sold;
+        }
+
+        return [
+            'labels' => $labels,
+            'unitsSold' => $unitsSold,
+        ];
     }
 }

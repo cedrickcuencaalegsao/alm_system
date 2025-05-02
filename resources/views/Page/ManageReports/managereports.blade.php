@@ -10,6 +10,79 @@
 
 @section('content')
     <div class="container-fluid">
+
+
+        <!-- Report Dashboard Cards -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Revenue</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">₱
+                                    {{ number_format($cardData['totalRevenue'], 2) }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-currency-dollar fs-2 text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Orders</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $cardData['totalOrders'] }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-cart-check fs-2 text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Conversion Rate</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {{ number_format($cardData['conversionRate'], 2) }}%</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-percent fs-2 text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Average Order Value
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">₱
+                                    {{ number_format($cardData['avgOrderValue'], 2) }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="bi bi-receipt fs-2 text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Report Filter Section -->
         <div class="card mb-4">
             <div class="card-header">
@@ -63,86 +136,10 @@
             </div>
         </div>
 
-        <!-- Report Dashboard Cards -->
-        <div class="row mb-4">
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-primary h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Revenue</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">₱ {{ number_format($cardData['totalRevenue'], 2) }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="bi bi-currency-dollar fs-2 text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-success h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total Orders</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $cardData['totalOrders'] }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="bi bi-cart-check fs-2 text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-info h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Conversion Rate</div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ number_format($cardData['conversionRate'], 2) }}%</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="bi bi-percent fs-2 text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-xl-3 col-md-6 mb-4">
-                <div class="card border-left-warning h-100 py-2">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Average Order Value
-                                </div>
-                                <div class="h5 mb-0 font-weight-bold text-gray-800">₱ {{ number_format($cardData['avgOrderValue'], 2) }}</div>
-                            </div>
-                            <div class="col-auto">
-                                <i class="bi bi-receipt fs-2 text-gray-300"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <!-- Sales Report -->
         <div class="card mb-4 report-section" id="salesReport">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Sales Report</h5>
-                <div>
-                    <button class="btn btn-sm btn-outline-secondary me-2">
-                        <i class="bi bi-funnel"></i> Filter
-                    </button>
-                    <button class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-arrow-repeat"></i> Refresh
-                    </button>
-                </div>
             </div>
             <div class="card-body">
                 <div class="row mb-4">
@@ -161,10 +158,10 @@
                     <table class="table table-bordered table-hover">
                         <thead class="table-light">
                             <tr>
-                                <th>Order ID</th>
+                                <th>Sales ID</th>
                                 <th>Date</th>
-                                <th>Customer</th>
-                                <th>Product</th>
+                                <th>Customer ID</th>
+                                <th>Product ID</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 <th>Total</th>
@@ -172,72 +169,56 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>ORD-001</td>
-                                <td>2023-06-15</td>
-                                <td>John Doe</td>
-                                <td>Book Title 1</td>
-                                <td>2</td>
-                                <td>$24.99</td>
-                                <td>$49.98</td>
-                                <td><span class="badge bg-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>ORD-002</td>
-                                <td>2023-06-15</td>
-                                <td>Jane Smith</td>
-                                <td>Book Title 2</td>
-                                <td>1</td>
-                                <td>$19.99</td>
-                                <td>$19.99</td>
-                                <td><span class="badge bg-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>ORD-003</td>
-                                <td>2023-06-16</td>
-                                <td>Robert Johnson</td>
-                                <td>Book Title 3</td>
-                                <td>3</td>
-                                <td>$15.99</td>
-                                <td>$47.97</td>
-                                <td><span class="badge bg-warning">Processing</span></td>
-                            </tr>
-                            <tr>
-                                <td>ORD-004</td>
-                                <td>2023-06-16</td>
-                                <td>Emily Davis</td>
-                                <td>Book Title 1</td>
-                                <td>1</td>
-                                <td>$24.99</td>
-                                <td>$24.99</td>
-                                <td><span class="badge bg-success">Completed</span></td>
-                            </tr>
-                            <tr>
-                                <td>ORD-005</td>
-                                <td>2023-06-17</td>
-                                <td>Michael Wilson</td>
-                                <td>Book Title 4</td>
-                                <td>2</td>
-                                <td>$29.99</td>
-                                <td>$59.98</td>
-                                <td><span class="badge bg-info">Shipped</span></td>
-                            </tr>
+                            @foreach ($tableData['sales'] as $sale)
+                                <tr>
+                                    <td>{{ $sale->getSalesID() }}</td>
+                                    <td>{{ $sale->getCreatedAt() }}</td>
+                                    <td>{{ $sale->getUserID() }}</td>
+                                    <td>{{ $sale->getBookID() }}</td>
+                                    <td>{{ $sale->getQuantity() }}</td>
+                                    <td>${{ number_format($sale->getBookPrice(), 2) }}</td>
+                                    <td>${{ number_format($sale->getTotalSales(), 2) }}</td>
+                                    <td>
+                                        <span
+                                            class="badge bg-{{ $sale->getStatus() == 'delivered'
+                                                ? 'success'
+                                                : ($sale->getStatus() == 'processing'
+                                                    ? 'warning'
+                                                    : ($sale->getStatus() == 'delivering'
+                                                        ? 'info'
+                                                        : ($sale->getStatus() == 'cancelled'
+                                                            ? 'danger'
+                                                            : 'secondary'))) }}">
+                                            {{ $sale->getStatus() }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
                 <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div>
-                        <span class="text-muted">Showing 5 of 215 entries</span>
+                    <div class="d-flex align-items-center">
+                        <p class="mb-0 me-3">Showing {{ $tableData['sales']->firstItem() ?? 0 }} to
+                            {{ $tableData['sales']->lastItem() ?? 0 }} of {{ $tableData['sales']->total() ?? 0 }} entries
+                        </p>
+                        <div class="d-flex align-items-center">
+                            <label for="per_page" class="me-2">Show:</label>
+                            <select id="per_page" class="form-select form-select-sm" style="width: 80px;">
+                                <option value="5" {{ request()->input('per_page', 5) == 5 ? 'selected' : '' }}>5
+                                </option>
+                                <option value="10" {{ request()->input('per_page') == 10 ? 'selected' : '' }}>10
+                                </option>
+                                <option value="25" {{ request()->input('per_page') == 25 ? 'selected' : '' }}>25
+                                </option>
+                                <option value="50" {{ request()->input('per_page') == 50 ? 'selected' : '' }}>50
+                                </option>
+                                <option value="100" {{ request()->input('per_page') == 100 ? 'selected' : '' }}>100
+                                </option>
+                            </select>
+                        </div>
                     </div>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
+                    {{ $tableData['sales']->appends(request()->query())->links('pagination::bootstrap-4') }}
                 </div>
             </div>
         </div>
@@ -247,10 +228,7 @@
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Product Performance</h5>
                 <div>
-                    <button class="btn btn-sm btn-outline-secondary me-2">
-                        <i class="bi bi-funnel"></i> Filter
-                    </button>
-                    <button class="btn btn-sm btn-outline-primary">
+                    <button class="btn btn-sm btn-outline-primary refresh-section" data-section="productPerformance">
                         <i class="bi bi-arrow-repeat"></i> Refresh
                     </button>
                 </div>
@@ -283,56 +261,23 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>P001</td>
-                                <td>Book Title 1</td>
-                                <td>Fiction</td>
-                                <td>$24.99</td>
-                                <td>45</td>
-                                <td>$1,124.55</td>
-                                <td>23</td>
-                                <td><span class="badge bg-success">In Stock</span></td>
-                            </tr>
-                            <tr>
-                                <td>P002</td>
-                                <td>Book Title 2</td>
-                                <td>Non-Fiction</td>
-                                <td>$19.99</td>
-                                <td>38</td>
-                                <td>$759.62</td>
-                                <td>15</td>
-                                <td><span class="badge bg-success">In Stock</span></td>
-                            </tr>
-                            <tr>
-                                <td>P003</td>
-                                <td>Book Title 3</td>
-                                <td>Science</td>
-                                <td>$15.99</td>
-                                <td>52</td>
-                                <td>$831.48</td>
-                                <td>8</td>
-                                <td><span class="badge bg-warning">Low Stock</span></td>
-                            </tr>
-                            <tr>
-                                <td>P004</td>
-                                <td>Book Title 4</td>
-                                <td>Fiction</td>
-                                <td>$29.99</td>
-                                <td>29</td>
-                                <td>$869.71</td>
-                                <td>0</td>
-                                <td><span class="badge bg-danger">Out of Stock</span></td>
-                            </tr>
-                            <tr>
-                                <td>P005</td>
-                                <td>Book Title 5</td>
-                                <td>Biography</td>
-                                <td>$22.99</td>
-                                <td>33</td>
-                                <td>$758.67</td>
-                                <td>12</td>
-                                <td><span class="badge bg-success">In Stock</span></td>
-                            </tr>
+                            @foreach ($tableData['products'] as $product)
+                                <tr>
+                                    <td>{{ $product['id'] }}</td>
+                                    <td>{{ $product['name'] }}</td>
+                                    <td>{{ $product['category'] }}</td>
+                                    <td>${{ number_format($product['price'], 2) }}</td>
+                                    <td>{{ $product['units_sold'] }}</td>
+                                    <td>${{ number_format($product['revenue'], 2) }}</td>
+                                    <td>{{ $product['stock'] }}</td>
+                                    <td>
+                                        <span
+                                            class="badge bg-{{ $product['status'] == 'In Stock' ? 'success' : ($product['status'] == 'Low Stock' ? 'warning' : 'danger') }}">
+                                            {{ $product['status'] }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -394,56 +339,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>C001</td>
-                                <td>John Doe</td>
-                                <td>john.doe@example.com</td>
-                                <td>5</td>
-                                <td>$249.95</td>
-                                <td>$49.99</td>
-                                <td>2023-01-15</td>
-                                <td>2023-06-12</td>
-                            </tr>
-                            <tr>
-                                <td>C002</td>
-                                <td>Jane Smith</td>
-                                <td>jane.smith@example.com</td>
-                                <td>3</td>
-                                <td>$89.97</td>
-                                <td>$29.99</td>
-                                <td>2023-02-28</td>
-                                <td>2023-05-19</td>
-                            </tr>
-                            <tr>
-                                <td>C003</td>
-                                <td>Robert Johnson</td>
-                                <td>robert.j@example.com</td>
-                                <td>8</td>
-                                <td>$399.92</td>
-                                <td>$49.99</td>
-                                <td>2022-11-05</td>
-                                <td>2023-06-16</td>
-                            </tr>
-                            <tr>
-                                <td>C004</td>
-                                <td>Emily Davis</td>
-                                <td>emily.d@example.com</td>
-                                <td>2</td>
-                                <td>$49.98</td>
-                                <td>$24.99</td>
-                                <td>2023-04-22</td>
-                                <td>2023-06-02</td>
-                            </tr>
-                            <tr>
-                                <td>C005</td>
-                                <td>Michael Wilson</td>
-                                <td>michael.w@example.com</td>
-                                <td>7</td>
-                                <td>$349.93</td>
-                                <td>$49.99</td>
-                                <td>2022-12-15</td>
-                                <td>2023-06-17</td>
-                            </tr>
+                            @foreach ($tableData['customers'] as $customer)
+                                <tr>
+                                    <td>{{ $customer['id'] }}</td>
+                                    <td>{{ $customer['name'] }}</td>
+                                    <td>{{ $customer['email'] }}</td>
+                                    <td>{{ $customer['orders'] }}</td>
+                                    <td>${{ number_format($customer['total_spent'], 2) }}</td>
+                                    <td>${{ number_format($customer['avg_order'], 2) }}</td>
+                                    <td>{{ $customer['first_purchase'] }}</td>
+                                    <td>{{ $customer['last_purchase'] }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -467,6 +374,14 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Handle per-page selector change
+        document.getElementById('per_page').addEventListener('change', function() {
+            const perPage = this.value;
+            const currentUrl = new URL(window.location.href);
+            currentUrl.searchParams.set('per_page', perPage);
+            window.location.href = currentUrl.toString();
+        });
+
         document.addEventListener("DOMContentLoaded", function() {
             // Toggle date range inputs
             document.getElementById('dateRange').addEventListener('change', function() {
@@ -502,10 +417,10 @@
                 document.getElementById('salesChart'), {
                     type: 'line',
                     data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        labels: {!! json_encode($chartData['salesChart']['labels']) !!},
                         datasets: [{
                             label: 'Sales Revenue',
-                            data: [1500, 1800, 1200, 2500, 2000, 2800],
+                            data: {!! json_encode($chartData['salesChart']['data']) !!},
                             borderColor: 'rgb(75, 192, 192)',
                             tension: 0.1
                         }]
@@ -522,9 +437,9 @@
                 document.getElementById('salesDistribution'), {
                     type: 'doughnut',
                     data: {
-                        labels: ['Fiction', 'Non-Fiction', 'Science', 'Biography', 'Others'],
+                        labels: {!! json_encode($chartData['salesDistribution']['labels']) !!},
                         datasets: [{
-                            data: [35, 25, 15, 15, 10],
+                            data: {!! json_encode($chartData['salesDistribution']['data']) !!},
                             backgroundColor: [
                                 'rgba(75, 192, 192, 0.7)',
                                 'rgba(54, 162, 235, 0.7)',
@@ -546,10 +461,10 @@
                 document.getElementById('productPerformanceChart'), {
                     type: 'bar',
                     data: {
-                        labels: ['Book 1', 'Book 2', 'Book 3', 'Book 4', 'Book 5'],
+                        labels: {!! json_encode($chartData['productPerformance']['labels']) !!},
                         datasets: [{
                             label: 'Units Sold',
-                            data: [45, 38, 52, 29, 33],
+                            data: {!! json_encode($chartData['productPerformance']['unitsSold']) !!},
                             backgroundColor: 'rgba(54, 162, 235, 0.7)'
                         }]
                     },
@@ -565,9 +480,9 @@
                 document.getElementById('categoryDistribution'), {
                     type: 'pie',
                     data: {
-                        labels: ['Fiction', 'Non-Fiction', 'Science', 'Biography', 'Others'],
+                        labels: {!! json_encode($chartData['categoryDistribution']['labels']) !!},
                         datasets: [{
-                            data: [40, 20, 15, 15, 10],
+                            data: {!! json_encode($chartData['categoryDistribution']['data']) !!},
                             backgroundColor: [
                                 'rgba(75, 192, 192, 0.7)',
                                 'rgba(54, 162, 235, 0.7)',
@@ -589,10 +504,10 @@
                 document.getElementById('customerRetentionChart'), {
                     type: 'line',
                     data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        labels: {!! json_encode($chartData['customerRetention']['labels']) !!},
                         datasets: [{
                             label: 'Customer Retention Rate',
-                            data: [95, 92, 94, 90, 93, 96],
+                            data: {!! json_encode($chartData['customerRetention']['data']) !!},
                             borderColor: 'rgb(255, 99, 132)',
                             tension: 0.1
                         }]
@@ -615,10 +530,10 @@
                 document.getElementById('customerAcquisition'), {
                     type: 'bar',
                     data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        labels: {!! json_encode($chartData['customerAcquisition']['labels']) !!},
                         datasets: [{
                             label: 'New Customers',
-                            data: [25, 32, 18, 27, 35, 30],
+                            data: {!! json_encode($chartData['customerAcquisition']['data']) !!},
                             backgroundColor: 'rgba(153, 102, 255, 0.7)'
                         }]
                     },

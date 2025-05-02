@@ -55,4 +55,10 @@ interface SaleRepository
     public function getConversionRate(): ?float;
 
     public function getAverageOrderValue(): ?float;
+
+    public function getSalesByMonth(): ?array;
+
+    public function getSalesByCategory(): ?array;
+
+    public function topSellingBooks(): ?array;
 }
