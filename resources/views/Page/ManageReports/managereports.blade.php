@@ -92,25 +92,17 @@
             </div>
             <div class="card-body">
                 <form id="reportFilterForm" class="row g-3">
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label for="reportType" class="form-label">Report Type</label>
                         <select class="form-select" id="reportType">
-                            <option value="salesReport" {{ request()->input('section') == 'salesReport' || !request()->has('section') ? 'selected' : '' }}>Sales Reports</option>
-                            <option value="bookReport" {{ request()->input('section') == 'bookReport' ? 'selected' : '' }}>Book Performance</option>
-                            <option value="customerReport" {{ request()->input('section') == 'customerReport' ? 'selected' : '' }}>Customer Analytics</option>
-                        </select>
-                    </div>
-                    <div class="col-md-4">
-                        <label for="dateRange" class="form-label">Date Range</label>
-                        <select class="form-select" id="dateRange">
-                            <option value="today">Today</option>
-                            <option value="yesterday">Yesterday</option>
-                            <option value="thisWeek">This Week</option>
-                            <option value="lastWeek">Last Week</option>
-                            <option value="thisMonth" selected>This Month</option>
-                            <option value="lastMonth">Last Month</option>
-                            <option value="thisYear">This Year</option>
-                            <option value="custom">Custom Range</option>
+                            <option value="salesReport"
+                                {{ request()->input('section') == 'salesReport' || !request()->has('section') ? 'selected' : '' }}>
+                                Sales Reports</option>
+                            <option value="bookReport" {{ request()->input('section') == 'bookReport' ? 'selected' : '' }}>
+                                Book Performance</option>
+                            <option value="customerReport"
+                                {{ request()->input('section') == 'customerReport' ? 'selected' : '' }}>Customer Analytics
+                            </option>
                         </select>
                     </div>
                     <div class="col-md-4">
@@ -121,18 +113,10 @@
                             <option value="excel">Excel</option>
                         </select>
                     </div>
-                    <div class="col-md-6 custom-date-range d-none">
-                        <label for="startDate" class="form-label">Start Date</label>
-                        <input type="date" class="form-control" id="startDate">
-                    </div>
-                    <div class="col-md-6 custom-date-range d-none">
-                        <label for="endDate" class="form-label">End Date</label>
-                        <input type="date" class="form-control" id="endDate">
-                    </div>
-                    <div class="col-12 text-end">
-                        <button type="button" id="generateReport" class="btn btn-primary">Generate Report</button>
-                        <button type="button" id="exportReport" class="btn btn-success"><i class="bi bi-download me-1"></i>
-                            Export</button>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="button" id="exportReport" class="btn btn-success w-100">
+                            <i class="bi bi-download me-1"></i> Export
+                        </button>
                     </div>
                 </form>
             </div>
@@ -162,8 +146,8 @@
                             <tr>
                                 <th>Sales ID</th>
                                 <th>Date</th>
-                                <th>Customer ID</th>
-                                <th>Product ID</th>
+                                <th>User ID</th>
+                                <th>Book ID</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 <th>Total</th>
@@ -229,11 +213,6 @@
         <div class="card mb-4 report-section d-none" id="bookReport">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Book Performance</h5>
-                <div>
-                    <button class="btn btn-sm btn-outline-primary refresh-section" data-section="bookPerformance">
-                        <i class="bi bi-arrow-repeat"></i> Refresh
-                    </button>
-                </div>
             </div>
             <div class="card-body">
                 <div class="row mb-4">
@@ -322,71 +301,22 @@
         <div class="card mb-4 report-section d-none" id="customerReport">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0">Customer Analytics</h5>
-                <div>
-                    <button class="btn btn-sm btn-outline-secondary me-2">
-                        <i class="bi bi-funnel"></i> Filter
-                    </button>
-                    <button class="btn btn-sm btn-outline-primary">
-                        <i class="bi bi-arrow-repeat"></i> Refresh
-                    </button>
-                </div>
+
             </div>
             <div class="card-body">
                 <div class="row mb-4">
-                    <div class="col-md-6">
-                        <div class="chart-container" style="position: relative; height:300px;">
-                            <canvas id="customerRetentionChart"></canvas>
+                    <div class="col-md-12 mb-4">
+                        <h5 class="text-center mb-3">Average Amount Spent Per Customer</h5>
+                        <div class="chart-container" style="position: relative; height:400px;">
+                            <canvas id="customerPerformanceChart"></canvas>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="chart-container" style="position: relative; height:300px;">
+                    <div class="col-md-12">
+                        <h5 class="text-center mb-3">New Customer Acquisition</h5>
+                        <div class="chart-container" style="position: relative; height:400px;">
                             <canvas id="customerAcquisition"></canvas>
                         </div>
                     </div>
-                </div>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Customer ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Orders</th>
-                                <th>Total Spent</th>
-                                <th>Avg. Order Value</th>
-                                <th>First Purchase</th>
-                                <th>Last Purchase</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($tableData['customers'] as $customer)
-                                <tr>
-                                    <td>{{ $customer['id'] }}</td>
-                                    <td>{{ $customer['name'] }}</td>
-                                    <td>{{ $customer['email'] }}</td>
-                                    <td>{{ $customer['orders'] }}</td>
-                                    <td>${{ number_format($customer['total_spent'], 2) }}</td>
-                                    <td>${{ number_format($customer['avg_order'], 2) }}</td>
-                                    <td>{{ $customer['first_purchase'] }}</td>
-                                    <td>{{ $customer['last_purchase'] }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-                <div class="d-flex justify-content-between align-items-center mt-3">
-                    <div>
-                        <span class="text-muted">Showing 5 of 125 entries</span>
-                    </div>
-                    <nav>
-                        <ul class="pagination">
-                            <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>
@@ -424,13 +354,25 @@
             // Get the active section from URL parameter or localStorage
             const urlParams = new URLSearchParams(window.location.search);
             const activeSection = urlParams.get('section') || localStorage.getItem('activeSection') ||
-            'salesReport';
+                'salesReport';
+
+            console.log('Active section:', activeSection);
 
             // Show the active section
             showSection(activeSection);
 
             // Attach event listeners to pagination links with a slight delay to ensure they're loaded
             setTimeout(attachPaginationListeners, 100);
+
+            // Toggle date range inputs
+            document.getElementById('dateRange').addEventListener('change', function() {
+                const customDateFields = document.querySelectorAll('.custom-date-range');
+                if (this.value === 'custom') {
+                    customDateFields.forEach(field => field.classList.remove('d-none'));
+                } else {
+                    customDateFields.forEach(field => field.classList.add('d-none'));
+                }
+            });
         });
 
         // Function to attach event listeners to pagination links
@@ -497,30 +439,21 @@
             }
         }
 
-        document.addEventListener("DOMContentLoaded", function() {
-            // Toggle date range inputs
-            document.getElementById('dateRange').addEventListener('change', function() {
-                const customDateFields = document.querySelectorAll('.custom-date-range');
-                if (this.value === 'custom') {
-                    customDateFields.forEach(field => field.classList.remove('d-none'));
-                } else {
-                    customDateFields.forEach(field => field.classList.add('d-none'));
-                }
-            });
-
+        // Additional initialization code for charts and other components
+        document.addEventListener('DOMContentLoaded', function() {
             // Handle report type selection
             document.getElementById('reportType').addEventListener('change', function() {
                 const sections = document.querySelectorAll('.report-section');
                 sections.forEach(section => section.classList.add('d-none'));
 
                 switch (this.value) {
-                    case 'sales':
+                    case 'salesReport':
                         document.getElementById('salesReport').classList.remove('d-none');
                         break;
-                    case 'products':
+                    case 'bookReport':
                         document.getElementById('bookReport').classList.remove('d-none');
                         break;
-                    case 'customers':
+                    case 'customerReport':
                         document.getElementById('customerReport').classList.remove('d-none');
                         break;
                 }
@@ -614,17 +547,18 @@
                 }
             );
 
-            // Customer Retention Chart
-            const customerRetentionChart = new Chart(
-                document.getElementById('customerRetentionChart'), {
+            // Customer Average Spending Chart
+            const customerPerformanceChart = new Chart(
+                document.getElementById('customerPerformanceChart'), {
                     type: 'line',
                     data: {
-                        labels: {!! json_encode($chartData['customerRetention']['labels']) !!},
+                        labels: {!! json_encode($chartData['customerPerformance']['labels']) !!},
                         datasets: [{
-                            label: 'Customer Retention Rate',
-                            data: {!! json_encode($chartData['customerRetention']['data']) !!},
+                            label: 'Avg. Amount Spent Per Customer',
+                            data: {!! json_encode($chartData['customerPerformance']['data']) !!},
                             borderColor: 'rgb(255, 99, 132)',
-                            tension: 0.1
+                            tension: 0.1,
+                            fill: false
                         }]
                     },
                     options: {
@@ -632,8 +566,20 @@
                         maintainAspectRatio: false,
                         scales: {
                             y: {
-                                min: 80,
-                                max: 100
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Amount (PHP)'
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return 'PHP ' + context.raw.toFixed(2);
+                                    }
+                                }
                             }
                         }
                     }

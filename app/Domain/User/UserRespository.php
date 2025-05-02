@@ -33,4 +33,6 @@ interface UserRespository
     public function searchUsers(string $query, int $perPage);
 
     public function deleteUser(string $userID): void;
+
+    public function getUserPerMonth(): ?array;
 }

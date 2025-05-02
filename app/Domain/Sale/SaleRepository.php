@@ -61,4 +61,6 @@ interface SaleRepository
     public function getSalesByCategory(): ?array;
 
     public function topSellingBooks(): ?array;
+
+    public function getCustomerPerformance(): ?array;
 }

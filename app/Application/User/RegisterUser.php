@@ -113,4 +113,9 @@ class RegisterUser
     {
         $this->userRespository->deleteUser($userID);
     }
+
+    public function getUserPerMonth(): ?array
+    {
+        return $this->userRespository->getUserPerMonth();
+    }
 }

@@ -165,4 +165,9 @@ class RegisterSales
     {
         return $this->salesRepository->topSellingBooks();
     }
+
+    public function getCustomerPerformance(): ?array
+    {
+        return $this->salesRepository->getCustomerPerformance();
+    }
 }

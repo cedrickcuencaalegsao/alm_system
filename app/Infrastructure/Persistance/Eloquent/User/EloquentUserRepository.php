@@ -144,7 +144,7 @@ class EloquentUserRepository implements UserRespository
      * **/
     public function findAllPaginated(int $perPage)
     {
-        $users = UserModel::where('isDeleted', false)->paginate($perPage);
+        $users = UserModel::where('isDeleted', false)->orderBy('created_at', 'asc')->paginate($perPage);
 
         $users->getCollection()->transform(function ($user) {
             return new User(
@@ -157,9 +157,10 @@ class EloquentUserRepository implements UserRespository
                 contactNumber: $user->contactnumber,
                 image: $user->image,
                 email: $user->email,
+                password:null,
+                isDeleted: $user->isDeleted,
                 createdAt: $user->created_at,
                 updatedAt: $user->updated_at,
-                isDeleted: $user->isDeleted,
             );
         });
 
@@ -282,5 +283,39 @@ class EloquentUserRepository implements UserRespository
         $user->isDeleted = true;
         $user->updated_at = Carbon::now()->toDateTimeString();
         $user->save();
+    }
+
+    public function getUserPerMonth(): ?array
+    {
+        $start = Carbon::parse(
+            UserModel::where('isDeleted', false)->orderBy('created_at')->value('created_at')
+        )->startOfMonth();
+
+        $end = Carbon::now()->endOfMonth();
+
+        $data = [
+            'labels' => [],
+            'data' => [],
+        ];
+
+        while ($start <= $end) {
+            $startOfMonth = $start->copy()->startOfMonth();
+            $endOfMonth = $start->copy()->endOfMonth();
+
+            // Label format: Jan 2023, Feb 2023, etc.
+            $label = $start->format('M Y');
+            $data['labels'][] = $label;
+
+            // Count users created in this month (excluding deleted users)
+            $userCount = UserModel::where('isDeleted', false)
+                ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                ->count();
+
+            $data['data'][] = $userCount;
+
+            $start->addMonth();
+        }
+
+        return $data;
     }
 }

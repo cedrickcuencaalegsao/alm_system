@@ -29,65 +29,41 @@ class SystemSeeder extends Seeder
             'password' => Hash::make('admin123'),
             'remember_token' => Str::random(10),
             'isDeleted' => false,
-            'created_at' => now(),
-            'updated_at' => now(),
+            'created_at' => Carbon::create(2022, 1, 1),
+            'updated_at' => Carbon::create(2022, 1, 1),
         ]);
-
-        // Create 5 regular users
-        $users = [
-            [
-                'firstname' => 'John',
-                'lastname' => 'Doe',
-                'email' => 'john.doe@example.com',
-                'address' => '456 Main Street',
-                'contactnumber' => '9123456790',
-            ],
-            [
-                'firstname' => 'Jane',
-                'lastname' => 'Smith',
-                'email' => 'jane.smith@example.com',
-                'address' => '789 Oak Avenue',
-                'contactnumber' => '9123456791',
-            ],
-            [
-                'firstname' => 'Robert',
-                'lastname' => 'Johnson',
-                'email' => 'robert.johnson@example.com',
-                'address' => '101 Pine Road',
-                'contactnumber' => '9123456792',
-            ],
-            [
-                'firstname' => 'Emily',
-                'lastname' => 'Williams',
-                'email' => 'emily.williams@example.com',
-                'address' => '202 Maple Lane',
-                'contactnumber' => '9123456793',
-            ],
-            [
-                'firstname' => 'Michael',
-                'lastname' => 'Brown',
-                'email' => 'michael.brown@example.com',
-                'address' => '303 Cedar Blvd',
-                'contactnumber' => '9123456794',
-            ],
-        ];
-
-        foreach ($users as $user) {
-            DB::table('users')->insert([
-                'userID' => 'USR'.Str::random(12),
-                'isAdmin' => false,
-                'email' => $user['email'],
-                'firstname' => $user['firstname'],
-                'lastname' => $user['lastname'],
-                'address' => $user['address'],
-                'contactnumber' => $user['contactnumber'],
-                'image' => null,
-                'password' => Hash::make('password123'),
-                'remember_token' => Str::random(10),
-                'isDeleted' => false,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+        
+        // Create 3 users for each year (2022, 2023, 2024, 2025)
+        $years = [2022, 2023, 2024, 2025];
+        $firstNames = ['John', 'Jane', 'Robert', 'Emily', 'Michael', 'Sarah', 'David', 'Lisa', 'James', 'Emma', 'Thomas', 'Olivia'];
+        $lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Miller', 'Davis', 'Garcia', 'Rodriguez', 'Wilson', 'Martinez', 'Anderson'];
+        
+        $userCount = 0;
+        foreach ($years as $year) {
+            // Create 3 users for each year
+            for ($i = 0; $i < 3; $i++) {
+                $firstName = $firstNames[$userCount % count($firstNames)];
+                $lastName = $lastNames[$userCount % count($lastNames)];
+                $email = strtolower($firstName) . '.' . strtolower($lastName) . $year . '@example.com';
+                
+                DB::table('users')->insert([
+                    'userID' => 'USR'.Str::random(12),
+                    'isAdmin' => false,
+                    'email' => $email,
+                    'firstname' => $firstName,
+                    'lastname' => $lastName,
+                    'address' => ($userCount * 100 + 100) . ' ' . $lastNames[rand(0, count($lastNames)-1)] . ' Street',
+                    'contactnumber' => '91' . str_pad($userCount + 1, 8, '0', STR_PAD_LEFT),
+                    'image' => null,
+                    'password' => Hash::make('password123'),
+                    'remember_token' => Str::random(10),
+                    'isDeleted' => false,
+                    'created_at' => Carbon::create($year, rand(1, 12), rand(1, 28)),
+                    'updated_at' => Carbon::create($year, rand(1, 12), rand(1, 28)),
+                ]);
+                
+                $userCount++;
+            }
         }
 
         $categories = ['Fiction', 'Non-Fiction', 'Science', 'Technology', 'History', 'Biography', 'Fantasy', 'Romance'];
@@ -112,8 +88,8 @@ class SystemSeeder extends Seeder
                 'image' => null,
                 'bookprice' => rand(100, 1000) + (rand(0, 99) / 100),
                 'isDeleted' => false,
-                'createdAt' => now()->toDateTimeString(),
-                'updatedAt' => now()->toDateTimeString(),
+                'createdAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(), // Random date within 3 years (2022-2024)
+                'updatedAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(),
             ]);
         }
 
@@ -131,8 +107,8 @@ class SystemSeeder extends Seeder
                 'userID' => $userID,
                 'bookID' => $bookID,
                 'isDeleted' => false,
-                'createdAt' => now()->toDateTimeString(),
-                'updatedAt' => now()->toDateTimeString(),
+                'createdAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(), // Random date within 3 years (2022-2024)
+                'updatedAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(),
             ]);
         }
 
@@ -143,44 +119,66 @@ class SystemSeeder extends Seeder
         $successStatuses = ['delivered', 'processing', 'delivering'];
         $failedStatuses = ['cancelled', 'pending'];
 
-        for ($monthOffset = 0; $monthOffset < 36; $monthOffset++) {
-            $startDate = Carbon::now()->subMonths($monthOffset)->startOfMonth();
-            $endDate = Carbon::now()->subMonths($monthOffset)->endOfMonth();
-
-            // Random number of transactions per month (between 15-50)
-            $transactionsThisMonth = rand(15, 50);
-
-            for ($i = 1; $i <= $transactionsThisMonth; $i++) {
-                $userID = $userIDs[array_rand($userIDs)];
-                $book = $books->random();
-                $quantity = rand(1, 5);
-
-                // 95% success rate
-                $status = (rand(1, 100) <= 95)
-                    ? $successStatuses[array_rand($successStatuses)]
-                    : $failedStatuses[array_rand($failedStatuses)];
-
-                $tax = $book->bookprice * $quantity * 0.12;
-                $totalSales = ($book->bookprice * $quantity) + $tax;
-
-                // Random date within the month with time
-                $transactionDate = Carbon::createFromTimestamp(
-                    rand($startDate->timestamp, $endDate->timestamp)
-                )->toDateTimeString();
-
-                DB::table('tbl_sales')->insert([
-                    'salesID' => 'SLS'.Str::random(12),
-                    'userID' => $userID,
-                    'bookID' => $book->bookID,
-                    'refID' => 'REF'.Str::random(12),
-                    'quantity' => $quantity,
-                    'status' => $status,
-                    'tax' => $tax,
-                    'totalsales' => $totalSales,
-                    'isDeleted' => false,
-                    'createdAt' => $transactionDate,
-                    'updatedAt' => $transactionDate,
-                ]);
+        // Create transactions for each year from 2022 to 2025
+        $years = [2022, 2023, 2024, 2025];
+        
+        foreach ($years as $year) {
+            // Create transactions for each month of the year
+            for ($month = 1; $month <= 12; $month++) {
+                $startDate = Carbon::create($year, $month, 1)->startOfMonth();
+                $endDate = Carbon::create($year, $month, 1)->endOfMonth();
+                
+                // If we're in 2025, only create transactions up to the current month
+                if ($year == 2025 && $month > 5) { // Current month is May 2025
+                    break;
+                }
+                
+                // Random number of transactions per month (between 15-50)
+                $transactionsThisMonth = rand(15, 50);
+                
+                for ($i = 1; $i <= $transactionsThisMonth; $i++) {
+                    // Get users from the same year when possible
+                    $yearUserIDs = DB::table('users')
+                        ->whereYear('created_at', $year)
+                        ->where('isAdmin', false)
+                        ->pluck('userID')
+                        ->toArray();
+                    
+                    // If no users found for this year, use any non-admin user
+                    $userID = !empty($yearUserIDs) 
+                        ? $yearUserIDs[array_rand($yearUserIDs)] 
+                        : $userIDs[array_rand($userIDs)];
+                    
+                    $book = $books->random();
+                    $quantity = rand(1, 5);
+                    
+                    // 95% success rate
+                    $status = (rand(1, 100) <= 95)
+                        ? $successStatuses[array_rand($successStatuses)]
+                        : $failedStatuses[array_rand($failedStatuses)];
+                    
+                    $tax = $book->bookprice * $quantity * 0.12;
+                    $totalSales = ($book->bookprice * $quantity) + $tax;
+                    
+                    // Random date within the month with time
+                    $transactionDate = Carbon::createFromTimestamp(
+                        rand($startDate->timestamp, $endDate->timestamp)
+                    )->toDateTimeString();
+                    
+                    DB::table('tbl_sales')->insert([
+                        'salesID' => 'SLS'.Str::random(12),
+                        'userID' => $userID,
+                        'bookID' => $book->bookID,
+                        'refID' => 'REF'.Str::random(12),
+                        'quantity' => $quantity,
+                        'status' => $status,
+                        'tax' => $tax,
+                        'totalsales' => $totalSales,
+                        'isDeleted' => false,
+                        'createdAt' => $transactionDate,
+                        'updatedAt' => $transactionDate,
+                    ]);
+                }
             }
         }
     }

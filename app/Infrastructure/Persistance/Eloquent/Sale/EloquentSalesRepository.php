@@ -4,6 +4,7 @@ namespace App\Infrastructure\Persistance\Eloquent\Sale;
 
 use App\Domain\Sale\Sale;
 use App\Domain\Sale\SaleRepository;
+use Carbon\Carbon;
 
 class EloquentSalesRepository implements SaleRepository
 {
@@ -567,5 +568,52 @@ class EloquentSalesRepository implements SaleRepository
             'labels' => $labels,
             'unitsSold' => $unitsSold,
         ];
+    }
+
+    /**
+     * Function to get customer performance.
+     * **/
+    public function getCustomerPerformance(): ?array
+    {
+        // Get earliest user or sale date
+        $earliestDate = SaleModel::where('isDeleted', false)
+            ->orderBy('createdAt')
+            ->value('createdAt');
+
+        $start = $earliestDate ? Carbon::parse($earliestDate)->startOfMonth() : Carbon::now()->startOfYear();
+        $end = Carbon::now()->endOfMonth();
+
+        $data = [
+            'labels' => [],
+            'data' => [],
+        ];
+
+        while ($start <= $end) {
+            $startOfMonth = $start->copy()->startOfMonth();
+            $endOfMonth = $start->copy()->endOfMonth();
+
+            $label = $start->format('M Y');
+            $data['labels'][] = $label;
+
+            // Total sales amount for the month
+            $totalSales = SaleModel::where('isDeleted', false)
+                ->whereBetween('createdAt', [$startOfMonth, $endOfMonth])
+                ->sum('totalsales');
+
+            // Unique buyers for the month
+            $uniqueBuyers = SaleModel::where('isDeleted', false)
+                ->whereBetween('createdAt', [$startOfMonth, $endOfMonth])
+                ->distinct('userID')
+                ->count('userID');
+
+            // Calculate average purchase amount
+            $averagePurchase = $uniqueBuyers > 0 ? ($totalSales / $uniqueBuyers) : 0;
+
+            $data['data'][] = round($averagePurchase, 2);
+
+            $start->addMonth();
+        }
+
+        return $data;
     }
 }
