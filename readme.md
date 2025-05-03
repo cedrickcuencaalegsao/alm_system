@@ -1,77 +1,125 @@
-# ALM Project
+# BookHaven - Modern Bookstore Management System
 
-This project consists of two main parts:
+[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://php.net/)
+[![Laravel Version](https://img.shields.io/badge/Laravel-10.x-orange.svg)](https://laravel.com)
 
-- Backend: Laravel
-- Fiontend: Laravel Blade
+![BookHaven Interface Preview](https://via.placeholder.com/800x400.png?text=BookHaven+Interface+Preview)
 
-## Prerequisites
+## Project Overview
+BookHaven is a full-stack web application for managing book inventory, sales, and customer interactions. It features:
+- 📚 Modern book catalog management
+- 🛒 Interactive shopping cart
+- 💳 Secure checkout system
+- 🔍 Advanced search capabilities
+- 📊 Inventory tracking
+- 👤 User authentication system
 
-- PHP 8.x
-- Composer
-- SQLite (or your preferred database)
+## Key Features
+### Core Functionality
+- **User Authentication System**
+  - Secure registration/login
+  - Password reset functionality
+  - Role-based access control
 
-## Backend Setup (Laravel)
+### Book Management
+- CRUD operations for book inventory
+- Book categorization system
+- Inventory tracking with stock alerts
+- Book details with cover images
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/cedrickcuencaalegsao/alm_system.git
-   cd backend
-   ```
-2. Install dependencies:
-   ```bash
-   composer update
-   composer install
-   ```
-3. Set up your `.env` file:
+### E-commerce Features
+- Shopping cart persistence
+- Multiple payment gateway integration
+- Order history tracking
+- Real-time stock updates
 
-   ```bash
-   cp .env.example .env
+### Additional Features
+- Responsive UI with dark/light themes
+- Advanced search with filters
+- Email notifications
+- PDF invoice generation
+- Sales analytics dashboard
 
-   DB_CONNECTION=mysql
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   DB_DATABASE=almbackend
-   DB_USERNAME=root
-   DB_PASSWORD=
-   ```
+## Technology Stack
+**Backend**
+- PHP 8.1+
+- Laravel 10
+- MySQL
+- RESTful API
 
-4. Generate application key:
-   ```bash
-   php artisan key:generate
-   ```
-5. Run migrations:
-   ```bash
-   php artisan migrate
-   ```
-6. Run the Seeder(note fake data are not available for now):
-   ```bash
-   php -d memory_limit=1024M artisan db:seed --class=SystemSeeder
-   php artisan db:seed --class=SystemSeeder
-   ```
-7. Run the Server:
-   ```bash
-   php artisan serve
-   ```
-   or run the server on you local network
-   ```bash
-   php artisan serve --host=0.0.0.0
-   ```
+**Frontend**
+- Bootstrap 5
+- JavaScript (ES6+)
+- Blade templating
+- Chart.js for analytics
 
+**DevOps**
+- Docker configuration
+- GitHub Actions CI/CD
+- PHPUnit testing
 
-## Usage
-- The Laravel Blade will be available at `http://192.168.1.4:8000`.
+## Installation
+```bash
+# Clone repository
+git clone https://github.com/yourusername/bookhaven.git
+cd bookhaven
 
-## Contributing
+# Install dependencies
+composer install
+npm install
 
-Contributions are welcome! Please follow these steps:
+# Configure environment
+cp .env.example .env
+php artisan key:generate
 
-1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/YourFeature`).
-3. Make your changes and commit them (`git commit -m 'Add some feature'`).
-4. Push to the branch (`git push origin feature/YourFeature`).
-5. Open a pull request.
+# Database setup
+php artisan migrate --seed
+
+# Start development server
+php artisan serve
+```
+
+## Configuration
+Set these environment variables in `.env`:
+```ini
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=bookhaven
+DB_USERNAME=root
+DB_PASSWORD=
+
+MAIL_MAILER=smtp
+MAIL_HOST=mailhog
+MAIL_PORT=1025
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+
+PAYMENT_GATEWAY=stripe
+STRIPE_KEY=your_stripe_key
+STRIPE_SECRET=your_stripe_secret
+```
+
+## API Documentation
+```http
+GET /api/books
+Authorization: Bearer <token>
+
+POST /api/checkout
+Content-Type: application/json
+{
+  "items": [
+    {"book_id": 1, "quantity": 2}
+  ],
+  "payment_method": "credit_card"
+}
+```
 
 ## License
-
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+- Laravel community
+- Bootstrap team
+- Open library API
+- DigitalOcean for hosting support
