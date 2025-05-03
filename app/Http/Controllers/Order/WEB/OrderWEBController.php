@@ -101,8 +101,7 @@ class OrderWEBController extends Controller
             'tax' => $tax,
             'totalsales' => $totalsales,
         ];
-
-        $this->registerCart->softDelete($request->cart_id);
+        // $this->registerCart->softDelete($request->cart_id);
         $this->registerSales->createSales($data);
         $this->updateStockWhenItemBought($request->book_id, $request->quantity);
 

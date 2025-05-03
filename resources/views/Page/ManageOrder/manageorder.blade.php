@@ -42,7 +42,8 @@
                                     </div>
                                 </div>
                                 <div class="card-footer bg-warning bg-opacity-10 py-2 text-center">
-                                    <a href="{{ route('view.manage.orders') }}?search=pending" class="text-warning text-decoration-none small stretched-link">View
+                                    <a href="{{ route('view.manage.orders') }}?search=pending"
+                                        class="text-warning text-decoration-none small stretched-link">View
                                         Pending</a>
                                 </div>
                             </div>
@@ -65,7 +66,8 @@
                                     </div>
                                 </div>
                                 <div class="card-footer bg-info bg-opacity-10 py-2 text-center">
-                                    <a href="{{ route('view.manage.orders') }}?search=processing" class="text-info text-decoration-none small stretched-link">View
+                                    <a href="{{ route('view.manage.orders') }}?search=processing"
+                                        class="text-info text-decoration-none small stretched-link">View
                                         Processing</a>
                                 </div>
                             </div>
@@ -88,7 +90,8 @@
                                     </div>
                                 </div>
                                 <div class="card-footer bg-primary bg-opacity-10 py-2 text-center">
-                                    <a href="{{ route('view.manage.orders') }}?search=delivering" class="text-primary text-decoration-none small stretched-link">View
+                                    <a href="{{ route('view.manage.orders') }}?search=delivering"
+                                        class="text-primary text-decoration-none small stretched-link">View
                                         Delivering</a>
                                 </div>
                             </div>
@@ -111,7 +114,8 @@
                                     </div>
                                 </div>
                                 <div class="card-footer bg-success bg-opacity-10 py-2 text-center">
-                                    <a href="{{ route('view.manage.orders') }}?search=delivered" class="text-success text-decoration-none small stretched-link">View
+                                    <a href="{{ route('view.manage.orders') }}?search=delivered"
+                                        class="text-success text-decoration-none small stretched-link">View
                                         Completed</a>
                                 </div>
                             </div>
@@ -266,51 +270,49 @@
                                                     data-status="processing">
                                                     Processing
                                                 </button>
+                                            </form>
 
-                                                <!-- Delivering Button -->
-                                                <form action="{{ route('update.order.status') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="delivering">
-                                                    <input type="hidden" name="saleID"
-                                                        value="{{ $sale->getSalesID() }}">
-                                                    <button type="submit"
-                                                        class="btn btn-sm rounded-pill
+                                            <!-- Delivering Button -->
+                                            <form action="{{ route('update.order.status') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="status" value="delivering">
+                                                <input type="hidden" name="saleID" value="{{ $sale->getSalesID() }}">
+                                                <button type="submit"
+                                                    class="btn btn-sm rounded-pill
                                                         {{ $sale->getStatus() === 'delivering' ? 'btn-primary text-white' : 'btn-outline-primary' }}"
-                                                        data-bs-toggle="modal" data-bs-target="#updateStatusModal"
-                                                        data-status="delivering">
-                                                        Delivering
-                                                    </button>
-                                                </form>
+                                                    data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                    data-status="delivering">
+                                                    Delivering
+                                                </button>
+                                            </form>
 
-                                                <!-- Delivered Button -->
-                                                <form action="{{ route('update.order.status') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="delivered">
-                                                    <input type="hidden" name="saleID"
-                                                        value="{{ $sale->getSalesID() }}">
-                                                    <button type="submit"
-                                                        class="btn btn-sm rounded-pill
+                                            <!-- Delivered Button -->
+                                            <form action="{{ route('update.order.status') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="status" value="delivered">
+                                                <input type="hidden" name="saleID" value="{{ $sale->getSalesID() }}">
+                                                <button type="submit"
+                                                    class="btn btn-sm rounded-pill
                                                         {{ $sale->getStatus() === 'delivered' ? 'btn-success text-white' : 'btn-outline-success' }}"
-                                                        data-bs-toggle="modal" data-bs-target="#updateStatusModal"
-                                                        data-status="delivered">
-                                                        Delivered
-                                                    </button>
-                                                </form>
+                                                    data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                    data-status="delivered">
+                                                    Delivered
+                                                </button>
+                                            </form>
 
-                                                <!-- Cancelled Button -->
-                                                <form action="{{ route('update.order.status') }}" method="post">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="cancelled">
-                                                    <input type="hidden" name="saleID"
-                                                        value="{{ $sale->getSalesID() }}">
-                                                    <button type="submit"
-                                                        class="btn btn-sm rounded-pill
+                                            <!-- Cancelled Button -->
+                                            <form action="{{ route('update.order.status') }}" method="post">
+                                                @csrf
+                                                <input type="hidden" name="status" value="cancelled">
+                                                <input type="hidden" name="saleID" value="{{ $sale->getSalesID() }}">
+                                                <button type="submit"
+                                                    class="btn btn-sm rounded-pill
                                                         {{ $sale->getStatus() === 'cancelled' ? 'btn-danger text-white' : 'btn-outline-danger' }}"
-                                                        data-bs-toggle="modal" data-bs-target="#updateStatusModal"
-                                                        data-status="cancelled">
-                                                        Cancelled
-                                                    </button>
-                                                </form>
+                                                    data-bs-toggle="modal" data-bs-target="#updateStatusModal"
+                                                    data-status="cancelled">
+                                                    Cancelled
+                                                </button>
+                                            </form>
                                         </div>
                                     </td>
                                 </tr>

@@ -105,19 +105,6 @@
                             </option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label for="exportFormat" class="form-label">Export Format</label>
-                        <select class="form-select" id="exportFormat">
-                            <option value="pdf">PDF</option>
-                            <option value="csv">CSV</option>
-                            <option value="excel">Excel</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="button" id="exportReport" class="btn btn-success w-100">
-                            <i class="bi bi-download me-1"></i> Export
-                        </button>
-                    </div>
                 </form>
             </div>
         </div>
