@@ -37,13 +37,12 @@ BookHaven is a full-stack web application for managing book inventory, sales, an
 - Responsive UI with dark/light themes
 - Advanced search with filters
 - Email notifications
-- PDF invoice generation
 - Sales analytics dashboard
 
 ## Technology Stack
 **Backend**
 - PHP 8.1+
-- Laravel 10
+- Laravel 12
 - MySQL
 - RESTful API
 
@@ -51,12 +50,7 @@ BookHaven is a full-stack web application for managing book inventory, sales, an
 - Bootstrap 5
 - JavaScript (ES6+)
 - Blade templating
-- Chart.js for analytics
-
-**DevOps**
-- Docker configuration
-- GitHub Actions CI/CD
-- PHPUnit testing
+- JavaScript for analytics
 
 ## Installation
 ```bash
@@ -114,12 +108,9 @@ Content-Type: application/json
   "payment_method": "credit_card"
 }
 ```
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## Acknowledgments
 - Laravel community
 - Bootstrap team
 - Open library API
 - DigitalOcean for hosting support
+- OpenAI, DeepSeek, Claude Sonnet, and GitHub for inspiration and assistance
