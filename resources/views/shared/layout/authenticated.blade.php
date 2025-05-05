@@ -155,17 +155,29 @@
 
     <!-- Error Toast -->
     @if (session('error'))
-        <div class="notification-toast error-toast" id="errorToast">
-            <div class="toast-header">
-                <i class="bi bi-exclamation-circle-fill text-danger me-2"></i>
-                <strong class="text-danger">Error</strong>
-                <button type="button" class="btn-close-custom ms-auto" onclick="closeToast('errorToast')">
-                    <span class="me-1 text-danger">Close</span>
-                    <i class="bi bi-x-lg text-danger"></i>
-                </button>
-            </div>
-            <div class="toast-body">
-                <div class="toast-message">{{ session('error') }}</div>
+        <div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header error-modal-header">
+                        <h5 class="modal-title" id="errorModalLabel">
+                            <i class="bi bi-x-circle-fill text-danger me-2"></i>Error
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-center mb-3">
+                            <div class="error-icon-circle">
+                                <i class="bi bi-x-lg"></i>
+                            </div>
+                        </div>
+                        <p class="error-message text-center">{{ session('error') }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close Error</button>
+                    </div>
+                </div>
             </div>
         </div>
     @endif

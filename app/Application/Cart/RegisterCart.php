@@ -24,6 +24,7 @@ class RegisterCart
             $data['cartID'],
             $data['userID'],
             $data['bookID'],
+            false,
             Carbon::now()->toDateTimeString(),
             Carbon::now()->toDateTimeString(),
         );
@@ -52,5 +53,9 @@ class RegisterCart
     public function softDelete(string $cartID)
     {
         return $this->cartRepository->softDelete($cartID);
+    }
+    public function validateNewCart(string $userID, string $bookID): bool
+    {
+        return $this->cartRepository->validateNewCart($userID, $bookID);
     }
 }

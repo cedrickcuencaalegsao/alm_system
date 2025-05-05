@@ -1,12 +1,24 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+
         const sections = document.querySelectorAll('section[id]');
         const categoryLinks = document.querySelectorAll('.category-link');
 
         // Show success modal on page load if success message exists
         const successModal = document.getElementById('successModal');
+        const errorModal = document.getElementById('errorModal');
         if (successModal) {
             const modal = new bootstrap.Modal(successModal);
+            modal.show();
+        }
+
+        // Show error modal if exists
+
+        if (errorModal) {
+            var modal = new bootstrap.Modal(errorModal);
             modal.show();
         }
 

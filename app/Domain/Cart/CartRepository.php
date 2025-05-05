@@ -17,4 +17,6 @@ interface CartRepository
     public function findByCartID(string $cartID): ?Cart;
 
     public function findAll(): array;
+
+    public function validateNewCart(string $userID, string $bookID): bool;
 }

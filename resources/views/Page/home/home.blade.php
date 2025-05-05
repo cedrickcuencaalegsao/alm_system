@@ -213,7 +213,6 @@
             </div>
         </section>
     @endforeach
-
     <!-- Include JavaScript and CSS -->
     @include('shared.js.home')
     @include('shared.css.home')

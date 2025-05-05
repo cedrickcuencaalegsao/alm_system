@@ -36,6 +36,13 @@ class CartWebController extends Controller
             'userID' => $request->user_id,
             'bookID' => $request->book_id,
         ];
+
+        $exists = $this->registerCart->validateNewCart($request->user_id, $request->book_id);
+
+        if ($exists) {
+            return redirect()->back()->with('error', 'Item already exists in cart');
+        }
+
         $this->registerCart->create($newCart);
 
         return redirect()->back()->with('success', 'Item added to cart successfully');

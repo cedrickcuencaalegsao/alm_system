@@ -338,6 +338,44 @@
         margin-top: 15px;
     }
 
+    /* Error Modal Styles */
+    .error-modal-header {
+        background-color: #FDF5E6;
+        border-bottom: 2px solid #8B4513;
+    }
+
+    .error-icon-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #FDF5E6;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .error-icon-circle i {
+        font-size: 40px;
+        color: #DC3545;
+    }
+
+    .error-message {
+        color: #8B4513;
+        font-size: 1.1rem;
+    }
+
+    .modal-footer .btn-danger {
+        background-color: #DC3545;
+        border-color: #DC3545;
+        padding: 8px 20px;
+    }
+
+    .modal-footer .btn-danger:hover {
+        background-color: #BB2D3B;
+        border-color: #BB2D3B;
+    }
+
     .modal-footer {
         border-top: none;
         justify-content: center;

@@ -137,4 +137,15 @@ class EloquentCartRepository implements CartRepository
             stocks: $cart->book->stocks,
         ))->toArray();
     }
+    /**
+     * Function to validate new cart.
+     * **/
+    public function validateNewCart(string $userID, string $bookID):bool
+    {
+        $validateCart = CartModel::where('userID', $userID)->where('bookID', $bookID)->first();
+        if ($validateCart) {
+            return true;
+        }
+        return false;
+    }
 }
