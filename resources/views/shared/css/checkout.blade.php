@@ -17,6 +17,12 @@
         margin-bottom: 2rem;
     }
 
+    .qty-btn:disabled {
+        background-color: #e9ecef;
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+
     .btn-outline-primary {
         color: #8B4513;
         border-color: #8B4513;

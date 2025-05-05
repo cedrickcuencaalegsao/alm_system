@@ -23,7 +23,6 @@
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h4 class="mb-0">Checkout</h4>
         </div>
-
         <div class="row">
             <!-- Left Column - Book Details -->
             <div class="col-lg-8 mb-4">
