@@ -90,7 +90,7 @@
                 <h3 class="mb-2">@yield('page-title', 'Dashboard')</h3>
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                        <li class="breadcrumb-item"><a href="{{route('view.dashboard')}}">Admin</a></li>
                         @yield('breadcrumbs')
                     </ol>
                 </nav>

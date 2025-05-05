@@ -5,6 +5,7 @@
 @section('page-title', 'Manage Reports')
 
 @section('breadcrumbs')
+    <li class="breadcrumb-item"><a href="{{ route('view.dashboard') }}">Dashboard</a></li>
     <li class="breadcrumb-item active">Reports</li>
 @endsection
 
