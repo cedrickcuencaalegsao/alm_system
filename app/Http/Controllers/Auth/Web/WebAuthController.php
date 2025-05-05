@@ -57,6 +57,7 @@ class WebAuthController extends Controller
             'address' => 'required|string|max:255',
             'contactnumber' => 'required|string|max:255',
             'password' => 'required|string|min:8',
+            'password_confirmation' => 'required|same:password',
         ]);
 
         if ($validator->fails()) {
