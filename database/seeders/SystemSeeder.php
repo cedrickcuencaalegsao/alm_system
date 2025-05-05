@@ -10,15 +10,11 @@ use Carbon\Carbon;
 
 class SystemSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     * php artisan db:seed --class=SystemSeeder
-     */
     public function run(): void
     {
         // Create admin user
         DB::table('users')->insert([
-            'userID' => 'ADM'.Str::random(12),
+            'userID' => 'ADM' . Str::random(12),
             'isAdmin' => true,
             'email' => 'admin@example.com',
             'firstname' => 'Admin',
@@ -33,12 +29,12 @@ class SystemSeeder extends Seeder
             'updated_at' => Carbon::create(2022, 1, 1),
         ]);
 
-        // Create 3 users for each year (2022, 2023, 2024, 2025)
+        // Create users
         $years = [2022, 2023, 2024, 2025];
         $firstNames = ['John', 'Jane', 'Robert', 'Emily', 'Michael', 'Sarah', 'David', 'Lisa', 'James', 'Emma', 'Thomas', 'Olivia'];
         $lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Miller', 'Davis', 'Garcia', 'Rodriguez', 'Wilson', 'Martinez', 'Anderson'];
-
         $userCount = 0;
+
         foreach ($years as $year) {
             for ($i = 0; $i < 3; $i++) {
                 $firstName = $firstNames[$userCount % count($firstNames)];
@@ -46,12 +42,12 @@ class SystemSeeder extends Seeder
                 $email = strtolower($firstName) . '.' . strtolower($lastName) . $year . '@example.com';
 
                 DB::table('users')->insert([
-                    'userID' => 'USR'.Str::random(12),
+                    'userID' => 'USR' . Str::random(12),
                     'isAdmin' => false,
                     'email' => $email,
                     'firstname' => $firstName,
                     'lastname' => $lastName,
-                    'address' => ($userCount * 100 + 100) . ' ' . $lastNames[rand(0, count($lastNames)-1)] . ' Street',
+                    'address' => ($userCount * 100 + 100) . ' ' . $lastNames[rand(0, count($lastNames) - 1)] . ' Street',
                     'contactnumber' => '91' . str_pad($userCount + 1, 8, '0', STR_PAD_LEFT),
                     'image' => null,
                     'password' => Hash::make('password123'),
@@ -65,10 +61,10 @@ class SystemSeeder extends Seeder
             }
         }
 
+        // Book data
         $categories = ['Fiction', 'Non-Fiction', 'Science', 'Technology', 'History', 'Biography', 'Fantasy', 'Romance'];
         $authors = ['J.K. Rowling', 'Stephen King', 'George Orwell', 'Agatha Christie', 'Ernest Hemingway', 'Jane Austen', 'Mark Twain', 'Leo Tolstoy'];
 
-        // Create 50 books for more variety
         for ($i = 1; $i <= 50; $i++) {
             $category = $categories[array_rand($categories)];
             $author = $authors[array_rand($authors)];
@@ -77,7 +73,7 @@ class SystemSeeder extends Seeder
             $day = str_pad(rand(1, 28), 2, '0', STR_PAD_LEFT);
 
             DB::table('tbl_books')->insert([
-                'bookID' => 'BK'.strtoupper(Str::random(12)),
+                'bookID' => 'BK' . strtoupper(Str::random(12)),
                 'bookname' => $this->generateBookTitle($category),
                 'bookdetails' => $this->generateBookDescription(),
                 'author' => $author,
@@ -87,71 +83,64 @@ class SystemSeeder extends Seeder
                 'image' => null,
                 'bookprice' => rand(100, 1000) + (rand(0, 99) / 100),
                 'isDeleted' => false,
-                'createdAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(), // Random date within 3 years (2022-2024)
+                'createdAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(),
                 'updatedAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(),
             ]);
         }
 
-        // Get existing user IDs and book IDs
+        // Cart items
         $userIDs = DB::table('users')->where('isAdmin', false)->pluck('userID')->toArray();
         $bookIDs = DB::table('tbl_books')->pluck('bookID')->toArray();
 
-        // Create 20 cart items - exclude admin
         for ($i = 1; $i <= 20; $i++) {
             $userID = $userIDs[array_rand($userIDs)];
             $bookID = $bookIDs[array_rand($bookIDs)];
 
             DB::table('tbl_cart')->insert([
-                'cartID' => 'CRT'.Str::random(12),
+                'cartID' => 'CRT' . Str::random(12),
                 'userID' => $userID,
                 'bookID' => $bookID,
                 'isDeleted' => false,
-                'createdAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(), // Random date within 3 years (2022-2024)
+                'createdAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(),
                 'updatedAt' => Carbon::create(2022, 1, 1)->addDays(rand(0, 1095))->toDateTimeString(),
             ]);
         }
 
-        // Get all books
+        // Sales data
         $books = DB::table('tbl_books')->get();
-
-        // Create sales data for the last 36 months with varying transaction counts
         $successStatuses = ['delivered', 'processing', 'delivering'];
         $failedStatuses = ['cancelled', 'pending'];
-
-        // Create transactions for each year from 2022 to 2025
-        $years = [2022, 2023, 2024, 2025];
+        $yesterday = Carbon::yesterday();
 
         foreach ($years as $year) {
-            // Create transactions for each month of the year
             for ($month = 1; $month <= 12; $month++) {
-                $startDate = Carbon::create($year, $month, 1)->startOfMonth();
-                $endDate = Carbon::create($year, $month, 1)->endOfMonth();
+                $monthStart = Carbon::create($year, $month, 1);
+                $monthEnd = $monthStart->copy()->endOfMonth();
 
-                // If we're in 2025, only create transactions up to the current month
-                if ($year == 2025 && $month > 5) { // Current month is May 2025
+                // Stop if month is beyond yesterday
+                if ($monthStart->gt($yesterday)) {
                     break;
                 }
 
-                // Random number of transactions per month (between 15-50)
                 $transactionsThisMonth = rand(15, 50);
 
-                for ($i = 1; $i <= $transactionsThisMonth; $i++) {
-                    // Get users from the same year when possible
+                for ($i = 0; $i < $transactionsThisMonth; $i++) {
+                    $transactionDate = Carbon::createFromTimestamp(
+                        rand($monthStart->timestamp, min($monthEnd->timestamp, $yesterday->timestamp))
+                    );
+
                     $yearUserIDs = DB::table('users')
                         ->whereYear('created_at', $year)
                         ->where('isAdmin', false)
                         ->pluck('userID')
                         ->toArray();
 
-                    // If no users found for this year, use any non-admin user
                     $userID = !empty($yearUserIDs)
                         ? $yearUserIDs[array_rand($yearUserIDs)]
                         : $userIDs[array_rand($userIDs)];
 
                     $book = $books->random();
                     $quantity = rand(1, 5);
-
-                    // 95% success rate
                     $status = (rand(1, 100) <= 95)
                         ? $successStatuses[array_rand($successStatuses)]
                         : $failedStatuses[array_rand($failedStatuses)];
@@ -159,16 +148,11 @@ class SystemSeeder extends Seeder
                     $tax = $book->bookprice * $quantity * 0.12;
                     $totalSales = ($book->bookprice * $quantity) + $tax;
 
-                    // Random date within the month with time
-                    $transactionDate = Carbon::createFromTimestamp(
-                        rand($startDate->timestamp, $endDate->timestamp)
-                    )->toDateTimeString();
-
                     DB::table('tbl_sales')->insert([
-                        'salesID' => 'SLS'.Str::random(12),
+                        'salesID' => 'SLS' . Str::random(12),
                         'userID' => $userID,
                         'bookID' => $book->bookID,
-                        'refID' => 'REF'.Str::random(12),
+                        'refID' => 'REF' . Str::random(12),
                         'quantity' => $quantity,
                         'status' => $status,
                         'tax' => $tax,
@@ -206,10 +190,8 @@ class SystemSeeder extends Seeder
             'Romance' => ['Paris', 'the Storm', 'Destiny'],
         ];
 
-        $prefix = $prefixes[$category][array_rand($prefixes[$category])];
-        $suffix = $suffixes[$category][array_rand($suffixes[$category])];
-
-        return "$prefix $suffix";
+        return $prefixes[$category][array_rand($prefixes[$category])] . ' ' .
+               $suffixes[$category][array_rand($suffixes[$category])];
     }
 
     private function generateBookDescription()

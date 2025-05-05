@@ -390,11 +390,11 @@ class EloquentSalesRepository implements SaleRepository
             $sale->tax,
             $sale->createdAt,
             $sale->updatedAt,
-            $sale->book->bookname,
-            $sale->book->bookprice,
-            $sale->book->image,
-            $sale->book->author,
-            $sale->book->bookcategory,
+            $sale->book?->bookname,
+            $sale->book?->bookprice,
+            $sale->book?->image,
+            $sale->book?->author,
+            $sale->book?->bookcategory,
         ))->toArray();
     }
 
