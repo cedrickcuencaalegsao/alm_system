@@ -109,7 +109,8 @@ class EloqeuntBookRepository implements BookRepository
             ->leftJoin('tbl_sales', 'tbl_books.bookID', '=', 'tbl_sales.bookID')
             ->selectRaw('SUM(tbl_sales.quantity) as totalSold')
             ->where('tbl_books.stocks', '>', 0)
-            ->groupBy('tbl_books.id',
+            ->groupBy(
+                'tbl_books.id',
                 'tbl_books.bookID',
                 'tbl_books.bookname',
                 'tbl_books.bookdetails',
@@ -121,11 +122,12 @@ class EloqeuntBookRepository implements BookRepository
                 'tbl_books.bookprice',
                 'tbl_books.isDeleted',
                 'tbl_books.createdAt',
-                'tbl_books.updatedAt')
+                'tbl_books.updatedAt'
+            )
             ->orderByRaw('COALESCE(SUM(tbl_sales.quantity), 0) DESC')
             ->take(8)
             ->get()
-            ->map(fn ($book) => new Book(
+            ->map(fn($book) => new Book(
                 id: $book->id,
                 bookID: $book->bookID,
                 bookname: $book->bookname,
@@ -170,7 +172,7 @@ class EloqeuntBookRepository implements BookRepository
             ->orderByDesc('totalSold')
             ->take(5)
             ->get()
-            ->map(fn ($book) => new Book(
+            ->map(fn($book) => new Book(
                 id: $book->id,
                 bookID: $book->bookID,
                 bookname: $book->bookname,
@@ -200,7 +202,7 @@ class EloqeuntBookRepository implements BookRepository
             ->get()
             ->groupBy('bookcategory')
             ->map(function ($bookCategory) {
-                return $bookCategory->map(fn ($book) => new Book(
+                return $bookCategory->map(fn($book) => new Book(
                     id: $book->id,
                     bookID: $book->bookID,
                     bookname: $book->bookname,
@@ -218,7 +220,7 @@ class EloqeuntBookRepository implements BookRepository
 
         $allBooks = BookModel::where('stocks', '>', 0)
             ->get()
-            ->map(fn ($book) => new Book(
+            ->map(fn($book) => new Book(
                 id: $book->id,
                 bookID: $book->bookID,
                 bookname: $book->bookname,
@@ -304,14 +306,16 @@ class EloqeuntBookRepository implements BookRepository
 
     public function search(string $searchTerm): array
     {
-        $results = BookModel::where('bookname', 'like', "%$searchTerm%")
-            ->orWhere('author', 'like', "%$searchTerm%")
-            ->orWhere('bookcategory', 'like', "%$searchTerm%")
-            ->orWhere('bookdetails', 'like', "%$searchTerm%")
-            ->orWhere('bookprice', 'like', "%$searchTerm%")
+        $results = BookModel::where('stocks', '>', 0)
+            ->where(function ($query) use ($searchTerm) {
+                $query->where('bookname', 'like', "%$searchTerm%")
+                    ->orWhere('author', 'like', "%$searchTerm%")
+                    ->orWhere('bookcategory', 'like', "%$searchTerm%")
+                    ->orWhere('bookdetails', 'like', "%$searchTerm%")
+                    ->orWhere('bookprice', 'like', "%$searchTerm%");
+            })
             ->get();
-
-        return $results->map(fn ($book) => new Book(
+        return $results->map(fn($book) => new Book(
             $book->id,
             $book->bookID,
             $book->bookname,
@@ -345,7 +349,7 @@ class EloqeuntBookRepository implements BookRepository
 
     public function get5LowStockBooks(): array
     {
-        $get5lowStockBooks = BookModel::where('stocks', '<=', 50)->orderBy('stocks', 'asc')->take(5)->get()->map(fn ($book) => new Book(
+        $get5lowStockBooks = BookModel::where('stocks', '<=', 50)->orderBy('stocks', 'asc')->take(5)->get()->map(fn($book) => new Book(
             $book->id,
             $book->bookID,
             $book->bookname,
@@ -377,7 +381,8 @@ class EloqeuntBookRepository implements BookRepository
         $bookData->save();
     }
 
-    public function deleteBook(array $book){
+    public function deleteBook(array $book)
+    {
         $bookData = BookModel::where('bookID', $book['bookID'])->first();
         $bookData->isDeleted = $book['isDeleted'];
         $bookData->updatedAt = $book['updatedAt'];

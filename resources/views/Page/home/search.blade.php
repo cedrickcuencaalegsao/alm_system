@@ -79,8 +79,8 @@
                                     <div class="book-card-content">
                                         <div class="book-image-container">
                                             <div class="book-image-wrapper">
-                                                <img src="{{ route('default.image') }}"
-                                                    alt="{{ $book->getBookName() }} Cover">
+                                                <img src="{{ route('book.image', $book->getImage() ?? 'default.jpg') }}"
+                                                    alt="{{ $book->getBookName() }}">
                                                 @if ($book->getStock() < 20)
                                                     <span class="stock-badge">Only {{ $book->getStock() }} left</span>
                                                 @endif
