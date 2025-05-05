@@ -1,4 +1,11 @@
 <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var successModal = document.getElementById('successModal');
+        if (successModal) {
+            var modal = new bootstrap.Modal(successModal);
+            modal.show();
+        }
+    });
     // Client-side filtering for orders
     document.addEventListener('DOMContentLoaded', function() {
         // Get references to all needed elements

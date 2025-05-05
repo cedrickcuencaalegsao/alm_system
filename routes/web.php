@@ -67,10 +67,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{userID}', [UserWebController::class, 'index'])->name('view.profile');
     Route::post('/profile', [UserWebController::class, 'updateProfile'])->name('update.profile');
     Route::get('/orders/{userID}', [OrderWEBController::class, 'index'])->name('view.orders');
+    
     Route::post('/add-to-cart', [CartWebController::class, 'addToCart'])->name('add.to.cart');
     Route::post('/remove-from-cart/{cartID}', [CartWebController::class, 'softDelete'])->name('remove.from.cart');
+
     Route::get('/checkout/{bookID}', [OrderWEBController::class, 'viewCheckout'])->name('view.checkout');
+
     Route::post('/checkout-item-directly', [OrderWEBController::class, 'checkoutItemDrectly'])->name('checkout.item.directly');
+
     Route::post('/checkout-multiple-items', [OrderWEBController::class, 'checkoutMultipleItems'])->name('checkout.multiple.items');
 
     Route::post('/mark-as-delivered',[ManageOrdersWEBController::class, 'updateStatus'])->name('mark.as.delivered');

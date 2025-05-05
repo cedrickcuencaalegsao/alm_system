@@ -6,6 +6,7 @@ use App\Application\Book\RegisterBook;
 use App\Application\Cart\RegisterCart;
 use App\Application\Sales\RegisterSales;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class OrderWEBController extends Controller
@@ -76,7 +77,7 @@ class OrderWEBController extends Controller
             $this->registerSales->createSales($data);
         }
 
-        return redirect('/home')->with('success', 'Order created successfully');
+        return redirect()->route('view.orders', encrypt(Auth::user()->userID))->with('success', 'Order created successfully');
     }
 
     /**

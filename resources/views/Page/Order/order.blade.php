@@ -8,7 +8,7 @@
     <title>BookHaven | My Orders</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 @include('shared.css.userOrder')
 
@@ -42,7 +42,25 @@
                 </button>
             </div>
         </div>
-
+        @if (session('success'))
+            <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header success-modal-header">
+                            <h3 class="modal-title" id="successModalLabel">Success
+                            </h3>
+                        </div>
+                        <div class="modal-body">
+                            <p class="success-message text-center">{{ session('success') }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Okay</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
         <!-- Recent Orders Section -->
         <div class="recent-orders">
             <div class="orders-list">
@@ -89,7 +107,7 @@
                                             <div class="order-price">${{ number_format($sale->getTotalSales(), 2) }}
                                             </div>
                                             @if ($sale->getStatus() === 'processing')
-                                                <form action="{{route('mark.as.delivered')}}" method="POST">
+                                                <form action="{{ route('mark.as.delivered') }}" method="POST">
                                                     @csrf
                                                     <input type="hidden" name="saleID"
                                                         value="{{ $sale->getSalesID() }}">
