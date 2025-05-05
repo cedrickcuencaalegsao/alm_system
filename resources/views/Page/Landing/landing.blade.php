@@ -40,7 +40,7 @@
                     <p class="lead mb-5">Explore our carefully curated collection of books, from timeless classics to
                         contemporary masterpieces.</p>
                     <div class="d-flex gap-3">
-                        <a href="#books" class="btn btn-brown">Browse Books</a>
+                        <a href="#books" class="btn btn-brown" style="background-color: #8B4513; color: #ffffff;">Browse Books</a>
                         <a href="#about" class="btn btn-outline-dark">Learn More</a>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                     <div class="col-md-3">
                         <div class="card book-card h-100">
                             <div class="position-relative overflow-hidden">
-                                <img src=" {{ route('default.image') }}" class="card-img-top" alt="{{ $book['bookname'] }}"
+                                <img src="{{ route('guest.book.image', $book['image'] ?? 'default.jpg') }}" class="card-img-top" alt="{{ $book['image'] }}"
                                     loading="lazy" onerror="this.classList.add('book-img-skeleton'); this.onerror=null;">
                             </div>
                             <div class="card-body">
@@ -83,7 +83,7 @@
                 <div class="col-lg-8 text-center">
                     <h2 class="mb-4">About BookHaven</h2>
                     <p class="lead mb-5">BookHaven is a modern library management system designed to streamline the
-                        process of book lending, tracking, and discovery for both readers and administrators.</p>
+                        process of book retail, tracking, and discovery for both readers and administrators.</p>
                 </div>
             </div>
             <div class="row g-4">
@@ -130,10 +130,10 @@
                 <div class="col-md-4 text-center">
                     <h5 class="mb-3">Follow Us</h5>
                     <div class="footer-social-links d-flex justify-content-center">
-                        <a href="#" target="_blank" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-                        <a href="#" target="_blank" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
-                        <a href="#" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-                        <a href="#" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                        <a href="http://www.facebook.com" target="_blank" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                        <a href="http://www.x.com" target="_blank" aria-label="Twitter"><i class="bi bi-twitter"></i></a>
+                        <a href="http://www.instagram.com" target="_blank" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                        <a href="http://www.linkedin.com" target="_blank" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
                     </div>
                 </div>
                 <div class="col-md-4 text-end">

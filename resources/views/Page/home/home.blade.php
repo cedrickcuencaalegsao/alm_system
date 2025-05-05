@@ -12,7 +12,7 @@
                         <div class="card book-card h-100" data-bs-toggle="tooltip" data-bs-html="true"
                             title="<div class='tooltip-content'><p><strong>Author:</strong> {{ $book->getAuthor() }}</p><p><strong>Details:</strong> {{ Str::limit($book->getBookDetails(), 150) }}</p><p><strong>Price:</strong> ₱{{ number_format($book->getPrice(), 2) }}</p><p><strong>Stock:</strong> {{ $book->getStock() }}</p></div>">
                             <div class="book-image-wrapper">
-                                <img src="{{ route('default.image') }}" class="card-img-top"
+                                <img src="{{ route('book.image', $book->getImage() ?? 'default.jpg') }}" class="card-img-top"
                                     alt="{{ $book->getBookName() }} Cover">
                             </div>
                             <div class="card-body d-flex flex-column">
@@ -76,14 +76,6 @@
         <div class="container-fluid">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2>All Books</h2>
-                <div class="filter-controls">
-                    <select class="form-select form-select-sm sort-select">
-                        <option value="popular">Sort by: Popularity</option>
-                        <option value="price-low">Price: Low to High</option>
-                        <option value="price-high">Price: High to Low</option>
-                        <option value="newest">Newest Arrivals</option>
-                    </select>
-                </div>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                 @foreach ($books['allBooks'] as $book)
@@ -91,7 +83,7 @@
                         <div class="card book-card h-100" data-bs-toggle="tooltip" data-bs-html="true"
                             title="<div class='tooltip-content'><p><strong>Author:</strong> {{ $book->getAuthor() }}</p><p><strong>Details:</strong> {{ Str::limit($book->getBookDetails(), 150) }}</p><p><strong>Price:</strong> ₱{{ number_format($book->getPrice(), 2) }}</p><p><strong>Stock:</strong> {{ $book->getStock() }}</p></div>">
                             <div class="book-image-wrapper">
-                                <img src="{{ route('default.image') }}" class="card-img-top"
+                                <img src="{{ route('book.image', $book->getImage() ?? 'default.jpg') }}" class="card-img-top"
                                     alt="{{ $book->getBookName() }} Cover">
                             </div>
                             <div class="card-body d-flex flex-column">
@@ -162,7 +154,7 @@
                             <div class="card book-card h-100" data-bs-toggle="tooltip" data-bs-html="true"
                                 title="<div class='tooltip-content'><p><strong>Author:</strong> {{ $book->getAuthor() }}</p><p><strong>Details:</strong> {{ Str::limit($book->getBookDetails(), 150) }}</p><p><strong>Price:</strong> ₱{{ number_format($book->getPrice(), 2) }}</p><p><strong>Stock:</strong> {{ $book->getStock() }}</p></div>">
                                 <div class="book-image-wrapper">
-                                    <img src="{{ route('default.image') }}" class="card-img-top"
+                                    <img src="{{ route('book.image', $book->getImage() ?? 'default.jpg') }}" class="card-img-top"
                                         alt="{{ $book->getBookName() }} Cover">
                                 </div>
                                 <div class="card-body d-flex flex-column">

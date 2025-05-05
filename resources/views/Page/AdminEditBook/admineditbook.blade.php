@@ -119,7 +119,9 @@
                                             <img src="{{ asset('storage/' . $book->getImage()) }}" alt="Current Cover"
                                                 class="img-thumbnail" style="max-height: 200px;">
                                         </div>
+                                        <input type="hidden" name="image" value="{{$book->getImage()}}">
                                     @endif
+
 
                                     <input class="form-control @error('cover_image') is-invalid @enderror" type="file"
                                         id="cover_image" name="image" accept="image/*">

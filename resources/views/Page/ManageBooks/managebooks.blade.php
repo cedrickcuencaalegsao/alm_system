@@ -59,7 +59,7 @@
                                     <div class="col-md-5 mb-4">
                                         <div class="card h-100 shadow-sm rounded-4 overflow-hidden">
                                             <div class="position-relative">
-                                                <img src="{{route('book.image', $book->getImage() ?? 'default.jpg')}}"
+                                                <img src="{{route('book.image',$book->getImage() ?? 'default.jpg')}}"
                                                     class="card-img-top book-cover object-fit-cover" alt="Book Cover"
                                                     style="height: 180px; width: 100%;">
                                                 <span

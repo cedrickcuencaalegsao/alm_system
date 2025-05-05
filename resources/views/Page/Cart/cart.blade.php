@@ -40,7 +40,7 @@
                                         <input type="hidden" name="book_id[{{ $cart->getCartID() }}]"
                                             value="{{ $cart->getBookID() }}">
                                     </div>
-                                    <img src="{{ route('login.image') }}" alt="Book cover" class="me-3">
+                                    <img src="{{ route('book.image', $cart->getImage() ?? 'default.jpg') }}" alt="Book cover" class="me-3">
                                     <div>
                                         <h6 class="mb-1">{{ $cart->getBookName() }}</h6>
                                         <p class="text-muted small mb-2">{{ $cart->getAuthor() }} -

@@ -31,7 +31,7 @@
                     <h5 class="section-title">Book Details</h5>
                     <div class="row">
                         <div class="col-md-4 text-center">
-                            <img src="{{ route('login.image') }}" alt="{{ $book->getBookName() }}" class="book-img">
+                            <img src="{{ route('book.image', $book->getImage() ?? 'default.jpg') }}" alt="{{ $book->getBookName() }}" class="book-img">
                         </div>
                         <div class="col-md-8">
                             <div class="book-info-item">
@@ -77,7 +77,7 @@
                     <h5 class="section-title">Order Summary</h5>
                     <div class="order-items">
                         <div class="order-item">
-                            <img src="{{ route('login.image') }}" alt="Book cover">
+                            <img src="{{ route('book.image', $book->getImage() ?? 'default.jpg') }}" alt="Book cover">
                             <div class="order-item-details">
                                 <h6 class="order-item-title">{{ $book->getBookName() }}</h6>
                                 <p class="mb-1 text-muted">{{ $book->getAuthor() }}</p>

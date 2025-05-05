@@ -118,14 +118,19 @@ class ManageBooksWEBController extends Controller
     {
         $data = $request->all();
 
-        $data['image'] = null;
-        $data['bookcategory']= $data['category'];
-
         if ($request->hasFile('image')) {
             $data['image'] = $this->updateImage($request->image);
         }
 
+        if($request->image === null || !$request->image){
+            $data['image'] = null;
+            $data['bookcategory']= $data['category'];
+            $this->registerBook->update($data);
+        }
+
+        $data['bookcategory']= $data['category'];
         $this->registerBook->update($data);
+
         return redirect()->back()->with('success', 'Book has been successfully updated!');
     }
 

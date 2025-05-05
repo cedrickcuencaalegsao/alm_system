@@ -47,8 +47,8 @@
         <div class="recent-orders">
             <div class="orders-list">
                 @if (isset($sales) && count($sales) > 0)
-                    <div class="row row-cols-1 row-cols-md-2 g-4">
-                        @foreach ($sales as $index => $sale)
+                <div class="row row-cols-1 row-cols-md-2 g-4">
+                    @foreach ($sales as $index => $sale)
                             <div class="col order-item-col" data-status="{{ $sale->getStatus() }}">
                                 <div class="order-item">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -74,7 +74,8 @@
                                     <hr>
                                     <div class="order-details">
                                         <div class="order-detail-wrapper">
-                                            <img src="#" alt="{{ $sale->getBookName() }} cover">
+                                            <img src="{{ route('book.image', $sale->getBookImage() ?? 'default.jpg') }}"
+                                                alt="{{ $sale->getBookName() }} cover">
                                             <div class="order-detail-info">
                                                 <h6>{{ $sale->getBookName() }}</h6>
                                                 <p class="mb-0 text-muted">Quantity: {{ $sale->getQuantity() }}</p>

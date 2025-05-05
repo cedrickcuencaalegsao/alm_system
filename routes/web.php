@@ -48,6 +48,15 @@ Route::middleware('guest')->group(function () {
 
         return response()->file($path);
     })->name('default.image');
+
+    Route::get('guest/images/books/{filename}',function($filename){
+        $path = public_path('assets/images/books/'.$filename);
+        if (! file_exists($path)) {
+            return response()->file(public_path('assets/images/default/default.jpg'));
+        }
+        return response()->file($path, ['Content-Type' => 'image/jpeg']);
+
+    })->name('guest.book.image');
 });
 
 Route::middleware('auth')->group(function () {
