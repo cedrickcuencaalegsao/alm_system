@@ -178,7 +178,7 @@
                                 <th class="px-4 py-3 fw-semibold border-0" style="min-width: 150px;">Date</th>
                                 <th class="px-4 py-3 fw-semibold border-0">Total</th>
                                 <th class="px-4 py-3 fw-semibold border-0">Status</th>
-                                <th class="px-4 py-3 fw-semibold text-end border-0"style="min-width: 500px;">Actions</th>
+                                <th class="px-4 py-3 fw-semibold text-end border-0"style="min-width: 300px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -287,7 +287,7 @@
                                             </form>
 
                                             <!-- Delivered Button -->
-                                            <form action="{{ route('update.order.status') }}" method="post">
+                                            {{-- <form action="{{ route('update.order.status') }}" method="post">
                                                 @csrf
                                                 <input type="hidden" name="status" value="delivered">
                                                 <input type="hidden" name="saleID" value="{{ $sale->getSalesID() }}">
@@ -298,7 +298,7 @@
                                                     data-status="delivered">
                                                     Delivered
                                                 </button>
-                                            </form>
+                                            </form> --}}
 
                                             <!-- Cancelled Button -->
                                             <form action="{{ route('update.order.status') }}" method="post">

@@ -69,6 +69,29 @@
         border-radius: 3px;
     }
 
+    .delivered-btn {
+        background-color: #28a745;
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .delivered-btn:hover {
+        background-color: #218838;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        color: white;
+    }
+
+    .delivered-btn i {
+        font-size: 1.1rem;
+    }
+
     .order-tracker {
         margin-bottom: 3rem;
     }

@@ -72,6 +72,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout/{bookID}', [OrderWEBController::class, 'viewCheckout'])->name('view.checkout');
     Route::post('/checkout-item-directly', [OrderWEBController::class, 'checkoutItemDrectly'])->name('checkout.item.directly');
     Route::post('/checkout-multiple-items', [OrderWEBController::class, 'checkoutMultipleItems'])->name('checkout.multiple.items');
+
+    Route::post('/mark-as-delivered',[ManageOrdersWEBController::class, 'updateStatus'])->name('mark.as.delivered');
+
     Route::get('/images/users/{filename}', function ($filename) {
         $path = public_path('assets/images/users/'.$filename);
 
@@ -111,5 +114,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin-edit-book/{bookID}', [ManageBooksWEBController::class, 'editBook'])->name('admin.edit.book');
     Route::post('/admin-save-edit-book', [ManageBooksWEBController::class, 'saveEditedBook'])->name('save.edit.book');
     Route::post('/admin-deelete-book',[ManageBooksWEBController::class,'deleteBook'] )->name('delete.book');
+    Route::post('/manage-orders/update-status', [ManageOrdersWEBController::class, 'updateStatus'])->name('update.order.status');
     Route::post('/manage-orders/update-status', [ManageOrdersWEBController::class, 'updateStatus'])->name('update.order.status');
 });

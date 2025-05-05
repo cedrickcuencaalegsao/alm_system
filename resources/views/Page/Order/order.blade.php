@@ -47,8 +47,8 @@
         <div class="recent-orders">
             <div class="orders-list">
                 @if (isset($sales) && count($sales) > 0)
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    @foreach ($sales as $index => $sale)
+                    <div class="row row-cols-1 row-cols-md-2 g-4">
+                        @foreach ($sales as $index => $sale)
                             <div class="col order-item-col" data-status="{{ $sale->getStatus() }}">
                                 <div class="order-item">
                                     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -83,9 +83,22 @@
                                                 <p class="mb-0 text-muted">Category: {{ $sale->getBookCategory() }}</p>
                                             </div>
                                         </div>
+                                        // api update.order.status
+
                                         <div class="order-actions">
                                             <div class="order-price">${{ number_format($sale->getTotalSales(), 2) }}
                                             </div>
+                                            @if ($sale->getStatus() === 'processing')
+                                                <form action="{{route('mark.as.delivered')}}" method="POST">
+                                                    @csrf
+                                                    <input type="hidden" name="saleID"
+                                                        value="{{ $sale->getSalesID() }}">
+                                                    <input type="hidden" name="status" value="delivered">
+                                                    <button type="submit" class="btn delivered-btn">
+                                                        <i class="bi bi-check2-circle"></i>Mark As Delivered
+                                                    </button>
+                                                </form>
+                                            @endif
                                             <button class="btn track-btn" data-bs-toggle="modal"
                                                 data-bs-target="#trackModal{{ $sale->getId() }}">
                                                 <i class="bi bi-geo-alt"></i>Track Order
