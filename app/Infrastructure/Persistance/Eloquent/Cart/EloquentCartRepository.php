@@ -85,6 +85,7 @@ class EloquentCartRepository implements CartRepository
             $cart->book->author,
             $cart->book->bookprice,
             $cart->book->image,
+            $cart->book->stocks,
         ))->toArray();
     }
 
@@ -122,18 +123,18 @@ class EloquentCartRepository implements CartRepository
      * **/
     public function findAll(): array
     {
-
         return CartModel::all()->map(fn ($cart) => new Cart(
             id: $cart->id,
             cartID: $cart->cartID,
             userID: $cart->userID,
             bookname: $cart->bookname,
-            bookcategoy: $cart->bookcategory,
+            bookcategory: $cart->bookcategory,
             author: $cart->author,
             price: $cart->price,
             image: $cart->image,
             createdAt: $cart->createdAt,
             updatedAt: $cart->updatedAt,
+            stocks: $cart->book->stocks,
         ))->toArray();
     }
 }

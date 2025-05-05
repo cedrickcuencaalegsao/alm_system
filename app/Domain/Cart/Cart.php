@@ -28,6 +28,8 @@ class Cart
 
     public ?string $image;
 
+    public ?int $stocks;
+
     public function __construct(
         ?int $id = null,
         ?string $cartID = null,
@@ -41,6 +43,7 @@ class Cart
         ?string $author = null,
         ?string $price = null,
         ?string $image = null,
+        ?int $stocks = null
     ) {
         $this->id = $id;
         $this->cartID = $cartID;
@@ -54,6 +57,7 @@ class Cart
         $this->author = $author;
         $this->price = $price;
         $this->image = $image;
+        $this->stocks = $stocks;
     }
 
     public function getID(): ?int
@@ -110,11 +114,13 @@ class Cart
     {
         return $this->price;
     }
-
-
     public function getImage(): ?string
     {
         return $this->image;
+    }
+    public function getStocks(): ?int
+    {
+        return $this->stocks;
     }
 
 }

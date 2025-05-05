@@ -45,13 +45,20 @@
                                         <h6 class="mb-1">{{ $cart->getBookName() }}</h6>
                                         <p class="text-muted small mb-2">{{ $cart->getAuthor() }} -
                                             {{ $cart->getBookCategory() }}</p>
-                                        <div class="quantity-control">
-                                            <button type="button" class="quantity-btn decrease">-</button>
-                                            <input type="number" class="quantity-input"
-                                                name="quantity[{{ $cart->getCartID() }}]" value="1"
-                                                min="1">
-                                            <button type="button" class="quantity-btn increase">+</button>
-                                        </div>
+                                            <div class="quantity-control">
+                                                <button type="button" class="quantity-btn decrease" disabled>-</button>
+                                                <input type="number"
+                                                    class="quantity-input"
+                                                    name="quantity[{{ $cart->getCartID() }}]"
+                                                    value="1"
+                                                    min="1"
+                                                    max="{{ $cart->getStocks() }}"
+                                                    data-max-stock="{{ $cart->getStocks() }}"
+                                                    readonly>
+                                                <button type="button"
+                                                    class="quantity-btn increase"
+                                                    {{ 1 >= $cart->getStocks() ? 'disabled' : '' }}>+</button>
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="text-end">

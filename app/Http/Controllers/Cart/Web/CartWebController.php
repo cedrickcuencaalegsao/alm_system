@@ -22,7 +22,6 @@ class CartWebController extends Controller
     {
         $carts = $this->registerCart->findByUserID($userID);
 
-        // dd($carts);
         return view('Page.Cart.cart', compact('carts'));
     }
 

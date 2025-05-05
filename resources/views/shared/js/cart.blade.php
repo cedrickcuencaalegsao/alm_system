@@ -7,12 +7,45 @@
 
         // Initial calculation
         updateOrderSummary();
+        initializeButtonStates();
 
-        // Update quantity
+        // Initialize button states for all items
+        function initializeButtonStates() {
+            quantityInputs.forEach(input => {
+                const currentQty = parseInt(input.value);
+                const maxStock = parseInt(input.dataset.maxStock);
+                const container = input.parentElement;
+                const decreaseBtn = container.querySelector('.decrease');
+                const increaseBtn = container.querySelector('.increase');
+
+                // Set initial button states
+                decreaseBtn.disabled = (currentQty === 1);
+                increaseBtn.disabled = (currentQty >= maxStock);
+            });
+        }
+
+        // Update quantity with stock validation
         function updateQuantity(input, change) {
-            let value = parseInt(input.value) + change;
-            if (value < 1) value = 1;
-            input.value = value;
+            const currentQty = parseInt(input.value);
+            const maxStock = parseInt(input.dataset.maxStock);
+            const newQty = currentQty + change;
+
+            // Validate quantity bounds
+            if (newQty < 1 || newQty > maxStock) {
+                return;
+            }
+
+            // Update quantity
+            input.value = newQty;
+
+            // Update button states
+            const container = input.parentElement;
+            const decreaseBtn = container.querySelector('.decrease');
+            const increaseBtn = container.querySelector('.increase');
+
+            decreaseBtn.disabled = (newQty === 1);
+            increaseBtn.disabled = (newQty >= maxStock);
+
             updateOrderSummary();
         }
 
@@ -27,10 +60,9 @@
 
         // Event listeners for quantity inputs
         quantityInputs.forEach(input => {
-            input.addEventListener('change', function() {
-                if (this.value < 1) this.value = 1;
-                updateOrderSummary();
-            });
+            const cartItem = input.closest('.cart-item');
+            const maxStock = parseInt(cartItem.dataset.maxStock);
+            input.setAttribute('max', maxStock);
         });
 
         // Event listeners for checkboxes
@@ -56,7 +88,6 @@
 
                     itemsTotal += itemTotal;
 
-                    // Create HTML for individual item calculation
                     itemCalculationsHTML += `
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="text-muted small" style="max-width: 70%;" title="${bookName}">
