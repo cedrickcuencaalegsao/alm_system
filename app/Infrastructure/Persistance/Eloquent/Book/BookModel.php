@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Persistance\Eloquent\Book;
 
-use App\Infrastructure\Persistance\Eloquent\Sales\SalesModel;
+use App\Infrastructure\Persistance\Eloquent\Sale\SaleModel;
 use Illuminate\Database\Eloquent\Model;
 
 class BookModel extends Model
@@ -30,6 +30,6 @@ class BookModel extends Model
      **/
     public function sales()
     {
-        return $this->hasMany(SalesModel::class, 'bookID', 'bookID');
+        return $this->hasMany(SaleModel::class, 'bookID', 'bookID');
     }
 }
