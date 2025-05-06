@@ -101,8 +101,6 @@
                                                 <p class="mb-0 text-muted">Category: {{ $sale->getBookCategory() }}</p>
                                             </div>
                                         </div>
-                                        // api update.order.status
-
                                         <div class="order-actions">
                                             <div class="order-price">${{ number_format($sale->getTotalSales(), 2) }}
                                             </div>
