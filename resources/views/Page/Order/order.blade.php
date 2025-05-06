@@ -104,7 +104,7 @@
                                         <div class="order-actions">
                                             <div class="order-price">${{ number_format($sale->getTotalSales(), 2) }}
                                             </div>
-                                            @if ($sale->getStatus() === 'processing')
+                                            @if ($sale->getStatus() === 'delivering')
                                                 <form action="{{ route('mark.as.delivered') }}" method="POST">
                                                     @csrf
                                                     <input type="hidden" name="saleID"
