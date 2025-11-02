@@ -9,6 +9,7 @@ use App\Http\Controllers\ManageOrders\WEB\ManageOrdersWEBController;
 use App\Http\Controllers\ManageReports\WEB\ManageReportsWEBController;
 use App\Http\Controllers\ManageUser\WEB\ManageUserWEBController;
 use App\Http\Controllers\Order\WEB\OrderWEBController;
+use App\Http\Controllers\OTP\Web\OTPController;
 use App\Http\Controllers\User\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,14 +50,18 @@ Route::middleware('guest')->group(function () {
         return response()->file($path);
     })->name('default.image');
 
-    Route::get('guest/images/books/{filename}',function($filename){
+    Route::get('guest/images/books/{filename}', function ($filename) {
         $path = public_path('assets/images/books/'.$filename);
         if (! file_exists($path)) {
             return response()->file(public_path('assets/images/default/default.jpg'));
         }
+
         return response()->file($path, ['Content-Type' => 'image/jpeg']);
 
     })->name('guest.book.image');
+
+    Route::post('/send-otp', [OTPController::class, 'sendOTP']);
+    Route::post('/verify-otp', [OTPController::class, 'verifyOTP']);
 });
 
 Route::middleware('auth')->group(function () {
@@ -67,7 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile/{userID}', [UserWebController::class, 'index'])->name('view.profile');
     Route::post('/profile', [UserWebController::class, 'updateProfile'])->name('update.profile');
     Route::get('/orders/{userID}', [OrderWEBController::class, 'index'])->name('view.orders');
-    
+
     Route::post('/add-to-cart', [CartWebController::class, 'addToCart'])->name('add.to.cart');
     Route::post('/remove-from-cart/{cartID}', [CartWebController::class, 'softDelete'])->name('remove.from.cart');
 
@@ -77,7 +82,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/checkout-multiple-items', [OrderWEBController::class, 'checkoutMultipleItems'])->name('checkout.multiple.items');
 
-    Route::post('/mark-as-delivered',[ManageOrdersWEBController::class, 'updateStatus'])->name('mark.as.delivered');
+    Route::post('/mark-as-delivered', [ManageOrdersWEBController::class, 'updateStatus'])->name('mark.as.delivered');
 
     Route::get('/images/users/{filename}', function ($filename) {
         $path = public_path('assets/images/users/'.$filename);
@@ -89,12 +94,13 @@ Route::middleware('auth')->group(function () {
         return response()->file($path);
     })->name('user.image');
 
-    Route::get('/images/books/{filename}',function($filename){
+    Route::get('/images/books/{filename}', function ($filename) {
         $path = public_path('assets/images/books/'.$filename);
 
         if (! file_exists($path)) {
             return response()->file(public_path('assets/images/default/default.jpg'));
         }
+
         return response()->file($path, ['Content-Type' => 'image/jpeg']);
 
     })->name('book.image');
@@ -117,7 +123,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/admin-delete-user/{userid}', [ManageUserWEBController::class, 'deleteUser'])->name('delete.user');
     Route::get('/admin-edit-book/{bookID}', [ManageBooksWEBController::class, 'editBook'])->name('admin.edit.book');
     Route::post('/admin-save-edit-book', [ManageBooksWEBController::class, 'saveEditedBook'])->name('save.edit.book');
-    Route::post('/admin-deelete-book',[ManageBooksWEBController::class,'deleteBook'] )->name('delete.book');
+    Route::post('/admin-deelete-book', [ManageBooksWEBController::class, 'deleteBook'])->name('delete.book');
     Route::post('/manage-orders/update-status', [ManageOrdersWEBController::class, 'updateStatus'])->name('update.order.status');
     Route::post('/manage-orders/update-status', [ManageOrdersWEBController::class, 'updateStatus'])->name('update.order.status');
 });
