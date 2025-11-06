@@ -194,7 +194,8 @@
         }
 
         .form-control {
-            font-size: 16px; /* Prevents zoom on iOS */
+            font-size: 16px;
+            /* Prevents zoom on iOS */
         }
 
         .btn-primary {
@@ -222,5 +223,46 @@
 
     .fw-bold {
         color: var(--dark-brown);
+    }
+
+    .forgot-password-link {
+        font-size: 0.9rem;
+        color: var(--primary-brown);
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        padding: 0.3rem 0.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .forgot-password-link::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background-color: var(--primary-brown);
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.3s ease;
+    }
+
+    .forgot-password-link:hover {
+        color: var(--hover-brown);
+    }
+
+    .forgot-password-link:hover::after {
+        transform: scaleX(1);
+        transform-origin: left;
+    }
+
+    .forgot-password-link .bi-book {
+        font-size: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .forgot-password-link:hover .bi-book {
+        transform: translateX(-3px);
     }
 </style>

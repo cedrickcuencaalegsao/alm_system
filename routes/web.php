@@ -9,7 +9,7 @@ use App\Http\Controllers\ManageOrders\WEB\ManageOrdersWEBController;
 use App\Http\Controllers\ManageReports\WEB\ManageReportsWEBController;
 use App\Http\Controllers\ManageUser\WEB\ManageUserWEBController;
 use App\Http\Controllers\Order\WEB\OrderWEBController;
-use App\Http\Controllers\OTP\Web\OTPController;
+use App\Http\Controllers\OTP\Web\WebOTPController;
 use App\Http\Controllers\User\Web\UserWebController;
 use Illuminate\Support\Facades\Route;
 
@@ -60,8 +60,13 @@ Route::middleware('guest')->group(function () {
 
     })->name('guest.book.image');
 
-    Route::post('/send-otp', [OTPController::class, 'sendOTP']);
-    Route::post('/verify-otp', [OTPController::class, 'verifyOTP']);
+    Route::get('/view-update-password', [WebAuthController::class, 'viewUpdatePassword'])->name('view.update.password');
+    Route::post('/update-password', [WebAuthController::class, 'updatePassword'])->name('update.password');
+
+    Route::get('/view-send-otp', [WebOTPController::class, 'viewSendOTP'])->name('view.send.otp');
+    Route::post('/send-otp', [WebOTPController::class, 'sendOTP'])->name('send.otp');
+    Route::get('/view-verify-otp', [WebOTPController::class, 'viewVerifyOTP'])->name('view.verify.otp');
+    Route::post('/verify-otp', [WebOTPController::class, 'verifyOTP'])->name('verify.otp');
 });
 
 Route::middleware('auth')->group(function () {
