@@ -94,6 +94,49 @@ STRIPE_KEY=your_stripe_key
 STRIPE_SECRET=your_stripe_secret
 ```
 
+### Mail (Mailtrap) — Email testing setup
+To test outgoing emails during development, we recommend using Mailtrap. Create a free account at https://mailtrap.io and get the SMTP credentials for your inbox. Then set these values in your project's `.env` file:
+
+```ini
+# Mailtrap SMTP settings (development/testing)
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_mailtrap_username
+MAIL_PASSWORD=your_mailtrap_password
+# Use null or tls depending on Mailtrap inbox settings
+MAIL_ENCRYPTION=null
+
+# Recommended from address
+MAIL_FROM_ADDRESS=hello@example.com
+MAIL_FROM_NAME="BookHaven"
+```
+
+Notes:
+- Replace `your_mailtrap_username` and `your_mailtrap_password` with the credentials shown in your Mailtrap inbox settings.
+- If you prefer a different port, Mailtrap also supports 465 and 587 depending on your plan; use the port shown in your Mailtrap dashboard.
+
+How to test emails:
+- Visit Mailtrap inbox (web) to inspect captured emails.
+- From the app you can trigger an email (for example, register a new user or use password reset) and verify it appears in Mailtrap.
+- Send a quick test using tinker:
+
+```bash
+php artisan tinker
+\Pest\TestSuite::app()?->call('GET', '/');
+# or a simple Mail send example in tinker:
+use Illuminate\Support\Facades\Mail;
+Mail::raw('Test Mail', function($m){ $m->to('test@example.com')->subject('Test'); });
+```
+
+- Run your test suite that includes mail assertions (if available):
+
+```bash
+php artisan test
+```
+
+If you want to use Mailhog locally instead, switch `MAIL_HOST`/`MAIL_PORT` to your Mailhog instance (e.g., `mailhog:1025`) as shown earlier.
+
 ## API Documentation
 ```http
 GET /api/books
