@@ -73,7 +73,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary"
-                        onclick="window.location.href='#'">
+                        onclick="window.location.href='{{ route('view.verify.otp') }}'">
                         OK
                     </button>
                 </div>

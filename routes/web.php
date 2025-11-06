@@ -60,11 +60,13 @@ Route::middleware('guest')->group(function () {
 
     })->name('guest.book.image');
 
-    // Route::get('/view-update-password', [WebAuthController::class, 'viewUpdatePassword'])->name('view.update.password');
+    Route::get('/view-update-password', [WebAuthController::class, 'viewUpdatePassword'])->name('view.update.password');
+    Route::post('/update-password', [WebAuthController::class, 'updatePassword'])->name('update.password');
 
     Route::get('/view-send-otp', [WebOTPController::class, 'viewSendOTP'])->name('view.send.otp');
     Route::post('/send-otp', [WebOTPController::class, 'sendOTP'])->name('send.otp');
-    Route::post('/verify-otp', [WebOTPController::class, 'verifyOTP']);
+    Route::get('/view-verify-otp', [WebOTPController::class, 'viewVerifyOTP'])->name('view.verify.otp');
+    Route::post('/verify-otp', [WebOTPController::class, 'verifyOTP'])->name('verify.otp');
 });
 
 Route::middleware('auth')->group(function () {

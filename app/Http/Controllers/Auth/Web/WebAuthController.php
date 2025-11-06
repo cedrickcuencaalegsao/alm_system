@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth\Web;
 
 use App\Application\User\RegisterUser;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class WebAuthController extends Controller
@@ -116,9 +118,42 @@ class WebAuthController extends Controller
 
     /**
      * Function to view update password page.
-     * **/
-    // public function viewUpdatePassword(): View
-    // {
-    //     return view('Page.SendOTPToEmail.sendotptoemail');
-    // }
+     */
+    public function viewUpdatePassword(): View
+    {
+        return view('Page.UpdatePassword.updatepassword');
+    }
+
+    /**
+     * Handle the update password form submission.
+     */
+    public function updatePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $email = $request->input('email') ?: session('reset_email');
+
+        $user = User::where('email', $email)->first();
+
+        if (! $user) {
+            return redirect()->back()->withErrors(['email' => 'No account found for the provided email.']);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        // Clear any reset session data
+        session()->forget('reset_email');
+
+        // Instead of redirecting immediately to login, show a modal on the update page
+        // and let the user click OK to proceed to login.
+        return redirect()->back()->with(['password_updated' => true, 'status' => 'Password updated successfully.']);
+    }
 }
