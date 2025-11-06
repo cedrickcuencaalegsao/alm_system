@@ -47,7 +47,6 @@ class WebAuthController extends Controller
         return view('Page.Auth.Register');
     }
 
-
     public function validateRegister(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -114,4 +113,12 @@ class WebAuthController extends Controller
 
         return $userId;
     }
+
+    /**
+     * Function to view update password page.
+     * **/
+    // public function viewUpdatePassword(): View
+    // {
+    //     return view('Page.SendOTPToEmail.sendotptoemail');
+    // }
 }

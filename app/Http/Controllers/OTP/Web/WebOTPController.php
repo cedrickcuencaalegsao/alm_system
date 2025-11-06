@@ -1,17 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\OTP\Web;
 
+use App\Http\Controllers\Controller;
+use App\Mail\OTPMail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\OTPMail;
 
-class OTPController extends Controller
+class WebOTPController extends Controller
 {
+    public function viewSendOTP()
+    {
+        return view('Page.SendOTPToEmail.sendotptoemail');
+    }
+
     public function sendOTP(Request $request)
     {
         $request->validate([
-            'email' => 'required|email'
+            'email' => 'required|email|max:255',
         ]);
 
         // Generate 6-digit OTP
@@ -23,17 +29,14 @@ class OTPController extends Controller
         // Send OTP via email
         Mail::to($request->email)->send(new OTPMail($otp));
 
-        return response()->json([
-            'message' => 'OTP sent successfully!',
-            'otp' => $otp // Remove this in production!
-        ]);
+        return redirect()->back()->with('otp_sent', 'An OTP has been sent to your email address!');
     }
 
     public function verifyOTP(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
-            'otp' => 'required|numeric'
+            'otp' => 'required|numeric',
         ]);
 
         $sessionOTP = session('otp');

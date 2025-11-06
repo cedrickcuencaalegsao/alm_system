@@ -30,10 +30,17 @@
                                                 value="{{ old('email') }}" placeholder="name@example.com">
                                         </div>
 
-                                        <div class="mb-4">
+                                        <div class="mb-3">
                                             <label class="form-label small fw-medium">Password</label>
                                             <input type="password" name="password" class="form-control"
                                                 placeholder="Enter your password">
+                                        </div>
+
+                                        <div class="mb-4 text-end">
+                                            <a href="{{ route('view.send.otp') }}"
+                                                class="text-decoration-none forgot-password-link">
+                                                <i class="bi bi-book me-1"></i>Forgot Password?
+                                            </a>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary w-100 mb-4">
